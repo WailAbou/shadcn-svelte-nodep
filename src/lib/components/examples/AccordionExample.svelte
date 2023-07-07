@@ -22,7 +22,7 @@
 <button on:click={reset(() => type = (type === "single") ? "multiple" : "single")}>Type: {type}</button><br/>
 
 {#key uid}
-<Accordion on:onValueChange={e => value = e.detail} {type} {collapsible} class="w-full">
+<Accordion on:valueChange={e => value = e.detail} {type} {collapsible} class="w-full">
 	<AccordionItem value="Item 1">
 		<AccordionTrigger>Is it accessible?</AccordionTrigger>
 		<AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
