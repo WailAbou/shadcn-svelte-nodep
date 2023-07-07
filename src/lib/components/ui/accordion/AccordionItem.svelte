@@ -7,9 +7,9 @@
 	export { className as class };
 	export let value: string;
 
-	let { defaultValue, collapisbleStore, toggleAllItems }: { defaultValue: undefined | string | string[], collapisbleStore: Writable<boolean>, toggleAllItems: (itemValue: string, callback: any) => void }  = getContext('accordion');
-	let expandedStore = writable(false);
+	let expandedStore: Writable<boolean> = writable(false);
 
+	let { defaultValue, collapisbleStore, toggleAllItems }: { defaultValue: undefined | string | string[], collapisbleStore: Writable<boolean>, toggleAllItems: (itemValue: string, callback: any) => void }  = getContext('accordion');
 	setContext('accordionItem', { expandedStore, toggle });
 
 	if (hasValue(defaultValue, value)) toggle();

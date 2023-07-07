@@ -4,23 +4,24 @@
 	import { createEventDispatcher, setContext } from "svelte";
 	import { writable, type Writable } from "svelte/store";
 
-	const dispatch = createEventDispatcher<{onValueChange: string | string[]}>();
+	const dispatch = createEventDispatcher<{valueChange: string | string[]}>();
+
 	let className: string | undefined | null = undefined;
 	export { className as class };
 	export let defaultValue: undefined | string | string[] = undefined;
 	export let collapsible: boolean;
 	export let type: AccordionType;
-	let value: undefined | string | string[];
 
 	let collapisbleStore: Writable<boolean> = writable(collapsible);
-	$: $collapisbleStore = collapsible;
-
+	let previousExpandedStore: Writable<boolean>;
+	let value: undefined | string | string[];
+	
 	setContext('accordion', { defaultValue, collapisbleStore, toggleAllItems });
 
-	let previousExpandedStore: Writable<boolean>;
+	$: $collapisbleStore = collapsible;
 	$: isSingle = (type === "single");
 	$: value = isSingle ? "" : [];
-
+	
 	function toggleAllItems(newValue: string, currentExpandedStore: Writable<boolean>) {
 		let isNewValue = !hasValue(value, newValue);
 
@@ -35,7 +36,7 @@
 				value = newValue;
 			}
 
-			dispatch("onValueChange", value);
+			dispatch("valueChange", value);
 		}
 	}
 </script>
