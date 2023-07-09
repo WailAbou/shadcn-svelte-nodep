@@ -12,8 +12,11 @@
     export let disabled: boolean = false;
 
     let openStore: Writable<boolean> = writable(defaultOpen);
+    let disabledStore: Writable<boolean> = writable(disabled);
 
-    setContext('collapsible', openStore);
+    setContext('collapsible', { openStore, disabledStore });
+
+    $: $disabledStore = disabled;
 </script>
 
 <div class="{cn(className)}" >

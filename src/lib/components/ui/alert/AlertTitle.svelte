@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { AlertTitleLevel } from "$lib/types";
 	import { cn } from "$lib/utils";
+	import type { AlertTitleLevel } from ".";
 
 	let className: string | undefined | null = undefined;
 	export { className as class };

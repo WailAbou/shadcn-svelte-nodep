@@ -1,6 +1,6 @@
-<script>
-	import Checkbox from "$components/ui/checkbox/Checkbox.svelte";
-	import Label from "$components/ui/label/Label.svelte";
+<script lang="ts">
+	import { Checkbox } from "$components/ui/checkbox";
+	import { Label } from "$components/ui/label";
 </script>
 
 <div class="flex items-center space-x-2">

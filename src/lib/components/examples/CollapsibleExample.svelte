@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "$components/ui/collapsible";
-	import Button from "../ui/button/Button.svelte";
+	import { Button } from "$components/ui/button";
     import { ChevronsUpDown } from "lucide-svelte";
 </script>
 
@@ -11,8 +11,8 @@
         </h4>
         <CollapsibleTrigger>
             <Button variant="ghost" size="sm" class="w-9 p-0">
-            <ChevronsUpDown class="h-4 w-4" />
-            <span class="sr-only">Toggle</span>
+                <ChevronsUpDown class="h-4 w-4" />
+                <span class="sr-only">Toggle</span>
             </Button>
         </CollapsibleTrigger>
     </div>

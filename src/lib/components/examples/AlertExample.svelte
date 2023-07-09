@@ -1,8 +1,6 @@
-<script>
+<script lang="ts">
 	import { AlertCircle, Terminal } from "lucide-svelte";
-	import Alert from "../ui/alert/Alert.svelte";
-	import AlertDescription from "../ui/alert/AlertDescription.svelte";
-	import AlertTitle from "../ui/alert/AlertTitle.svelte";
+	import { Alert, AlertTitle, AlertDescription } from "$components/ui/alert";
 </script>
 
 <Alert>

@@ -1,11 +1,5 @@
 <script lang="ts">
-	import {
-		Accordion,
-		AccordionContent,
-		AccordionItem,
-		AccordionTrigger
-	} from '$components/ui/accordion';
-	import type { AccordionType } from '$lib/types';
+	import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionType } from '$components/ui/accordion';
 	import { Button } from '$components/ui/button';
 	import { Separator } from '$components/ui/separator';
 

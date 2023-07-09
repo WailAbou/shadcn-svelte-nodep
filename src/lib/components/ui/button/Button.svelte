@@ -1,9 +1,6 @@
 <script lang="ts">
 	import type { VariantProps } from "class-variance-authority";
-	import type {
-		HTMLAnchorAttributes,
-		HTMLButtonAttributes
-	} from "svelte/elements";
+	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
 	import { cn } from "$lib/utils";
 	import { buttonVariants } from "./buttonVariants";
 

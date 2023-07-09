@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { SeparatorOrientation } from "$lib/types";
 	import { cn } from "$lib/utils";
+	import type { SeparatorOrientation } from ".";
 
 	let className: string | undefined | null = undefined;
 	export { className as class };

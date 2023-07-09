@@ -1,8 +1,6 @@
-<script>
-	import { ChevronRight, Loader2, Mail } from "lucide-svelte";
-	import { Button } from "../ui/button";
-	// import { Button } from "$components/ui/button";
-
+<script lang="ts">
+	import { ArrowRight, ChevronRight, Loader2, Mail } from "lucide-svelte";
+	import { Button } from "$components/ui/button";
 </script>
 
 <div class="grid grid-cols-2 gap-4">
@@ -18,4 +16,5 @@
         Please wait
     </Button>
     <Button variant="outline" size="icon"><ChevronRight class="h-4 w-4" /></Button>
+    <Button variant="link" href="https://google.nl">Visit Google<ArrowRight class="h-4 w-4 ml-2" /></Button>
 </div>

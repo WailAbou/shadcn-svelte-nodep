@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import * as ex from "$components/examples";
 	const examples = [ex.AccordionExample, ex.AlertExample, ex.ButtonExample, ex.CheckboxExample, ex.CollapsibleExample, ex.LabelExample, ex.SeparatorExample];
 </script>

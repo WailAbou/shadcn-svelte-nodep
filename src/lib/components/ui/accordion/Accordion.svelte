@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { AccordionType } from "$lib/types";
 	import { cn, hasValue } from "$lib/utils";
 	import { createEventDispatcher, setContext } from "svelte";
 	import { writable, type Writable } from "svelte/store";
+	import type { AccordionType } from ".";
 
 	const dispatch = createEventDispatcher<{valueChange: string | string[]}>();
 
@@ -10,7 +10,7 @@
 	export { className as class };
 	export let collapsible: boolean = false;
 	export let defaultValue: undefined | string | string[] = undefined;
-	export let type: string;
+	export let type: AccordionType;
 
 	let collapisbleStore: Writable<boolean> = writable(collapsible);
 	let previousExpandedStore: Writable<boolean>;
