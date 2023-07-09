@@ -1,0 +1,28 @@
+<script lang="ts">
+	import { cn } from "$lib/utils";
+	import { Check } from "lucide-svelte";
+	import { createEventDispatcher } from "svelte";
+
+    const dispatch = createEventDispatcher<{checkedChange: boolean}>();
+
+	let className: string | undefined | null = undefined;
+	export { className as class };
+
+    export let id: string;
+    export let defaultChecked: boolean = false;
+    export let disabled: boolean | undefined = undefined;
+
+    let checked: boolean = defaultChecked;
+
+    function toggle() {
+        checked = !checked;
+        dispatch("checkedChange", checked);
+    }
+</script>
+
+<button on:click={toggle} {id} {disabled} aria-checked="{checked}" data-state="{checked ? 'checked' : 'unchecked'}" type="button" role="checkbox" value="on"
+class="{cn("peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground")}">
+    {#if checked}
+        <Check class="h-4 w-4" />
+    {/if}
+</button>

@@ -6,6 +6,8 @@
 		AccordionTrigger
 	} from '$components/ui/accordion';
 	import type { AccordionType } from '$lib/types';
+	import { Button } from '$components/ui/button';
+	import { Separator } from '$components/ui/separator';
 
   	let value: undefined | string | string[];
 	let collapsible: boolean = true;
@@ -17,9 +19,13 @@
 	}
 </script>
 
-<p>Value: {value}</p>
-<button on:click={reset(() => collapsible = !collapsible)}>Collapsible: {collapsible}</button><br/>
-<button on:click={reset(() => type = (type === "single") ? "multiple" : "single")}>Type: {type}</button><br/>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+	<p>Value: {value}</p>
+	<Button on:click={reset(() => collapsible = !collapsible)}>Collapsible: {collapsible}</Button>
+	<Button on:click={reset(() => type = (type === "single") ? "multiple" : "single")}>Type: {type}</Button>
+</div>
+
+<Separator class="mt-5" />
 
 {#key uid}
 <Accordion on:valueChange={e => value = e.detail} {type} {collapsible} class="w-full">

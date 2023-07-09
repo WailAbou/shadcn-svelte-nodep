@@ -1,3 +1,5 @@
 type AccordionType = "single" | "multiple";
 
-export type { AccordionType };
+type SeparatorOrientation = "horizontal" | "vertical";
+
+export type { AccordionType, SeparatorOrientation };

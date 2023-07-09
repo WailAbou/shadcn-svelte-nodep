@@ -8,9 +8,9 @@
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
+	export let collapsible: boolean = false;
 	export let defaultValue: undefined | string | string[] = undefined;
-	export let collapsible: boolean;
-	export let type: AccordionType;
+	export let type: string;
 
 	let collapisbleStore: Writable<boolean> = writable(collapsible);
 	let previousExpandedStore: Writable<boolean>;
@@ -21,7 +21,7 @@
 	$: $collapisbleStore = collapsible;
 	$: isSingle = (type === "single");
 	$: value = isSingle ? "" : [];
-	
+
 	function toggleAllItems(newValue: string, currentExpandedStore: Writable<boolean>) {
 		let isNewValue = !hasValue(value, newValue);
 
