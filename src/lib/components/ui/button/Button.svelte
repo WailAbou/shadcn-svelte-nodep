@@ -11,8 +11,7 @@
 	export { className as class };
 	export let href: HTMLAnchorAttributes["href"] = undefined;
 	export let type: HTMLButtonAttributes["type"] = undefined;
-	export let variant: VariantProps<typeof buttonVariants>["variant"] =
-		"default";
+	export let variant: VariantProps<typeof buttonVariants>["variant"] = "default";
 	export let size: VariantProps<typeof buttonVariants>["size"] = "default";
 
 	type Props = {

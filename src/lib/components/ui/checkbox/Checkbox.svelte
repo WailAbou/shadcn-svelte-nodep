@@ -11,6 +11,7 @@
     export let id: string;
     export let defaultChecked: boolean = false;
     export let disabled: boolean | undefined = undefined;
+    export let required: boolean | undefined = undefined;
 
     let checked: boolean = defaultChecked;
 
@@ -21,8 +22,9 @@
 </script>
 
 <button on:click={toggle} {id} {disabled} aria-checked="{checked}" data-state="{checked ? 'checked' : 'unchecked'}" type="button" role="checkbox" value="on"
-class="{cn("peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground")}">
+class="{cn("peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground", className)}">
     {#if checked}
         <Check class="h-4 w-4" />
     {/if}
 </button>
+<input {disabled} {required} bind:checked aria-hidden="true" tabindex="-1" type="checkbox" value="on" style="transform: translateX(-100%); position: absolute; pointer-events: none; opacity: 0; margin: 0px; width: 16px; height: 16px;">
