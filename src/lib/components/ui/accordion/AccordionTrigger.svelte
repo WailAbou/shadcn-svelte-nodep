@@ -11,8 +11,7 @@
 </script>
 
 <h3 class="flex">
-	<button type="button" 
-		class="{cn("flex flex-1 items-center justify-between py-4 font-medium hover:underline", className)}" 
+	<button type="button" class="{cn("flex flex-1 items-center justify-between py-4 font-medium hover:underline", className)}" 
 		on:click={toggle}>
 		<slot />
 		<ChevronDown class="h-4 w-4 transition-transform {$expandedStore ? 'rotate-180' : ''}" />

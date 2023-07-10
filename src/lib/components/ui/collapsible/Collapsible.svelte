@@ -17,6 +17,7 @@
     setContext('collapsible', { openStore, disabledStore });
 
     $: $disabledStore = disabled;
+    $: dispatch("openChange", $openStore);
 </script>
 
 <div class="{cn(className)}" >
