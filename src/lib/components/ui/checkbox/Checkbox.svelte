@@ -8,7 +8,7 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-    export let id: string;
+    export let id: string | undefined = undefined;
     export let defaultChecked: boolean = false;
     export let disabled: boolean | undefined = undefined;
     export let required: boolean | undefined = undefined;
@@ -27,4 +27,4 @@ class="{cn("peer h-4 w-4 shrink-0 rounded-sm border border-primary ring-offset-b
         <Check class="h-4 w-4" />
     {/if}
 </button>
-<input {disabled} {required} bind:checked aria-hidden="true" tabindex="-1" type="checkbox" value="on" style="transform: translateX(-100%); position: absolute; pointer-events: none; opacity: 0; margin: 0px; width: 16px; height: 16px;">
+<input {disabled} {required} bind:checked aria-hidden="true" tabindex="-1" type="checkbox" value="on" class="absolute pointer-events-none opacity-0 !m-0 w-4 h-4" >

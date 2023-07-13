@@ -7,7 +7,7 @@
     <div class="flex items-center space-x-2">
         <Checkbox id="terms1" />
         <Label htmlFor="terms1">
-        Accept terms and conditions
+            Accept terms and conditions
         </Label>
     </div>
 
