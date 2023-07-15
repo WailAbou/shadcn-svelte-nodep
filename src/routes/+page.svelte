@@ -1,7 +1,7 @@
 <script lang="ts">
 	import * as ex from "$components/examples";
 	import Settings from "$lib/components/Settings.svelte";
-	const examples = [ex.AccordionExample, ex.AlertExample, ex.ButtonExample, ex.CheckboxExample, ex.CollapsibleExample, ex.InputExample, ex.LabelExample, ex.LinkExample, ex.SeparatorExample];
+	const examples = [ex.AccordionExample, ex.AlertExample, ex.ButtonExample, ex.CheckboxExample, ex.CollapsibleExample, ex.InputExample, ex.LabelExample, ex.LinkExample, ex.SeparatorExample, ex.SwitchExample, ex.TextareaExample];
 </script>
 
 <div class="container mx-auto py-10">
