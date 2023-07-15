@@ -6,6 +6,7 @@ export { default as CollapsibleExample } from "./CollapsibleExample.svelte";
 export { default as InputExample } from "./InputExample.svelte";
 export { default as LabelExample } from "./LabelExample.svelte";
 export { default as LinkExample } from "./LinkExample.svelte";
+export { default as RadioGroupExample } from "./RadioGroupExample.svelte";
 export { default as SeparatorExample } from "./SeparatorExample.svelte";
 export { default as SwitchExample } from "./SwitchExample.svelte";
 export { default as TextareaExample } from "./TextareaExample.svelte";
