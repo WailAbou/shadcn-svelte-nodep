@@ -1,8 +1,13 @@
 <script lang="ts">
-	import { setContext } from "svelte";
+	import { createEventDispatcher, setContext } from "svelte";
     import { writable, type Writable } from "svelte/store";
 
-    let isOpenStore: Writable<boolean> = writable(false);
+    const dispatch = createEventDispatcher<{openChange: boolean}>();
+
+    export let defaultOpen: boolean = false;
+    
+    let isOpenStore: Writable<boolean> = writable(defaultOpen);
+    $: dispatch("openChange", $isOpenStore);
 
     setContext("alert-dialog", isOpenStore);
 

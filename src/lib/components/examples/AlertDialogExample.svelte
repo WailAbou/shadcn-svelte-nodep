@@ -6,7 +6,7 @@
 
 <AlertDialog>
     <AlertDialogTrigger>
-        <Button variant="outline">Show Dialog</Button>
+        <Button variant="outline">Show Alert Dialog</Button>
     </AlertDialogTrigger>
     <AlertDialogContent>
         <AlertDialogHeader>
