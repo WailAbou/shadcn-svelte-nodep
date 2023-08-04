@@ -10,6 +10,6 @@
 </script>
 
 <button type="button" class="{cn("flex flex-1 items-center justify-between py-4 font-medium hover:underline", className)}" 
-		on:click={() => $isOpenStore = !$isOpenStore}>
+		on:click|stopPropagation={(event) => $isOpenStore = !$isOpenStore}>
     <slot />
 </button>

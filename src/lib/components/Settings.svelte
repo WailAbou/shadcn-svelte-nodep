@@ -3,18 +3,14 @@
 	import { Switch } from "$components/ui/switch";
 	import { Checkbox } from "$components/ui/checkbox";
 	import { CodeMode } from "$lib/types/code-mode";
-	import { writable, type Writable } from "svelte/store";
-	import { setContext } from "svelte";
 	import githubLight from "svelte-highlight/styles/github";
 	import githubDark from "svelte-highlight/styles/github-dark";
 
+    let codeMode: CodeMode = CodeMode.None;
     let darkMode: boolean = false;
     let codeCss: string = githubLight;
-    let codeMode: Writable<CodeMode> = writable(CodeMode.None);
 
     $: codeCss = darkMode ? githubDark : githubLight;
-    
-    setContext('code-mode', codeMode);
 </script>
 
 <svelte:head>
@@ -25,13 +21,13 @@
     <Switch id="dark-mode" on:checkedChange={({detail: checked}) => { darkMode = checked; window.document.body.classList.toggle('dark'); }} />
     <Label htmlFor="dark-mode" class="mx-2">Dark Mode</Label>
 
-    <Switch id="code-mode" on:checkedChange={({detail: checked}) => $codeMode = checked ? CodeMode.Source : CodeMode.None} />
+    <Switch id="code-mode" on:checkedChange={({detail: checked}) => codeMode = checked ? CodeMode.Source : CodeMode.None} />
     <Label htmlFor="code-mode" class="mx-2">Source Code</Label>
 
-    {#if $codeMode}
-        <Checkbox id="html-only" on:checkedChange={({detail: checked}) => $codeMode = checked ? CodeMode.Html : CodeMode.Source} />
+    {#if codeMode != CodeMode.None}
+        <Checkbox id="html-only" on:checkedChange={({detail: checked}) => codeMode = checked ? CodeMode.Html : CodeMode.Source} />
         <Label htmlFor="html-only" class="ml-2">Html Only</Label>
     {/if}
 </div>
 
-<slot/>
+<slot {codeMode} />

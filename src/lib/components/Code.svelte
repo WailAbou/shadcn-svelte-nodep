@@ -1,12 +1,9 @@
 <script lang="ts">
 	import { CodeMode } from "$lib/types/code-mode";
-	import { getContext } from "svelte";
     import { HighlightSvelte } from "svelte-highlight";
-	import type { Writable } from "svelte/store";
 
     export let code: string;
-
-    let codeMode: Writable<CodeMode> = getContext('code-mode');
+    export let codeMode: CodeMode = CodeMode.None;
 
     function parseHtml(code: string): string {
         const scriptRegex = /<script[^>]*>[\s\S]*?<\/script>/gi;
@@ -16,9 +13,9 @@
 </script>
 
 
-{#if $codeMode == CodeMode.Source}
+{#if codeMode == CodeMode.Source}
     <HighlightSvelte {code} />
-{:else if $codeMode == CodeMode.Html}
+{:else if codeMode == CodeMode.Html}
     <HighlightSvelte code={parseHtml(code)} />
 {:else}
     <slot/>
