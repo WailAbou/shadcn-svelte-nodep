@@ -1,10 +1,11 @@
 <script lang="ts">
     import { cn } from "$lib/utils";
+	import type { HTMLInputTypeAttribute } from "svelte/elements";
 
     let className: string | undefined | null = undefined;
 	export { className as class };
 
-    export let type: string;
+    export let type: HTMLInputTypeAttribute = "text";
     export let placeholder: string | undefined = undefined;
     export let id: string | undefined = undefined;
     export let disabled: boolean = false;

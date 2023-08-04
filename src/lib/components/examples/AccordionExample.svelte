@@ -22,7 +22,7 @@
 <Separator class="mt-5" />
 
 {#key uid}
-<Accordion on:valueChange={e => value = e.detail} {type} {collapsible} class="w-full">
+<Accordion on:valueChange={({detail: newValue}) => value = newValue} {type} {collapsible} class="w-full">
 	<AccordionItem value="Item 1">
 		<AccordionTrigger>Is it accessible?</AccordionTrigger>
 		<AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>
