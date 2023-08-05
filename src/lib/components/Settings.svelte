@@ -5,6 +5,7 @@
 	import { CodeMode } from "$lib/types/code-mode";
 	import githubLight from "svelte-highlight/styles/github";
 	import githubDark from "svelte-highlight/styles/github-dark";
+	import Separator from "./ui/separator/Separator.svelte";
 
     let codeMode: CodeMode = CodeMode.None;
     let darkMode: boolean = false;
@@ -17,16 +18,25 @@
   {@html codeCss}
 </svelte:head>
 
-<div class="border rounded-md p-10 mb-2 flex items-center">
-    <Switch id="dark-mode" on:checkedChange={({detail: checked}) => { darkMode = checked; window.document.body.classList.toggle('dark'); }} />
-    <Label htmlFor="dark-mode" class="mx-2">Dark Mode</Label>
+<div class="border rounded-md p-10 mb-2 flex items-center flex-wrap">
+    <h1 class="font-bold">Settings</h1>
+    <Separator orientation="vertical" class="mx-4 h-10" />
 
-    <Switch id="code-mode" on:checkedChange={({detail: checked}) => codeMode = checked ? CodeMode.Source : CodeMode.None} />
-    <Label htmlFor="code-mode" class="mx-2">Source Code</Label>
+    <div class="flex items-center">
+        <Switch id="dark-mode" on:checkedChange={({detail: checked}) => { darkMode = checked; window.document.body.classList.toggle('dark'); }} />
+        <Label htmlFor="dark-mode" class="mx-2">Dark Mode</Label>
+    </div>
+
+    <div class="flex items-center">
+        <Switch id="code-mode" on:checkedChange={({detail: checked}) => codeMode = checked ? CodeMode.Source : CodeMode.None} />
+        <Label htmlFor="code-mode" class="mx-2">Source Code</Label>
+    </div>
 
     {#if codeMode != CodeMode.None}
-        <Checkbox id="html-only" on:checkedChange={({detail: checked}) => codeMode = checked ? CodeMode.Html : CodeMode.Source} />
-        <Label htmlFor="html-only" class="ml-2">Html Only</Label>
+        <div class="flex items-center">
+            <Checkbox id="html-only" on:checkedChange={({detail: checked}) => codeMode = checked ? CodeMode.Html : CodeMode.Source} />
+            <Label htmlFor="html-only" class="ml-2">Html Only</Label>
+        </div>
     {/if}
 </div>
 
