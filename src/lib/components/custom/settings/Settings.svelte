@@ -2,10 +2,10 @@
 	import { Label } from "$components/ui/label";
 	import { Switch } from "$components/ui/switch";
 	import { Checkbox } from "$components/ui/checkbox";
-	import { CodeMode } from "$lib/types/code-mode";
-	import githubLight from "svelte-highlight/styles/github";
+	import { Separator } from "$components/ui/separator";
+	import { CodeMode } from "$components/custom/svelte-code";
+    import githubLight from "svelte-highlight/styles/github";
 	import githubDark from "svelte-highlight/styles/github-dark";
-	import Separator from "./ui/separator/Separator.svelte";
 
     let codeMode: CodeMode = CodeMode.None;
     let darkMode: boolean = false;

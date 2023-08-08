@@ -1,8 +1,8 @@
 <script lang="ts">
 	import * as ex from "$components/examples";
-	import Settings from "$lib/components/Settings.svelte";
-	import Code from "$lib/components/Code.svelte";
-	import Separator from "$lib/components/ui/separator/Separator.svelte";
+	import { Settings } from "$components/custom/settings";
+	import { SvelteCode } from "$components/custom/svelte-code";
+	import { Separator } from "$components/ui/separator";
 	
 	const examples = [
 		ex.AccordionExample, ex.AlertExample, ex.AlertDialogExample, ex.ButtonExample,
@@ -30,9 +30,9 @@
 				<div class="container mx-auto border rounded-md p-10">
 					<h1 class="font-bold">{formatTitle(Example.name)}</h1>
 					<Separator class="my-4" />
-					<Code code={codes[i]} {codeMode} >
+					<SvelteCode code={codes[i]} {codeMode} >
 						<Example />
-					</Code>
+					</SvelteCode>
 				</div>
 			{/each}
 		</div>

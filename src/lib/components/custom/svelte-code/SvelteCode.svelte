@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CodeMode } from "$lib/types/code-mode";
+	import { CodeMode } from ".";
     import { HighlightSvelte } from "svelte-highlight";
 
     export let code: string;

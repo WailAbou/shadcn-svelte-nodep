@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { cn, hasValue } from "$lib/utils";
+	import { cn, hasValue, removeValue } from "$lib/utils";
 	import { createEventDispatcher, setContext } from "svelte";
-	import { writable, type Writable } from "svelte/store";
+	import type { Writable } from "svelte/store";
 	import type { AccordionType } from ".";
 
 	const dispatch = createEventDispatcher<{valueChange: string | string[]}>();
@@ -12,29 +12,25 @@
 	export let defaultValue: undefined | string | string[] = undefined;
 	export let type: AccordionType;
 
-	let collapisbleStore: Writable<boolean> = writable(collapsible);
 	let previousExpandedStore: Writable<boolean>;
 	let value: undefined | string | string[];
 	
-	setContext('accordion', { defaultValue, collapisbleStore, toggleAllItems });
+	setContext('accordion', { defaultValue, toggle });
 
-	$: $collapisbleStore = collapsible;
 	$: isSingle = (type === "single");
 	$: value = isSingle ? "" : [];
 
-	function toggleAllItems(newValue: string, currentExpandedStore: Writable<boolean>) {
+	function toggle(newValue: string, expandedStore: Writable<boolean>) {
+		expandedStore.update(expanded => collapsible ? !expanded : true);
 		let isNewValue = !hasValue(value, newValue);
 
 		if (isSingle && $previousExpandedStore && isNewValue) $previousExpandedStore = false;
 		
 		if (collapsible || isNewValue) {
-			previousExpandedStore = currentExpandedStore;
+			previousExpandedStore = expandedStore;
 
-			if (Array.isArray(value)) {
-				isNewValue ? value.push(newValue) : value.splice(value.indexOf(newValue, 0), 1); 
-			} else {
-				value = newValue;
-			}
+			if (Array.isArray(value)) isNewValue ? value.push(newValue) : removeValue(value, newValue); 
+			else value = newValue;
 
 			dispatch("valueChange", value);
 		}

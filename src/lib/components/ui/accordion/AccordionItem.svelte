@@ -6,20 +6,18 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 	export let value: string;
+	export let disabled: boolean = false;
 
 	let expandedStore: Writable<boolean> = writable(false);
+	const toggleItem = () => toggle(value, expandedStore);
 
-	let { defaultValue, collapisbleStore, toggleAllItems }: { defaultValue: undefined | string | string[], collapisbleStore: Writable<boolean>, toggleAllItems: (itemValue: string, callback: any) => void }  = getContext('accordion');
-	setContext('accordionItem', { expandedStore, toggle });
+	let { defaultValue, toggle }: { defaultValue: undefined | string | string[], toggle: (newValue: string, expandedStore: Writable<boolean>) => void }  = getContext('accordion');
+	setContext('accordionItem', { expandedStore, toggleItem });
 
-	if (hasValue(defaultValue, value)) toggle();
+	if (hasValue(defaultValue, value)) toggleItem();
 
-	function toggle() {
-		$expandedStore = $collapisbleStore ? !$expandedStore : true;
-		toggleAllItems(value, expandedStore);
-	}
 </script>
 
-<div class="{cn("border-b", className)}">
+<div aria-disabled={disabled} class="{cn("border-b aria-disabled:opacity-50 aria-disabled:pointer-events-none", className)}">
 	<slot />
 </div>
