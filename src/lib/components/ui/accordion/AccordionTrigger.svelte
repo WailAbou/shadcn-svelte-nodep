@@ -7,12 +7,12 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 	
-	let { expandedStore, toggle }: { expandedStore: Writable<boolean>, toggle: () => void } = getContext('accordionItem');
+	let { expandedStore, toggleItem }: { expandedStore: Writable<boolean>, toggleItem: () => void } = getContext('accordionItem');
 </script>
 
 <h3 class="flex">
 	<button type="button" class="{cn("flex flex-1 items-center justify-between py-4 font-medium hover:underline", className)}" 
-		on:click={toggle}>
+		on:click={toggleItem}>
 		<slot />
 		<ChevronDown class="h-4 w-4 transition-transform {$expandedStore ? 'rotate-180' : ''}" />
 	</button>
