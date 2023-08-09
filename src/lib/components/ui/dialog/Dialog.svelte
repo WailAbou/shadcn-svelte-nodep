@@ -5,9 +5,12 @@
     const dispatch = createEventDispatcher<{openChange: boolean}>();
 
     export let defaultOpen: boolean = false;
+    export let open: boolean = false;
+
+    if (defaultOpen) open = true;
+    let isOpenStore: Writable<boolean> = writable(open);
     
-    let isOpenStore: Writable<boolean> = writable(defaultOpen);
-        
+    $: $isOpenStore = open;
     $: dispatch("openChange", $isOpenStore);
 
     setContext("alert-dialog", isOpenStore);
