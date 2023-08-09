@@ -6,6 +6,10 @@ This repository contains a port of the `shadcn/ui` library, a collection of UI c
 
 A live demo can be found [here](https://polite-tree-0b771a303.3.azurestaticapps.net)
 
+![Global Showcase GIF](https://github.com/WailAbou/shadcn-svelte-nodep/raw/main/assets/gifs/showcase.gif)
+
+![Settings Showcase GIF](https://github.com/WailAbou/shadcn-svelte-nodep/raw/main/assets/gifs/settings.gif)
+
 ## Components
 
 Here is a list of components that have been ported from `shadcn/ui`. Each component is marked with a checkmark if it has been successfully implemented:
