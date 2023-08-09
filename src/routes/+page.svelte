@@ -4,23 +4,15 @@
 	import { SvelteCode } from "$components/custom/svelte-code";
 	import { Separator } from "$components/ui/separator";
 	
-	const examples = [
-		ex.AccordionExample, ex.AlertExample, ex.AlertDialogExample, ex.ButtonExample,
-		ex.CheckboxExample, ex.CollapsibleExample, ex.DialogExample, ex.InputExample,
-		ex.LabelExample, ex.LinkExample, ex.RadioGroupExample, ex.SeparatorExample,
-		ex.SwitchExample, ex.TextareaExample
+	const names: string[] = [
+		'Accordion', 'Alert', 'AlertDialog', 'Button',
+		'Checkbox', 'Collapsible', 'Dialog', 'Input',
+		'Label', 'Link', 'RadioGroup', 'Separator',
+		'Switch', 'Textarea'
 	];
 
-	const codes = [
-		ex.AccordionExampleCode, ex.AlertExampleCode, ex.AlertDialogExampleCode, ex.ButtonExampleCode,
-		ex.CheckboxExampleCode, ex.CollapsibleExampleCode, ex.DialogExampleCode, ex.InputExampleCode,
-		ex.LabelExampleCode, ex.LinkExampleCode, ex.RadioGroupExampleCode, ex.SeparatorExampleCode,
-		ex.SwitchExampleCode, ex.TextareaExampleCode
-	];
-
-	function formatTitle(type: string) {
-		return type?.replace(/^Proxy<(.+)Example>$/, '$1');
-	}
+	const examples = names.map(name => (ex as any)[`${name}Example`]);
+  	const codes: string[] = names.map(name => (ex as any)[`${name}ExampleCode`]);
 </script>
 
 <div class="container mx-auto py-10">
@@ -28,7 +20,7 @@
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 			{#each examples as Example, i}
 				<div class="container mx-auto border rounded-md p-10">
-					<h1 class="font-bold">{formatTitle(Example.name)}</h1>
+					<h1 class="font-bold">{names[i]}</h1>
 					<Separator class="my-4" />
 					<SvelteCode code={codes[i]} {codeMode} >
 						<Example />
