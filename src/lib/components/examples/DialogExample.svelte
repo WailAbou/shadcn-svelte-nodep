@@ -7,7 +7,7 @@
     let open: boolean = false;
 </script>
 
-<Dialog {open} on:openChange={({detail: newValue}) => open = newValue}>
+<Dialog {open} on:openChange={({detail: isOpen}) => open = isOpen}>
     <DialogTrigger>
       <Button variant="outline">Show Dialog</Button>
     </DialogTrigger>

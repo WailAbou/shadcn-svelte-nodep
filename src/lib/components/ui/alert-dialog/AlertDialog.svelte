@@ -5,18 +5,20 @@
     const dispatch = createEventDispatcher<{openChange: boolean}>();
 
     export let defaultOpen: boolean = false;
-    
-    let isOpenStore: Writable<boolean> = writable(defaultOpen);
+    export let open: boolean = false;
+
+    if (defaultOpen) open = true;
+    let isOpenStore: Writable<boolean> = writable(open);
+
+    $: $isOpenStore = open;
     $: dispatch("openChange", $isOpenStore);
 
     setContext("alert-dialog", isOpenStore);
 
-    const wheel = (node: HTMLElement) => {
-        const handler = (e: Event) => { if ($isOpenStore) e.preventDefault(); };
-        node.addEventListener('wheel', handler, { passive: false });
-        return { destroy() { node.removeEventListener('wheel', handler); }};
+    function onWheel(event: WheelEvent): void {
+        if ($isOpenStore) event.preventDefault();
     };
 </script>
 
-<svelte:window use:wheel />
+<svelte:window on:wheel|nonpassive={onWheel} />
 <slot />
