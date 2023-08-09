@@ -1,10 +1,10 @@
 <script lang="ts">
     import { cn } from "$lib/utils";
-	import { getContext } from "svelte";
-	import type { Writable } from "svelte/store";
+    import { getContext } from "svelte";
+    import type { Writable } from "svelte/store";
 
     let className: string | undefined | null = undefined;
-	export { className as class };
+    export { className as class };
 
     let isOpenStore: Writable<boolean> = getContext("alert-dialog");
     let finishedAnimation: boolean = true;
