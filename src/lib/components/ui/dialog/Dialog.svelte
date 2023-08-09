@@ -5,23 +5,24 @@
     const dispatch = createEventDispatcher<{openChange: boolean}>();
 
     export let defaultOpen: boolean = false;
+    export let open: boolean = false;
+
+    if (defaultOpen) open = true;
+    let isOpenStore: Writable<boolean> = writable(open);
     
-    let isOpenStore: Writable<boolean> = writable(defaultOpen);
-        
+    $: $isOpenStore = open;
     $: dispatch("openChange", $isOpenStore);
 
     setContext("alert-dialog", isOpenStore);
 
-    function wheel(node: HTMLElement) {
-        const handler = (e: Event) => { if ($isOpenStore) e.preventDefault(); };
-        node.addEventListener('wheel', handler, { passive: false });
-        return { destroy() { node.removeEventListener('wheel', handler); }};
+    function onWheel(event: WheelEvent): void {
+        if ($isOpenStore) event.preventDefault();
     };
 
-    function onKeyDown({ key }: any) {
+    function onKeydown({ key }: KeyboardEvent): void {
         if (key === "Escape") $isOpenStore = false;
     }
 </script>
 
-<svelte:window use:wheel on:keydown={onKeyDown}  />
+<svelte:window on:wheel|nonpassive={onWheel} on:keydown={onKeydown}  />
 <slot />

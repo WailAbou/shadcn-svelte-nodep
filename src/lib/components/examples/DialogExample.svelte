@@ -1,11 +1,13 @@
-<script>
-	import { Button } from "$components/ui/button";
-	import { Label } from "$components/ui/label";
-	import { Input } from "$components/ui/input";
-	import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription,  DialogFooter  } from "$components/ui/dialog";
+<script lang="ts">
+    import { Button } from "$components/ui/button";
+    import { Label } from "$components/ui/label";
+    import { Input } from "$components/ui/input";
+    import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription,  DialogFooter  } from "$components/ui/dialog";
+
+    let open: boolean = false;
 </script>
 
-<Dialog>
+<Dialog {open} on:openChange={({detail: isOpen}) => open = isOpen}>
     <DialogTrigger>
       <Button variant="outline">Show Dialog</Button>
     </DialogTrigger>
@@ -31,7 +33,7 @@
         </div>
       </div>
       <DialogFooter>
-        <Button type="submit">Save changes</Button>
+        <Button type="submit" on:click={() => open = false}>Save changes</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>
