@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from "$lib/utils";
-	import { getContext, setContext } from "svelte";
+	import { getContext } from "svelte";
 	import type { Writable } from "svelte/store";
 
 	let className: string | undefined | null = undefined;

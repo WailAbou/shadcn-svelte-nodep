@@ -21,8 +21,8 @@
 
 <Alert variant="affirmative" class="mt-4">
     <CheckCircle2 class="h-4 w-4" />
-    <AlertTitle>Error</AlertTitle>
+    <AlertTitle>Success</AlertTitle>
     <AlertDescription>
-        Your session has expired. Please log in again.
+        You have been successfully logged in.
     </AlertDescription>
 </Alert>

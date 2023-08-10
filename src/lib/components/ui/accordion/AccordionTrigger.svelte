@@ -7,7 +7,7 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 	
-	let { expandedStore, toggleItem }: { expandedStore: Writable<boolean>, toggleItem: () => void } = getContext('accordionItem');
+	let { expandedStore, toggleItem }: { expandedStore: Writable<boolean>, toggleItem: () => void } = getContext('accordion-item');
 </script>
 
 <h3 class="flex">

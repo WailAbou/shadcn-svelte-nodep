@@ -11,7 +11,7 @@
     $: { if ($isOpenStore) finishedAnimation = false; }
 
     function onAnimationend(event: AnimationEvent) {
-        if (event.animationName === "exit") finishedAnimation = true;   
+        if (event.animationName === "exit") finishedAnimation = true;
     }
 </script>
 

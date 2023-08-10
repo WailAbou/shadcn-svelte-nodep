@@ -7,7 +7,7 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { expandedStore }: { expandedStore: Writable<boolean> } = getContext('accordionItem');
+	let { expandedStore }: { expandedStore: Writable<boolean> } = getContext('accordion-item');
 </script>
 
 {#if $expandedStore}
