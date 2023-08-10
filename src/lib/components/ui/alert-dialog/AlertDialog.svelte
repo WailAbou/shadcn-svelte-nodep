@@ -17,8 +17,12 @@
 
     function onWheel(event: WheelEvent): void {
         if ($isOpenStore) event.preventDefault();
-    };
+    }
+
+    function onKeydown({ key }: KeyboardEvent): void {
+        if (key === "Escape") $isOpenStore = false;
+    }
 </script>
 
-<svelte:window on:wheel|nonpassive={onWheel} />
+<svelte:window on:wheel|nonpassive={onWheel} on:keydown={onKeydown} />
 <slot />

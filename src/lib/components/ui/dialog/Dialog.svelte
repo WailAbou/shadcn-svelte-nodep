@@ -17,7 +17,7 @@
 
     function onWheel(event: WheelEvent): void {
         if ($isOpenStore) event.preventDefault();
-    };
+    }
 
     function onKeydown({ key }: KeyboardEvent): void {
         if (key === "Escape") $isOpenStore = false;
