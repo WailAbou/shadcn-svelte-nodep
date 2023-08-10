@@ -12,7 +12,7 @@
 	const toggleItem = () => toggle(value, expandedStore);
 
 	let { defaultValue, toggle }: { defaultValue: undefined | string | string[], toggle: (newValue: string, expandedStore: Writable<boolean>) => void }  = getContext('accordion');
-	setContext('accordionItem', { expandedStore, toggleItem });
+	setContext('accordion-item', { expandedStore, toggleItem });
 
 	if (hasValue(defaultValue, value)) toggleItem();
 
