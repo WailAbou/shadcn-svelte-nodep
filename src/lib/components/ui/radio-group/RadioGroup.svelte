@@ -13,20 +13,20 @@
     let value: string;
     let checkedStores: Writable<boolean>[] = [];
     let radioButtons: HTMLButtonElement[] = [];
-    let focusedIndex = -1;
+    let focusedIndex = 0;
 
     const toggleNext = () => toggle((focusedIndex + 1) % checkedStores.length);
     const togglPrevious = () => toggle((focusedIndex - 1 + checkedStores.length) % checkedStores.length);
 
     setContext('radio-group', { disabled, init });
 
-    function init(checkedStore: Writable<boolean>, targetValue: string, radioButton: HTMLButtonElement): VoidFunction {
+    function init(checkedStore: Writable<boolean>, targetValue: string, radioButton: HTMLButtonElement) {
         checkedStores.push(checkedStore);
         radioButtons.push(radioButton);
 
-        let clickedIndex = checkedStores.length - 1;
-        if (targetValue === defaultValue) select(clickedIndex, targetValue);
-        return () => toggle(clickedIndex);
+        let index = checkedStores.length - 1;
+        if (targetValue === defaultValue) select(index, targetValue);
+        return { toggleItem: () => toggle(index), index };
     }
 
     function toggle(targetIndex: number) {
