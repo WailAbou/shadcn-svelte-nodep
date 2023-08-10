@@ -9,17 +9,38 @@
     export let defaultValue: string | undefined = undefined;
     export let disabled: boolean = false;
 
-    let previousCheckedStore: Writable<boolean>;
+    let checkedStores: Writable<boolean>[] = [];
+    let radioButtons: HTMLButtonElement[] = [];
+    let focusedIndex = -1;
 
-    setContext('radio-group', { defaultValue, disabled, toggle });
+    setContext('radio-group', { defaultValue, disabled, init });
 
-    function toggle(checkedStore: Writable<boolean>) {
-        if (previousCheckedStore) $previousCheckedStore = false;
-        checkedStore.set(true);
-        previousCheckedStore = checkedStore;
+    function init(checkedStore: Writable<boolean>, radioButton: HTMLButtonElement) {
+        checkedStores.push(checkedStore);
+        radioButtons.push(radioButton);
+        let newFocusedIndex = checkedStores.length - 1;
+
+        return function toggle() {
+            checkedStores.forEach(store => store.set(false));
+            checkedStore.set(true);
+            focusedIndex = newFocusedIndex;
+        }
+    }
+    
+    function onKeydown({ key }: KeyboardEvent): void {
+        const next: boolean = key === "ArrowRight" || key === "ArrowDown";
+        const previous: boolean = key === "ArrowLeft" || key === "ArrowUp";
+
+        if (next) focusedIndex = (focusedIndex + 1) % checkedStores.length;
+        else if (previous) focusedIndex = (focusedIndex - 1 + checkedStores.length) % checkedStores.length;
+        else return;
+
+        checkedStores.forEach(store => store.set(false));
+        checkedStores[focusedIndex].set(true);
+        radioButtons[focusedIndex].focus();
     }
 </script>
 
-<div role="radiogroup" aria-required="false" dir="ltr" tabindex="0" class="{cn("grid gap-2 outline-none", className)}">
+<div on:keydown|preventDefault={onKeydown} role="radiogroup" aria-required="false" dir="ltr" tabindex="0" class="{cn("grid gap-2 outline-none", className)}">
     <slot />
 </div>
