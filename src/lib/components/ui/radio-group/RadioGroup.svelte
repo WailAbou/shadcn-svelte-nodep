@@ -47,9 +47,11 @@
         dispatch("valueChange", value);
     }
     
-    function onNavigate(event : KeyboardEvent): void {
-        const next: boolean = event.key === "ArrowRight" || event.key === "ArrowDown";
-        const previous: boolean = event.key === "ArrowLeft" || event.key === "ArrowUp";
+    function onNavigate(event: KeyboardEvent): void {
+        const { key } = event;
+        const next: boolean = key === "ArrowRight" || key === "ArrowDown";
+        const previous: boolean = key === "ArrowLeft" || key === "ArrowUp";
+
         if (next || previous) {
             event.preventDefault(); 
             next ? toggleNext() : togglPrevious();
