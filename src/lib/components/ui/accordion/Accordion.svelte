@@ -15,7 +15,7 @@
 	let value: undefined | string | string[];
 	let expandedStores: Writable<boolean>[] = [];
 	let accordionTriggers: HTMLButtonElement[] = [];
-	let focusedIndex = -1;
+	let focusedIndex = 0;
 
     const focusNext = () => focus((focusedIndex + 1) % expandedStores.length);
     const focusPrevious = () => focus((focusedIndex - 1 + expandedStores.length) % expandedStores.length);
