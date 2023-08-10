@@ -19,6 +19,8 @@
 
     const focusNext = () => focus((focusedIndex + 1) % expandedStores.length);
     const focusPrevious = () => focus((focusedIndex - 1 + expandedStores.length) % expandedStores.length);
+    const focusLast = () => focus(expandedStores.length - 1);
+    const focusFirst = () => focus(0);
 
 	setContext('accordion', { defaultValue, init });
 
@@ -60,11 +62,19 @@
 	}
 
 	function onNavigate(event : KeyboardEvent): void {
-        const next: boolean = event.key === "ArrowDown";
-        const previous: boolean = event.key === "ArrowUp";
-        if (next || previous) {
+		const { key } = event;
+        const next: boolean = key === "ArrowDown";
+        const previous: boolean = key === "ArrowUp";
+		const last: boolean = key === "End";
+		const first: boolean = key === "Home";
+
+        if (next || previous || last || first) {
 			event.preventDefault();
-        	next ? focusNext() : focusPrevious();
+
+			if (next) focusNext();
+			else if (previous) focusPrevious();
+			else if (last) focusLast();
+			else if (first) focusFirst();
 		}
     }
 </script>
