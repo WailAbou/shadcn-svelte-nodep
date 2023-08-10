@@ -10,18 +10,16 @@
     export let id: string | undefined = undefined;
     export let disabled: boolean = false;
 
+    let toggleItem: VoidFunction;
     let radioButton: HTMLButtonElement;
-    let toggle: any;
     let checkedStore: Writable<boolean> = writable(false);
-    let { disabled: allDisabled, defaultValue, init }: { disabled: boolean, defaultValue: string, init: any }  = getContext("radio-group");
+    let { disabled: allDisabled, init }: { disabled: boolean, init: (checkedStore: Writable<boolean>, targetValue: string, radioButton: HTMLButtonElement) => VoidFunction }  = getContext("radio-group");
     
     disabled = disabled || allDisabled;
-    if (value === defaultValue) checkedStore.set(true);
-
-    $: if (radioButton) toggle = init(checkedStore, radioButton);    
+    $: if (radioButton) toggleItem = init(checkedStore, value, radioButton);    
 </script>
 
-<button bind:this={radioButton} on:click={() => toggle(value)} {id} {disabled} {value} tabindex="{$checkedStore ? 0 : -1}" aria-checked="{$checkedStore}" data-state="{$checkedStore ? "checked" : "unchecked"}" type="button" role="radio"
+<button bind:this={radioButton} on:click={toggleItem} {id} {disabled} {value} tabindex="{$checkedStore ? 0 : -1}" aria-checked="{$checkedStore}" data-state="{$checkedStore ? "checked" : "unchecked"}" type="button" role="radio"
     class="{cn("aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className)}">
     {#if $checkedStore}
         <span data-state="checked" class="flex items-center justify-center">

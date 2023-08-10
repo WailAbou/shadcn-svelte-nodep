@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { cn, hasValue } from "$lib/utils";
-	import { getContext, setContext } from "svelte";
+	import { cn } from "$lib/utils";
+	import { setContext } from "svelte";
 	import { writable, type Writable } from "svelte/store";
 
 	let className: string | undefined | null = undefined;
@@ -9,13 +9,8 @@
 	export let disabled: boolean = false;
 
 	let expandedStore: Writable<boolean> = writable(false);
-	const toggleItem = () => toggle(value, expandedStore);
-
-	let { defaultValue, toggle }: { defaultValue: undefined | string | string[], toggle: (newValue: string, expandedStore: Writable<boolean>) => void }  = getContext('accordion');
-	setContext('accordion-item', { expandedStore, toggleItem });
-
-	if (hasValue(defaultValue, value)) toggleItem();
-
+	
+	setContext('accordion-item', { expandedStore, value });
 </script>
 
 <div aria-disabled={disabled} class="{cn("border-b aria-disabled:opacity-50 aria-disabled:pointer-events-none", className)}">
