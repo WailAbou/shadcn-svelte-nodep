@@ -1,7 +1,7 @@
 <script lang="ts">
     import { cn } from "$lib/utils";
 	import { createEventDispatcher, setContext } from "svelte";
-	import { get, type Writable } from "svelte/store";
+	import type { Writable } from "svelte/store";
 
     const dispatch = createEventDispatcher<{valueChange: string}>();
 
@@ -15,37 +15,45 @@
     let radioButtons: HTMLButtonElement[] = [];
     let focusedIndex = -1;
 
-    setContext('radio-group', { disabled, defaultValue, init });
+    const toggleNext = () => toggle((focusedIndex + 1) % checkedStores.length);
+    const togglPrevious = () => toggle((focusedIndex - 1 + checkedStores.length) % checkedStores.length);
 
-    function init(checkedStore: Writable<boolean>, radioButton: HTMLButtonElement) {
+    setContext('radio-group', { disabled, init });
+
+    function init(checkedStore: Writable<boolean>, targetValue: string, radioButton: HTMLButtonElement): VoidFunction {
         checkedStores.push(checkedStore);
         radioButtons.push(radioButton);
-        let clickedIndex = checkedStores.length - 1;
-        
-        if (get(checkedStore)) focusedIndex = clickedIndex;
 
+        let clickedIndex = checkedStores.length - 1;
+        if (targetValue === defaultValue) select(clickedIndex, targetValue);
         return () => toggle(clickedIndex);
     }
 
-    function toggle(newIndex: number) {
+    function toggle(targetIndex: number) {
+        focus(targetIndex);
+        select(targetIndex, radioButtons[targetIndex].value);
+    }
+    
+    function focus(targetIndex: number) {
+		radioButtons[targetIndex]?.focus();
+        focusedIndex = targetIndex;
+	}
+
+    function select(targetIndex: number, targetValue: string) {
         checkedStores.forEach(store => store.set(false));
-        checkedStores[newIndex].set(true);
+        checkedStores[targetIndex].set(true);
         
-        radioButtons[newIndex]?.focus();
-        focusedIndex = newIndex;
-        
-        value = radioButtons[newIndex].value;
+        value = targetValue;
         dispatch("valueChange", value);
     }
     
     function onNavigate(event : KeyboardEvent): void {
         const next: boolean = event.key === "ArrowRight" || event.key === "ArrowDown";
         const previous: boolean = event.key === "ArrowLeft" || event.key === "ArrowUp";
-
-        if (next || previous) event.preventDefault();
-
-        if (next) toggle((focusedIndex + 1) % checkedStores.length);
-        else if (previous) toggle((focusedIndex - 1 + checkedStores.length) % checkedStores.length);
+        if (next || previous) {
+            event.preventDefault(); 
+            next ? toggleNext() : togglPrevious();
+        }
     }
 </script>
 
