@@ -6,20 +6,22 @@
 
     let className: string | undefined | null = undefined;
     export { className as class };
-
     export let value: string;
     export let id: string | undefined = undefined;
     export let disabled: boolean = false;
 
+    let radioButton: HTMLButtonElement;
+    let toggle: any;
     let checkedStore: Writable<boolean> = writable(false);
-    let { defaultValue, disabled: allDisabled, toggle }: { defaultValue: string, disabled: boolean, toggle: (checkedStore: Writable<boolean>) => void }  = getContext("radio-group");
+    let { disabled: allDisabled, defaultValue, init }: { disabled: boolean, defaultValue: string, init: any }  = getContext("radio-group");
     
     disabled = disabled || allDisabled;
+    if (value === defaultValue) checkedStore.set(true);
 
-    if (defaultValue === value) toggle(checkedStore);
+    $: if (radioButton) toggle = init(checkedStore, radioButton);    
 </script>
 
-<button on:click={() => toggle(checkedStore)} {id} {disabled} tabindex="-1" data-radix-collection-item="" type="button" role="radio" aria-checked="{$checkedStore}" data-state="{$checkedStore ? "checked" : "unchecked"}" value="default" 
+<button bind:this={radioButton} on:click={() => toggle(value)} {id} {disabled} {value} tabindex="{$checkedStore ? 0 : -1}" aria-checked="{$checkedStore}" data-state="{$checkedStore ? "checked" : "unchecked"}" type="button" role="radio"
     class="{cn("aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className)}">
     {#if $checkedStore}
         <span data-state="checked" class="flex items-center justify-center">
@@ -27,4 +29,4 @@
         </span>
     {/if}
 </button>
-<input checked={$checkedStore} {disabled} aria-hidden="true" tabindex="-1" type="radio" value="all" class="absolute pointer-events-none opacity-0 !m-0 h-4 w-4">
+<input checked={$checkedStore} {disabled} {value} aria-hidden="true" tabindex="-1" type="radio" class="absolute pointer-events-none opacity-0 !m-0 h-4 w-4">
