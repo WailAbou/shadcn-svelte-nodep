@@ -1,22 +1,21 @@
 <script lang="ts">
-	import { CodeMode } from ".";
-    import { HighlightSvelte } from "svelte-highlight";
+	import { CodeMode } from '.';
+	import { HighlightSvelte } from 'svelte-highlight';
 
-    export let code: string;
-    export let codeMode: CodeMode = CodeMode.None;
+	export let code: string;
+	export let codeMode: CodeMode = CodeMode.None;
 
-    function parseHtml(code: string): string {
-        const scriptRegex = /<script[^>]*>[\s\S]*?<\/script>/gi;
-        const withoutScript = code.replace(scriptRegex, '');
-        return withoutScript.trimStart();
-    }
+	function parseHtml(code: string): string {
+		const scriptRegex = /<script[^>]*>[\s\S]*?<\/script>/gi;
+		const withoutScript = code.replace(scriptRegex, '');
+		return withoutScript.trimStart();
+	}
 </script>
 
-
 {#if codeMode == CodeMode.Source}
-    <HighlightSvelte {code} />
+	<HighlightSvelte {code} />
 {:else if codeMode == CodeMode.Html}
-    <HighlightSvelte code={parseHtml(code)} />
+	<HighlightSvelte code={parseHtml(code)} />
 {:else}
-    <slot/>
+	<slot />
 {/if}
