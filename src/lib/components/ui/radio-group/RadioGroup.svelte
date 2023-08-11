@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { cn } from "$lib/utils";
+    import { cn, type InitProps } from "$lib/utils";
 	import { createEventDispatcher, setContext } from "svelte";
 	import type { Writable } from "svelte/store";
 
@@ -10,6 +10,7 @@
     export let defaultValue: string | undefined = undefined;
     export let disabled: boolean = false;
 
+    let radioGroup: HTMLDivElement;
     let value: string;
     let checkedStores: Writable<boolean>[] = [];
     let radioButtons: HTMLButtonElement[] = [];
@@ -18,15 +19,17 @@
     const toggleNext = () => toggle((focusedIndex + 1) % checkedStores.length);
     const togglPrevious = () => toggle((focusedIndex - 1 + checkedStores.length) % checkedStores.length);
 
-    setContext('radio-group', { disabled, init });
+    setContext('radio-group', { disabled, defaultValue, init });
 
-    function init(checkedStore: Writable<boolean>, targetValue: string, radioButton: HTMLButtonElement) {
+    function init(radioButton: Node, { store: checkedStore, value, initialized }: InitProps<boolean>) {        
         checkedStores.push(checkedStore);
-        radioButtons.push(radioButton);
+        radioButtons.push(radioButton as HTMLButtonElement);
 
         let index = checkedStores.length - 1;
-        if (targetValue === defaultValue) select(index, targetValue);
-        return { toggleItem: () => toggle(index), index };
+        if (value === defaultValue) select(index, value);
+        const toggleItem = () => toggle(index);
+
+        initialized([toggleItem, index]);
     }
 
     function toggle(targetIndex: number) {
@@ -55,8 +58,14 @@
             next ? toggleNext() : togglPrevious();
         }
     }
+
+    // onMount(() => {
+    //     const firstChild = radioGroup.children[1].children[0] as HTMLLabelElement;
+    //     firstChild?.focus();
+    //     console.log(firstChild);
+    // });
 </script>
 
-<div on:keydown={onNavigate} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class="{cn("grid gap-2 outline-none", className)}">
+<div bind:this={radioGroup} on:keydown={onNavigate} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class="{cn("grid gap-2 outline-none", className)}">
     <slot />
 </div>
