@@ -8,7 +8,7 @@
 	let type: AccordionType = 'single';
 	let uid: object = {};
 
-	function reset(task: () => void) {
+	function reset(task: VoidFunction) {
 		return () => {
 			uid = {};
 			value = undefined;
