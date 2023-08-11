@@ -6,10 +6,12 @@ import { twMerge } from "tailwind-merge";
 export interface InitProps<T> {
 	store: Writable<T>;
 	value: string;
-	initialized: (result: [VoidFunction, number]) => void;
+	onInit: (result: InitResult) => void;
 }
 
-export type InitFunction<T> = (node: Node, { store, value, initialized }: InitProps<T>) => void;
+export type InitFunction<T> = (node: Node, { store, value, onInit }: InitProps<T>) => void;
+
+export type InitResult = { toggleItem: VoidFunction, index: number };
 
 export function cn(...inputs: ClassValue[]): string {
   	return twMerge(clsx(inputs));
