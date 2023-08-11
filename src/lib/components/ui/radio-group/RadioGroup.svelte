@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { cn } from "$lib/utils";
-	import { createEventDispatcher, setContext } from "svelte";
-	import type { Writable } from "svelte/store";
+    import { cn, type InitProps } from "$lib/utils";
+    import { createEventDispatcher, setContext } from "svelte";
+    import type { Writable } from "svelte/store";
 
     const dispatch = createEventDispatcher<{valueChange: string}>();
 
@@ -10,6 +10,7 @@
     export let defaultValue: string | undefined = undefined;
     export let disabled: boolean = false;
 
+    let radioGroup: HTMLDivElement;
     let value: string;
     let checkedStores: Writable<boolean>[] = [];
     let radioButtons: HTMLButtonElement[] = [];
@@ -18,32 +19,34 @@
     const toggleNext = () => toggle((focusedIndex + 1) % checkedStores.length);
     const togglPrevious = () => toggle((focusedIndex - 1 + checkedStores.length) % checkedStores.length);
 
-    setContext('radio-group', { disabled, init });
+    setContext('radio-group', { disabled, defaultValue, init });
 
-    function init(checkedStore: Writable<boolean>, targetValue: string, radioButton: HTMLButtonElement) {
+    function init(radioButton: Node, { store: checkedStore, value, onInit }: InitProps<boolean>) {        
         checkedStores.push(checkedStore);
-        radioButtons.push(radioButton);
+        radioButtons.push(radioButton as HTMLButtonElement);
 
         let index = checkedStores.length - 1;
-        if (targetValue === defaultValue) select(index, targetValue);
-        return { toggleItem: () => toggle(index), index };
+        if (value === defaultValue) select(index, value);
+        const toggleItem = () => toggle(index);
+
+        onInit({toggleItem, index});
     }
 
-    function toggle(targetIndex: number) {
-        focus(targetIndex);
-        select(targetIndex, radioButtons[targetIndex].value);
+    function toggle(index: number) {
+        focus(index);
+        select(index, radioButtons[index].value);
     }
     
-    function focus(targetIndex: number) {
-		radioButtons[targetIndex]?.focus();
-        focusedIndex = targetIndex;
-	}
+    function focus(index: number) {
+        radioButtons[index]?.focus();
+        focusedIndex = index;
+    }
 
-    function select(targetIndex: number, targetValue: string) {
+    function select(index: number, newValue: string) {
         checkedStores.forEach(store => store.set(false));
-        checkedStores[targetIndex].set(true);
+        checkedStores[index].set(true);
         
-        value = targetValue;
+        value = newValue;
         dispatch("valueChange", value);
     }
     
@@ -59,6 +62,6 @@
     }
 </script>
 
-<div on:keydown={onNavigate} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class="{cn("grid gap-2 outline-none", className)}">
+<div bind:this={radioGroup} on:keydown={onNavigate} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class="{cn("grid gap-2 outline-none", className)}">
     <slot />
 </div>

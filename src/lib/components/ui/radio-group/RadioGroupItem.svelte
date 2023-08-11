@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { cn } from "$lib/utils";
-	import { Circle } from "lucide-svelte";
-	import { getContext } from "svelte";
-	import { writable, type Writable } from "svelte/store";
+    import { cn, type InitFunction, type InitResult } from "$lib/utils";
+    import { Circle } from "lucide-svelte";
+    import { getContext } from "svelte";
+    import { writable, type Writable } from "svelte/store";
 
     let className: string | undefined | null = undefined;
     export { className as class };
@@ -10,16 +10,15 @@
     export let id: string | undefined = undefined;
     export let disabled: boolean = false;
 
-    let initResult: { toggleItem: VoidFunction, index: number };
-    let radioButton: HTMLButtonElement;
+    let initResult: InitResult;
+    const onInit = (result: InitResult) => initResult = result;
     let checkedStore: Writable<boolean> = writable(false);
-    let { disabled: allDisabled, init }: { disabled: boolean, init: (checkedStore: Writable<boolean>, targetValue: string, radioButton: HTMLButtonElement) => { toggleItem: VoidFunction, index: number } }  = getContext("radio-group");
-    
+    let { disabled: allDisabled, defaultValue, init }: { disabled: boolean, defaultValue: string, init: InitFunction<boolean> }  = getContext("radio-group");
+
     disabled = disabled || allDisabled;
-    $: if (radioButton) initResult = init(checkedStore, value, radioButton);    
 </script>
 
-<button bind:this={radioButton} on:click={initResult.toggleItem} {id} {disabled} {value} tabindex="{$checkedStore || initResult?.index == 0 ? 0 : -1}" aria-checked="{$checkedStore}" data-state="{$checkedStore ? "checked" : "unchecked"}" type="button" role="radio"
+<button use:init={{store: checkedStore, value, onInit}} on:click={initResult.toggleItem} {id} {disabled} {value} tabindex="{$checkedStore || initResult?.index == 0 && !defaultValue ? 0 : -1}" aria-checked="{$checkedStore}" data-state="{$checkedStore ? "checked" : "unchecked"}" type="button" role="radio"
     class="{cn("aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className)}">
     {#if $checkedStore}
         <span data-state="checked" class="flex items-center justify-center">
