@@ -17,7 +17,7 @@
 	}
 </script>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
 	<p>Value: {value}</p>
 	<Button on:click={reset(() => (collapsible = !collapsible))}>Collapsible: {collapsible}</Button>
 	<Button on:click={reset(() => (type = type === 'single' ? 'multiple' : 'single'))}>Type: {type}</Button>

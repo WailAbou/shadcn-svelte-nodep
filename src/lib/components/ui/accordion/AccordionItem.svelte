@@ -13,6 +13,6 @@
 	setContext('accordion-item', { expandedStore, value });
 </script>
 
-<div aria-disabled={disabled} class={cn('border-b aria-disabled:opacity-50 aria-disabled:pointer-events-none', className)}>
+<div aria-disabled={disabled} class={cn('border-b aria-disabled:pointer-events-none aria-disabled:opacity-50', className)}>
 	<slot />
 </div>

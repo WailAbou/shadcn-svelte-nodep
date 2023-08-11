@@ -43,4 +43,4 @@
 		<Check class="h-4 w-4" />
 	{/if}
 </button>
-<input {disabled} {required} bind:checked aria-hidden="true" tabindex="-1" type="checkbox" value="on" class="absolute pointer-events-none opacity-0 !m-0 w-4 h-4" />
+<input {disabled} {required} bind:checked aria-hidden="true" tabindex="-1" type="checkbox" value="on" class="pointer-events-none absolute !m-0 h-4 w-4 opacity-0" />

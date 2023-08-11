@@ -9,6 +9,6 @@
 	let { openStore, disabledStore }: { openStore: Writable<boolean>; disabledStore: Writable<boolean> } = getContext('collapsible');
 </script>
 
-<button disabled={$disabledStore} class={cn('disabled:opacity-50 disabled:pointer-events-none', className)} aria-expanded={$openStore} on:click={() => ($openStore = !$openStore)}>
+<button disabled={$disabledStore} class={cn('disabled:pointer-events-none disabled:opacity-50', className)} aria-expanded={$openStore} on:click={() => ($openStore = !$openStore)}>
 	<slot />
 </button>

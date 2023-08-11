@@ -22,5 +22,5 @@
 		<Button variant="outline" size="icon"><ChevronRight class="h-4 w-4" /></Button>
 		<Button variant="outline" size="icon"><ChevronLast class="h-4 w-4" /></Button>
 	</div>
-	<Button variant="link" href="https://google.nl">Visit Google<ArrowRight class="h-4 w-4 ml-2" /></Button>
+	<Button variant="link" href="https://google.nl">Visit Google<ArrowRight class="ml-2 h-4 w-4" /></Button>
 </div>

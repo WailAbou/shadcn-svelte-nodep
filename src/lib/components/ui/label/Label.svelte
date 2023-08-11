@@ -7,6 +7,6 @@
 	export let htmlFor: string;
 </script>
 
-<label class={cn('text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 select-none', className)} for={htmlFor}>
+<label class={cn('select-none text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70', className)} for={htmlFor}>
 	<slot />
 </label>

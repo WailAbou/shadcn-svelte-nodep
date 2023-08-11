@@ -12,6 +12,6 @@
 	if (newTab) target = '_blank';
 </script>
 
-<a {href} class={cn('underline text-primary hover:text-primary/50 visited:text-primary/50', className)} {...$$restProps} {target} on:click on:change on:keydown on:keyup on:mouseenter on:mouseleave>
+<a {href} class={cn('text-primary underline visited:text-primary/50 hover:text-primary/50', className)} {...$$restProps} {target} on:click on:change on:keydown on:keyup on:mouseenter on:mouseleave>
 	<slot />
 </a>

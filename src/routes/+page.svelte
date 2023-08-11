@@ -12,9 +12,9 @@
 
 <div class="container mx-auto py-10">
 	<Settings let:codeMode>
-		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+		<div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 			{#each examples as Example, i}
-				<div class="container mx-auto border rounded-md p-10">
+				<div class="container mx-auto rounded-md border p-10">
 					<h1 class="font-bold">{names[i]}</h1>
 					<Separator class="my-4" />
 					<SvelteCode code={codes[i]} {codeMode}>

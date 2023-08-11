@@ -18,7 +18,7 @@
 	{@html codeCss}
 </svelte:head>
 
-<div class="border rounded-md p-10 mb-2 flex items-center flex-wrap">
+<div class="mb-2 flex flex-wrap items-center rounded-md border p-10">
 	<h1 class="font-bold">Settings</h1>
 	<Separator orientation="vertical" class="mx-4 h-10" />
 

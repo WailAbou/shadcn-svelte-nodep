@@ -8,6 +8,6 @@
 		<p>Click <Link href="https://google.nl">here</Link> please!</p>
 	</div>
 	<div class="flex items-center">
-		<p>Click <Link newTab href="https://google.com">here</Link> please!<ArrowRight class="h-4 w-4 ml-2 inline-block" /></p>
+		<p>Click <Link newTab href="https://google.com">here</Link> please!<ArrowRight class="ml-2 inline-block h-4 w-4" /></p>
 	</div>
 </div>

@@ -38,4 +38,4 @@
 		class="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
 	/>
 </button>
-<input {required} aria-hidden="true" tabindex="-1" type="checkbox" value="on" class="absolute pointer-events-none opacity-0 !m-0 h-6 w-11" />
+<input {required} aria-hidden="true" tabindex="-1" type="checkbox" value="on" class="pointer-events-none absolute !m-0 h-6 w-11 opacity-0" />
