@@ -6,9 +6,10 @@
 	export let codeMode: CodeMode = CodeMode.None;
 
 	function parseHtml(code: string): string {
-		const scriptRegex = /<script[^>]*>[\s\S]*?<\/script>/gi;
-		const withoutScript = code.replace(scriptRegex, '');
-		return withoutScript.trimStart();
+		const withoutScript = code.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '');
+		const keyRegex = /{#key[^}]*}([\s\S]*?){\/key}/g;
+		const keyMatches = withoutScript.match(keyRegex);
+		return (keyMatches ? keyMatches.join('') : withoutScript).trim();
 	}
 </script>
 

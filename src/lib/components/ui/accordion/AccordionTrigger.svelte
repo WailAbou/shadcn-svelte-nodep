@@ -10,7 +10,7 @@
 	let initResult: InitResult;
 	const onInit = (result: InitResult) => (initResult = result);
 	let { expandedStore, value }: { expandedStore: Writable<boolean>; value: string } = getContext('accordion-item');
-	let init: InitFunction<boolean> = getContext('accordion');
+	let { init }: { init: InitFunction<boolean> } = getContext('accordion');
 </script>
 
 <h3 class="flex">

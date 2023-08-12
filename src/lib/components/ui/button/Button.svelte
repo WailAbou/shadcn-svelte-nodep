@@ -32,10 +32,12 @@
 
 <svelte:element
 	this={href ? 'a' : 'button'}
-	type={href ? undefined : type}
+	tabindex="0"
 	{href}
-	class={cn(buttonVariants({ variant, size, className }))}
 	{...$$restProps}
+	type={href ? undefined : type}
+	role={href ? 'link' : 'button'}
+	class={cn(buttonVariants({ variant, size, className }))}
 	on:click
 	on:change
 	on:keydown

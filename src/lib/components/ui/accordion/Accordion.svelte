@@ -9,6 +9,7 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 	export let collapsible: boolean = false;
+	export let disabled: boolean = false;
 	export let defaultValue: undefined | string | string[] = undefined;
 	export let type: AccordionType;
 
@@ -22,7 +23,7 @@
 	const focusLast = () => focus(expandedStores.length - 1);
 	const focusFirst = () => focus(0);
 
-	setContext('accordion', init);
+	setContext('accordion', { init, disabled });
 
 	$: isSingle = type === 'single';
 	$: value = isSingle ? '' : [];

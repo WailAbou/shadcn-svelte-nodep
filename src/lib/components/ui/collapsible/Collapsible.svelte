@@ -12,11 +12,9 @@
 	export let disabled: boolean = false;
 
 	let openStore: Writable<boolean> = writable(defaultOpen);
-	let disabledStore: Writable<boolean> = writable(disabled);
 
-	setContext('collapsible', { openStore, disabledStore });
+	setContext('collapsible', { openStore, disabled });
 
-	$: $disabledStore = disabled;
 	$: dispatch('openChange', $openStore);
 </script>
 
