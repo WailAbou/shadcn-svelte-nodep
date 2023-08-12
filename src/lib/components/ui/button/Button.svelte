@@ -1,29 +1,29 @@
 <script lang="ts">
-	import type { VariantProps } from "class-variance-authority";
-	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from "svelte/elements";
-	import { cn } from "$lib/utils";
-	import { buttonVariants } from "./buttonVariants";
+	import type { VariantProps } from 'class-variance-authority';
+	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
+	import { cn } from '$lib/utils';
+	import { buttonVariants } from './buttonVariants';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
-	export let href: HTMLAnchorAttributes["href"] = undefined;
-	export let type: HTMLButtonAttributes["type"] = undefined;
-	export let variant: VariantProps<typeof buttonVariants>["variant"] = "default";
-	export let size: VariantProps<typeof buttonVariants>["size"] = "default";
+	export let href: HTMLAnchorAttributes['href'] = undefined;
+	export let type: HTMLButtonAttributes['type'] = undefined;
+	export let variant: VariantProps<typeof buttonVariants>['variant'] = 'default';
+	export let size: VariantProps<typeof buttonVariants>['size'] = 'default';
 
 	type Props = {
 		class?: string | null;
-		variant?: VariantProps<typeof buttonVariants>["variant"];
-		size?: VariantProps<typeof buttonVariants>["size"];
+		variant?: VariantProps<typeof buttonVariants>['variant'];
+		size?: VariantProps<typeof buttonVariants>['size'];
 	};
 
 	interface AnchorElement extends Props, HTMLAnchorAttributes {
-		href?: HTMLAnchorAttributes["href"];
+		href?: HTMLAnchorAttributes['href'];
 		type?: never;
 	}
 
 	interface ButtonElement extends Props, HTMLButtonAttributes {
-		type?: HTMLButtonAttributes["type"];
+		type?: HTMLButtonAttributes['type'];
 		href?: never;
 	}
 
@@ -31,11 +31,13 @@
 </script>
 
 <svelte:element
-	this={href ? "a" : "button"}
-	type={href ? undefined : type}
+	this={href ? 'a' : 'button'}
+	tabindex="0"
 	{href}
-	class={cn(buttonVariants({ variant, size, className }))}
 	{...$$restProps}
+	type={href ? undefined : type}
+	role={href ? 'link' : 'button'}
+	class={cn(buttonVariants({ variant, size, className }))}
 	on:click
 	on:change
 	on:keydown

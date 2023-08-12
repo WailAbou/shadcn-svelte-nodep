@@ -1,29 +1,43 @@
 <script lang="ts">
-    import { cn, type InitFunction, type InitResult } from "$lib/utils";
-    import { Circle } from "lucide-svelte";
-    import { getContext } from "svelte";
-    import { writable, type Writable } from "svelte/store";
+	import { cn, type InitFunction, type InitResult } from '$lib/utils';
+	import { Circle } from 'lucide-svelte';
+	import { getContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
 
-    let className: string | undefined | null = undefined;
-    export { className as class };
-    export let value: string;
-    export let id: string | undefined = undefined;
-    export let disabled: boolean = false;
+	let className: string | undefined | null = undefined;
+	export { className as class };
+	export let value: string;
+	export let id: string | undefined = undefined;
+	export let disabled: boolean = false;
 
-    let initResult: InitResult;
-    const onInit = (result: InitResult) => initResult = result;
-    let checkedStore: Writable<boolean> = writable(false);
-    let { disabled: allDisabled, defaultValue, init }: { disabled: boolean, defaultValue: string, init: InitFunction<boolean> }  = getContext("radio-group");
+	let initResult: InitResult;
+	const onInit = (result: InitResult) => (initResult = result);
+	let checkedStore: Writable<boolean> = writable(false);
+	let { disabled: allDisabled, defaultValue, init }: { disabled: boolean; defaultValue: string; init: InitFunction<boolean> } = getContext('radio-group');
 
-    disabled = disabled || allDisabled;
+	disabled = disabled || allDisabled;
 </script>
 
-<button use:init={{store: checkedStore, value, onInit}} on:click={initResult.toggleItem} {id} {disabled} {value} tabindex="{$checkedStore || initResult?.index == 0 && !defaultValue ? 0 : -1}" aria-checked="{$checkedStore}" data-state="{$checkedStore ? "checked" : "unchecked"}" type="button" role="radio"
-    class="{cn("aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50", className)}">
-    {#if $checkedStore}
-        <span data-state="checked" class="flex items-center justify-center">
-            <Circle class="h-2.5 w-2.5 fill-current text-current" />
-        </span>
-    {/if}
+<button
+	use:init={{ store: checkedStore, value, onInit }}
+	on:click={initResult.toggleItem}
+	{id}
+	{disabled}
+	{value}
+	tabindex={$checkedStore || (initResult?.index == 0 && !defaultValue) ? 0 : -1}
+	aria-checked={$checkedStore}
+	data-state={$checkedStore ? 'checked' : 'unchecked'}
+	type="button"
+	role="radio"
+	class={cn(
+		'aspect-square h-4 w-4 rounded-full border border-primary text-primary ring-offset-background focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
+		className
+	)}
+>
+	{#if $checkedStore}
+		<span data-state="checked" class="flex items-center justify-center">
+			<Circle class="h-2.5 w-2.5 fill-current text-current" />
+		</span>
+	{/if}
 </button>
-<input checked={$checkedStore} {disabled} {value} aria-hidden="true" tabindex="-1" type="radio" class="absolute pointer-events-none opacity-0 !m-0 h-4 w-4">
+<input checked={$checkedStore} {disabled} {value} aria-hidden="true" tabindex="-1" type="radio" class="pointer-events-none absolute !m-0 h-4 w-4 opacity-0" />

@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -70,7 +70,7 @@
 		--destructive-foreground: 210 40% 98%;
 
 		--affirmative: 120 61% 85%;
-		--affirmative-foreground:  222.2 47.4% 1.2%;
+		--affirmative-foreground: 222.2 47.4% 1.2%;
 
 		--ring: 216 34% 17%;
 
@@ -87,7 +87,9 @@
 	}
 	body {
 		@apply bg-background text-foreground;
-		font-feature-settings: "rlig" 1, "calt" 1;
+		font-feature-settings:
+			'rlig' 1,
+			'calt' 1;
 	}
 
 	/* Mobile tap highlight */
@@ -136,7 +138,7 @@
 	}
 
 	.step:before {
-		@apply absolute w-8 h-8 bg-muted rounded-full font-medium text-center text-base inline-flex items-center justify-center -indent-px;
+		@apply absolute inline-flex h-8 w-8 items-center justify-center rounded-full bg-muted text-center -indent-px text-base font-medium;
 		@apply ml-[-41px];
 		content: counter(step);
 	}

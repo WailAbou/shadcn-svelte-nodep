@@ -1,25 +1,23 @@
 <script lang="ts">
-	import { cn } from "$lib/utils";
-	import { createEventDispatcher, setContext } from "svelte";
-	import { writable, type Writable } from "svelte/store";
+	import { cn } from '$lib/utils';
+	import { createEventDispatcher, setContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
 
-    const dispatch = createEventDispatcher<{openChange: boolean}>();
+	const dispatch = createEventDispatcher<{ openChange: boolean }>();
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-    export let defaultOpen: boolean = false;
-    export let disabled: boolean = false;
+	export let defaultOpen: boolean = false;
+	export let disabled: boolean = false;
 
-    let openStore: Writable<boolean> = writable(defaultOpen);
-    let disabledStore: Writable<boolean> = writable(disabled);
+	let openStore: Writable<boolean> = writable(defaultOpen);
 
-    setContext('collapsible', { openStore, disabledStore });
+	setContext('collapsible', { openStore, disabled });
 
-    $: $disabledStore = disabled;
-    $: dispatch("openChange", $openStore);
+	$: dispatch('openChange', $openStore);
 </script>
 
-<div class="{cn(className)}" >
-    <slot />
+<div class={cn(className)}>
+	<slot />
 </div>
