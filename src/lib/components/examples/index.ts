@@ -10,6 +10,9 @@ export { default as AlertDialogExampleCode } from './AlertDialogExample.svelte?r
 export { default as AspectRatioExample } from "./AspectRatioExample.svelte";
 export { default as AspectRatioExampleCode } from "./AspectRatioExample.svelte?raw";
 
+export { default as AvatarExample } from "./AvatarExample.svelte";
+export { default as AvatarExampleCode } from "./AvatarExample.svelte?raw";
+
 export { default as ButtonExample } from "./ButtonExample.svelte";
 export { default as ButtonExampleCode } from "./ButtonExample.svelte?raw";
 
