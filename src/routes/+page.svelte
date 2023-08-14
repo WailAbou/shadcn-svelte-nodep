@@ -4,7 +4,23 @@
 	import { SvelteCode } from '$components/custom/svelte-code';
 	import { Separator } from '$components/ui/separator';
 
-	const names: string[] = ['Accordion', 'Alert', 'AlertDialog', 'Button', 'Checkbox', 'Collapsible', 'Dialog', 'Input', 'Label', 'Link', 'RadioGroup', 'Separator', 'Switch', 'Textarea'];
+	const names: string[] = [
+		'Accordion',
+		'Alert',
+		'AlertDialog',
+		'AspectRatio',
+		'Button',
+		'Checkbox',
+		'Collapsible',
+		'Dialog',
+		'Input',
+		'Label',
+		'Link',
+		'RadioGroup',
+		'Separator',
+		'Switch',
+		'Textarea'
+	];
 
 	const examples = names.map((name) => (ex as any)[`${name}Example`]);
 	const codes: string[] = names.map((name) => (ex as any)[`${name}ExampleCode`]);

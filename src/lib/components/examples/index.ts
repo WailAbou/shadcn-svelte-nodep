@@ -7,8 +7,11 @@ export { default as AlertExampleCode } from './AlertExample.svelte?raw';
 export { default as AlertDialogExample } from './AlertDialogExample.svelte';
 export { default as AlertDialogExampleCode } from './AlertDialogExample.svelte?raw';
 
-export { default as ButtonExample } from './ButtonExample.svelte';
-export { default as ButtonExampleCode } from './ButtonExample.svelte?raw';
+export { default as AspectRatioExample } from "./AspectRatioExample.svelte";
+export { default as AspectRatioExampleCode } from "./AspectRatioExample.svelte?raw";
+
+export { default as ButtonExample } from "./ButtonExample.svelte";
+export { default as ButtonExampleCode } from "./ButtonExample.svelte?raw";
 
 export { default as CheckboxExample } from './CheckboxExample.svelte';
 export { default as CheckboxExampleCode } from './CheckboxExample.svelte?raw';
