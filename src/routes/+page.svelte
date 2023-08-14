@@ -10,6 +10,7 @@
 		'AlertDialog',
 		'AspectRatio',
 		'Avatar',
+		'Badge',
 		'Button',
 		'Checkbox',
 		'Collapsible',
