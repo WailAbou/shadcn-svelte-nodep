@@ -21,7 +21,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Alert Dialog    | ✅     |
 | Aspect Ratio    | ✅     |
 | Avatar          | ✅     |
-| Badge           | ❌     |
+| Badge           | ✅     |
 | Button          | ✅     |
 | Calendar        | ❌     |
 | Card            | ❌     |
