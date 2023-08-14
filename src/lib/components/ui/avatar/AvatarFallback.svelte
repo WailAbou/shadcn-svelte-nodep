@@ -5,12 +5,14 @@
 	export let delayMs: number = 0;
 
 	let imageLoadedStore: Writable<boolean> = getContext('avatar');
-	let delayIsDone: boolean = delayMs == 0;
+	let delayDone: boolean = delayMs == 0;
 
-	setTimeout(() => (delayIsDone = true), delayMs);
+	setTimeout(() => (delayDone = true), delayMs);
+
+	$: showFallback = delayDone && !$imageLoadedStore;
 </script>
 
-{#if delayIsDone && !$imageLoadedStore}
+{#if showFallback}
 	<span class="flex h-full w-full items-center justify-center rounded-full bg-muted">
 		<slot />
 	</span>
