@@ -13,6 +13,9 @@ export { default as AspectRatioExampleCode } from "./AspectRatioExample.svelte?r
 export { default as AvatarExample } from "./AvatarExample.svelte";
 export { default as AvatarExampleCode } from "./AvatarExample.svelte?raw";
 
+export { default as BadgeExample } from "./BadgeExample.svelte";
+export { default as BadgeExampleCode } from "./BadgeExample.svelte?raw";
+
 export { default as ButtonExample } from "./ButtonExample.svelte";
 export { default as ButtonExampleCode } from "./ButtonExample.svelte?raw";
 
