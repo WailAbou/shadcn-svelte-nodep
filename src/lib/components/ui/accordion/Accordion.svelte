@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { cn, hasValue, removeValue, type InitProps } from '$lib/utils';
+	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
+	import type { InitProps } from '$lib/helpers/types';
+	import type { AccordionType } from '.';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import type { AccordionType } from '.';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 

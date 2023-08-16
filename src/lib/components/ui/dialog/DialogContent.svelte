@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { clickOutside, cn } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
+	import { clickOutside } from '$lib/helpers/actions';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 

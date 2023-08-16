@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { cn, type InitProps } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
+	import type { InitProps } from '$lib/helpers/types';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 

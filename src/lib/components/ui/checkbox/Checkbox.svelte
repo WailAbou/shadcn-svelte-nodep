@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
 	import { Check } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
 

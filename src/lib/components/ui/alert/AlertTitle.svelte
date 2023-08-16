@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
 	import type { AlertTitleLevel } from '.';
 
 	let className: string | undefined | null = undefined;
