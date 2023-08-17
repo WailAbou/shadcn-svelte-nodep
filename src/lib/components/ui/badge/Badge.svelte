@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { badgeVariants } from './badgeVariants';
 	import type { VariantProps } from 'class-variance-authority';
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };

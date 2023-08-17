@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
 	import type { VariantProps } from 'class-variance-authority';
 	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { buttonVariants } from './buttonVariants';

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { ChevronDown } from 'lucide-svelte';
-	import { cn, type InitFunction, type InitResult } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
+	import type { InitFunction, InitResult } from '$lib/helpers/types';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 

@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import type { AvatarLoadingtatus } from '.';
 
 	export let delayMs: number = 0;
 
-	let imageLoadedStore: Writable<boolean> = getContext('avatar');
+	let imageLoadingStatus$: Writable<AvatarLoadingtatus> = getContext('avatar');
 	let delayDone: boolean = delayMs == 0;
 
 	setTimeout(() => (delayDone = true), delayMs);
 
-	$: showFallback = delayDone && !$imageLoadedStore;
+	$: showFallback = delayDone && $imageLoadingStatus$ !== 'loaded';
 </script>
 
 {#if showFallback}

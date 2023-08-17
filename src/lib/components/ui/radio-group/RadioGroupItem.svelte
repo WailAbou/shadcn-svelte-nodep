@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { cn, type InitFunction, type InitResult } from '$lib/utils';
+	import { cn } from '$lib/helpers/utils';
+	import type { InitFunction, InitResult } from '$lib/helpers/types';
 	import { Circle } from 'lucide-svelte';
 	import { getContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
