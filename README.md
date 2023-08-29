@@ -41,7 +41,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Menubar         | ❌     |
 | Navigation Menu | ❌     |
 | Popover         | ❌     |
-| Progress        | ❌     |
+| Progress        | ✅     |
 | Radio Group     | ✅     |
 | Scroll Area     | ❌     |
 | Select          | ❌     |
