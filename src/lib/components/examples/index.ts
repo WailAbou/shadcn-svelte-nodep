@@ -7,17 +7,17 @@ export { default as AlertExampleCode } from './AlertExample.svelte?raw';
 export { default as AlertDialogExample } from './AlertDialogExample.svelte';
 export { default as AlertDialogExampleCode } from './AlertDialogExample.svelte?raw';
 
-export { default as AspectRatioExample } from "./AspectRatioExample.svelte";
-export { default as AspectRatioExampleCode } from "./AspectRatioExample.svelte?raw";
+export { default as AspectRatioExample } from './AspectRatioExample.svelte';
+export { default as AspectRatioExampleCode } from './AspectRatioExample.svelte?raw';
 
-export { default as AvatarExample } from "./AvatarExample.svelte";
-export { default as AvatarExampleCode } from "./AvatarExample.svelte?raw";
+export { default as AvatarExample } from './AvatarExample.svelte';
+export { default as AvatarExampleCode } from './AvatarExample.svelte?raw';
 
-export { default as BadgeExample } from "./BadgeExample.svelte";
-export { default as BadgeExampleCode } from "./BadgeExample.svelte?raw";
+export { default as BadgeExample } from './BadgeExample.svelte';
+export { default as BadgeExampleCode } from './BadgeExample.svelte?raw';
 
-export { default as ButtonExample } from "./ButtonExample.svelte";
-export { default as ButtonExampleCode } from "./ButtonExample.svelte?raw";
+export { default as ButtonExample } from './ButtonExample.svelte';
+export { default as ButtonExampleCode } from './ButtonExample.svelte?raw';
 
 export { default as CheckboxExample } from './CheckboxExample.svelte';
 export { default as CheckboxExampleCode } from './CheckboxExample.svelte?raw';
@@ -36,6 +36,9 @@ export { default as LabelExampleCode } from './LabelExample.svelte?raw';
 
 export { default as LinkExample } from './LinkExample.svelte';
 export { default as LinkExampleCode } from './LinkExample.svelte?raw';
+
+export { default as ProgressExample } from './ProgressExample.svelte';
+export { default as ProgressExampleCode } from './ProgressExample.svelte?raw';
 
 export { default as RadioGroupExample } from './RadioGroupExample.svelte';
 export { default as RadioGroupExampleCode } from './RadioGroupExample.svelte?raw';

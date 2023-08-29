@@ -18,6 +18,7 @@
 		'Input',
 		'Label',
 		'Link',
+		'Progress',
 		'RadioGroup',
 		'Separator',
 		'Switch',
