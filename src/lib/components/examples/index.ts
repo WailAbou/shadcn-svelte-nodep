@@ -19,6 +19,9 @@ export { default as BadgeExampleCode } from './BadgeExample.svelte?raw';
 export { default as ButtonExample } from './ButtonExample.svelte';
 export { default as ButtonExampleCode } from './ButtonExample.svelte?raw';
 
+export { default as CardExample } from './CardExample.svelte';
+export { default as CardExampleCode } from './CardExample.svelte?raw';
+
 export { default as CheckboxExample } from './CheckboxExample.svelte';
 export { default as CheckboxExampleCode } from './CheckboxExample.svelte?raw';
 

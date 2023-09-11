@@ -24,7 +24,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Badge           | ✅     |
 | Button          | ✅     |
 | Calendar        | ❌     |
-| Card            | ❌     |
+| Card            | ✅     |
 | Checkbox        | ✅     |
 | Collapsible     | ✅     |
 | Combobox        | ❌     |

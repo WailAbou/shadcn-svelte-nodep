@@ -12,6 +12,7 @@
 		'Avatar',
 		'Badge',
 		'Button',
+		'Card',
 		'Checkbox',
 		'Collapsible',
 		'Dialog',
