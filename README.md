@@ -43,11 +43,11 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Popover         | ❌     |
 | Progress        | ✅     |
 | Radio Group     | ✅     |
-| Scroll Area     | ❌     |
+| Scroll Area     | ✅     |
 | Select          | ❌     |
 | Separator       | ✅     |
 | Sheet           | ❌     |
-| Skeleton        | ❌     |
+| Skeleton        | ✅     |
 | Slider          | ❌     |
 | Switch          | ✅     |
 | Table           | ❌     |

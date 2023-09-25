@@ -23,6 +23,7 @@
 		'RadioGroup',
 		'ScrollArea',
 		'Separator',
+		'Skeleton',
 		'Switch',
 		'Textarea'
 	];

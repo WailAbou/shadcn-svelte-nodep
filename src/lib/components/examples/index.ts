@@ -52,6 +52,9 @@ export { default as ScrollAreaExampleCode } from './ScrollAreaExample.svelte?raw
 export { default as SeparatorExample } from './SeparatorExample.svelte';
 export { default as SeparatorExampleCode } from './SeparatorExample.svelte?raw';
 
+export { default as SkeletonExample } from './SkeletonExample.svelte';
+export { default as SkeletonExampleCode } from './SkeletonExample.svelte?raw';
+
 export { default as SwitchExample } from './SwitchExample.svelte';
 export { default as SwitchExampleCode } from './SwitchExample.svelte?raw';
 

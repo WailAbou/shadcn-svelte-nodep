@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
+	import { onMount, afterUpdate } from 'svelte';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -11,12 +12,10 @@
 	let isDragging = false;
 	let initialMouseY = 0;
 
-	$: scrollAreaMax = scrollArea?.scrollHeight - scrollArea?.clientHeight;
-	$: scrollBarMax = scrollArea?.clientHeight - scrollBarHeight;
-
 	const updateScrollbarHeight = () => {
-		const percentage = scrollArea.scrollTop / scrollAreaMax;
-		scrollHeight = percentage * scrollBarMax;
+		let max = scrollArea.scrollHeight - scrollArea.clientHeight;
+		let percentage = scrollArea.scrollTop / max;
+		scrollHeight = percentage * (scrollArea.clientHeight - scrollBarHeight);
 	};
 
 	const handleMouseDown = (event: MouseEvent) => {
@@ -24,18 +23,22 @@
 		initialMouseY = event.clientY;
 	};
 
-	const handleMouseUp = () => (isDragging = false);
-
 	const handleMouseMove = (event: MouseEvent) => {
 		if (isDragging) {
-			const relativeY = event.clientY - initialMouseY;
-			const percentage = relativeY / scrollBarMax;
-			scrollArea.scrollTop = percentage * scrollAreaMax;
+			const deltaY = event.clientY - initialMouseY;
+			console.log(deltaY);
+			scrollArea.scrollTop = deltaY;
 		}
 	};
-</script>
 
-<svelte:window on:mouseup={handleMouseUp} on:mousemove={handleMouseMove} />
+	const handleMouseUp = () => {
+		isDragging = false;
+	};
+
+	const handleMouseLeave = () => {
+		isDragging = false;
+	};
+</script>
 
 <div dir="ltr" class={cn('relative overflow-hidden', className)}>
 	<div bind:this={scrollArea} class="h-full w-full overflow-x-hidden overflow-y-scroll rounded-[inherit]" data-scroll-area-viewport on:scroll={updateScrollbarHeight}>
@@ -46,6 +49,9 @@
 	<div
 		bind:this={scrollbar}
 		on:mousedown={handleMouseDown}
+		on:mousemove={handleMouseMove}
+		on:mouseup={handleMouseUp}
+		on:mouseleave={handleMouseLeave}
 		data-orientation="vertical"
 		data-state="visible"
 		class="absolute right-0 top-0 flex h-full w-2.5 touch-none select-none border-l border-l-transparent p-[1px] transition-colors"
