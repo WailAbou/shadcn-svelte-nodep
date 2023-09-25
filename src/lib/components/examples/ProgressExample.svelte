@@ -7,6 +7,10 @@
 	let values: (number | null)[] = [33, 66, 100, null];
 
 	$: value = values[index];
+
+	function customGetValueLabel() {
+		return `${Math.round((value ?? 0 / 100) * 100)}% Battery`;
+	}
 </script>
 
 <Options>
