@@ -9,8 +9,8 @@
 	export let disabled: boolean = false;
 
 	let selectedValueStore: Writable<string> = getContext('tabs');
-	let values: Writable<string[]> = getContext('tabs-list');
-	$values.push(value);
+	let values: string[] = getContext('tabs-list');
+	values.push(value);
 
 	$: isActive = $selectedValueStore == value;
 </script>
