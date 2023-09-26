@@ -7,47 +7,41 @@
 	export let type: ScrollAreaType = 'hover';
 	export let scrollHideDelay: number = 600;
 
-	let scrollArea: HTMLDivElement;
-	let scrollBar: HTMLDivElement;
-	let scrollBarHeight = 40;
-	let scrollHeight = 0;
-	let hideScrollBar = false;
-	let isDragging = false;
-	let isHovering = false;
-	let isScrolling = false;
-	let scrollingTimer: number;
-	let hoverTimer: number;
+	let [scrollArea, scrollBar]: HTMLDivElement[] = [];
+	let [isDragging, isHovering, isScrollBarHidden, isScrolling] = [false, false, false, false];
+	let [scrollingTimer, hoverTimer] = [0, 0];
+	let [scrollBarHeight, scrollBarY] = [40, 0];
 
-	$: scrollAreaMax = scrollArea?.scrollHeight - scrollArea?.clientHeight;
-	$: scrollBarMax = scrollArea?.clientHeight - scrollBarHeight;
-	$: scrollBarStartY = scrollBar?.getBoundingClientRect().y + scrollBarHeight / 2;
-	$: if (type == 'auto' && scrollAreaMax < scrollBarMax) hideScrollBar = true;
-	$: showScrollBar = type == 'always' || (type == 'hover' && isHovering) || (type == 'auto' && !hideScrollBar) || (type == 'scroll' && isScrolling);
+	$: scrollBarMinY = scrollBar?.getBoundingClientRect().y + scrollBarHeight / 2;
+	$: scrollBarMaxY = scrollArea?.clientHeight - scrollBarHeight;
+	$: scrollAreaMaxY = scrollArea?.scrollHeight - scrollArea?.clientHeight;
+	$: if (type == 'auto' && scrollAreaMaxY < scrollBarMaxY) isScrollBarHidden = true;
+	$: showScrollBar = type == 'always' || (type == 'hover' && isHovering) || (type == 'auto' && !isScrollBarHidden) || (type == 'scroll' && isScrolling);
 
 	const syncScrollBarToArea = () => {
-		const percentage = scrollArea.scrollTop / scrollAreaMax;
-		scrollHeight = percentage * scrollBarMax;
+		const percentage = scrollArea.scrollTop / scrollAreaMaxY;
+		scrollBarY = percentage * scrollBarMaxY;
 		handleScroll();
 	};
 
 	const syncAreaToScrollBar = (event: MouseEvent) => {
 		if (isDragging) {
-			const relativeY = event.clientY - scrollBarStartY;
-			const percentage = relativeY / scrollBarMax;
-			scrollArea.scrollTop = percentage * scrollAreaMax;
+			const relativeY = event.clientY - scrollBarMinY;
+			const percentage = relativeY / scrollBarMaxY;
+			scrollArea.scrollTop = percentage * scrollAreaMaxY;
 			handleScroll();
 		}
 	};
 
 	const handleScroll = () => {
 		isScrolling = true;
-		if (scrollingTimer) clearTimeout(scrollingTimer);
+		clearTimeout(scrollingTimer);
 		scrollingTimer = setTimeout(() => (isScrolling = false), scrollHideDelay);
 	};
 
 	const handleHover = () => {
 		isHovering = true;
-		if (hoverTimer) clearTimeout(hoverTimer);
+		clearTimeout(hoverTimer);
 		hoverTimer = setTimeout(() => (isHovering = false), scrollHideDelay);
 	};
 </script>
@@ -68,7 +62,7 @@
 			data-state="visible"
 			class="absolute right-0 top-0 flex h-full w-2.5 touch-none select-none border-l border-l-transparent p-[1px] transition-colors"
 		>
-			<div data-state="visible" class="relative flex-1 rounded-full bg-border" style="height: {scrollBarHeight}px; transform: translate3d(0px, {scrollHeight}px, 0px);"></div>
+			<div data-state="visible" class="relative flex-1 rounded-full bg-border" style="height: {scrollBarHeight}px; transform: translate3d(0px, {scrollBarY}px, 0px);"></div>
 		</div>
 	{/if}
 </div>
