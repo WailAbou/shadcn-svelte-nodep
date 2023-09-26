@@ -11,17 +11,19 @@
 	let scrollBar: HTMLDivElement;
 	let scrollBarHeight = 40;
 	let scrollHeight = 0;
-	let isDragging = false;
 	let hideScrollBar = false;
-	let hoveringOver = false;
-	let scrolling = false;
+	let isDragging = false;
+	let isHovering = false;
+	let isScrolling = false;
 	let scrollingTimer: number;
+	let hoverTimer: number;
 
 	$: scrollAreaMax = scrollArea?.scrollHeight - scrollArea?.clientHeight;
 	$: scrollBarMax = scrollArea?.clientHeight - scrollBarHeight;
 	$: scrollBarStartY = scrollBar?.getBoundingClientRect().y + scrollBarHeight / 2;
 	$: if (type == 'auto' && scrollAreaMax < scrollBarMax) hideScrollBar = true;
-	$: showScrollBar = type == 'always' || (type == 'hover' && hoveringOver) || (type == 'auto' && !hideScrollBar) || (type == 'scroll' && hoveringOver && scrolling);
+	$: showScrollBar = type == 'always' || (type == 'hover' && isHovering) || (type == 'auto' && !hideScrollBar) || (type == 'scroll' && isScrolling);
+
 	const syncScrollBarToArea = () => {
 		const percentage = scrollArea.scrollTop / scrollAreaMax;
 		scrollHeight = percentage * scrollBarMax;
@@ -38,15 +40,21 @@
 	};
 
 	const handleScroll = () => {
-		scrolling = true;
+		isScrolling = true;
 		if (scrollingTimer) clearTimeout(scrollingTimer);
-		scrollingTimer = setTimeout(() => (scrolling = false), scrollHideDelay);
+		scrollingTimer = setTimeout(() => (isScrolling = false), scrollHideDelay);
+	};
+
+	const handleHover = () => {
+		isHovering = true;
+		if (hoverTimer) clearTimeout(hoverTimer);
+		hoverTimer = setTimeout(() => (isHovering = false), scrollHideDelay);
 	};
 </script>
 
-<svelte:window on:mouseup={() => (isDragging = false)} on:mousemove={syncAreaToScrollBar} />
+<svelte:window on:mousemove={syncAreaToScrollBar} on:mouseup={() => (isDragging = false)} />
 
-<div dir="ltr" class={cn('relative overflow-hidden', className)} on:mouseover={() => (hoveringOver = true)} on:mouseleave={() => (hoveringOver = false)}>
+<div dir="ltr" class={cn('relative overflow-hidden', className)} on:mouseover={handleHover} on:mouseleave={handleHover}>
 	<div bind:this={scrollArea} on:scroll={syncScrollBarToArea} class="h-full w-full overflow-x-hidden overflow-y-scroll rounded-[inherit]" data-scroll-area-viewport>
 		<div style="min-width: 100%; display: table;">
 			<slot />
