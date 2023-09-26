@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import type { InitFunction, InitResult } from '$lib/helpers/types';
+	import { InitResult, type InitFunction } from '$lib/helpers/types';
 	import { Circle } from 'lucide-svelte';
 	import { getContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -11,8 +11,7 @@
 	export let id: string | undefined = undefined;
 	export let disabled: boolean = false;
 
-	let initResult: InitResult;
-	const onInit = (result: InitResult) => (initResult = result);
+	let initResult: InitResult = new InitResult();
 	let checkedStore: Writable<boolean> = writable(false);
 	let { disabled: allDisabled, defaultValue, init }: { disabled: boolean; defaultValue: string; init: InitFunction<boolean> } = getContext('radio-group');
 
@@ -20,8 +19,8 @@
 </script>
 
 <button
-	use:init={{ store: checkedStore, value, onInit }}
-	on:click={initResult.toggleItem}
+	use:init={{ store: checkedStore, value, initResult }}
+	on:click={initResult?.toggleItem}
 	{id}
 	{disabled}
 	{value}

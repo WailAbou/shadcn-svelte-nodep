@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/helpers/utils';
+	import { cn, handleKeyboardInteraction } from '$lib/helpers/utils';
 	import type { InitProps } from '$lib/helpers/types';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -16,12 +16,9 @@
 	let radioButtons: HTMLButtonElement[] = [];
 	let focusedIndex = 0;
 
-	const toggleNext = () => toggle((focusedIndex + 1) % checkedStores.length);
-	const togglPrevious = () => toggle((focusedIndex - 1 + checkedStores.length) % checkedStores.length);
-
 	setContext('radio-group', { disabled, defaultValue, init });
 
-	function init(radioButton: Node, { store: checkedStore, value, onInit }: InitProps<boolean>) {
+	function init(radioButton: Node, { store: checkedStore, value, initResult }: InitProps<boolean>) {
 		checkedStores.push(checkedStore);
 		radioButtons.push(radioButton as HTMLButtonElement);
 
@@ -29,7 +26,7 @@
 		if (value === defaultValue) select(index, value);
 		const toggleItem = () => toggle(index);
 
-		onInit({ toggleItem, index });
+		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	}
 
 	function toggle(index: number) {
@@ -50,18 +47,9 @@
 		dispatch('valueChange', value);
 	}
 
-	function onNavigate(event: KeyboardEvent): void {
-		const { key } = event;
-		const next: boolean = key === 'ArrowRight' || key === 'ArrowDown';
-		const previous: boolean = key === 'ArrowLeft' || key === 'ArrowUp';
-
-		if (next || previous) {
-			event.preventDefault();
-			next ? toggleNext() : togglPrevious();
-		}
-	}
+	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, focusedIndex, max: checkedStores.length, focusNext: toggle, focusPrevious: toggle });
 </script>
 
-<div on:keydown={onNavigate} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class={cn('grid gap-2 outline-none', className)}>
+<div on:keydown={handleNavigation} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class={cn('grid gap-2 outline-none', className)}>
 	<slot />
 </div>

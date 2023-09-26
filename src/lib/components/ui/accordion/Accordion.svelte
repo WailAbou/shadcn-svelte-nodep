@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
+	import { cn, handleKeyboardInteraction, hasValue, removeValue } from '$lib/helpers/utils';
 	import type { InitProps } from '$lib/helpers/types';
 	import type { AccordionType } from '.';
 	import { createEventDispatcher, setContext } from 'svelte';
@@ -19,17 +19,12 @@
 	let accordionTriggers: HTMLButtonElement[] = [];
 	let focusedIndex = 0;
 
-	const focusNext = () => focus((focusedIndex + 1) % expandedStores.length);
-	const focusPrevious = () => focus((focusedIndex - 1 + expandedStores.length) % expandedStores.length);
-	const focusLast = () => focus(expandedStores.length - 1);
-	const focusFirst = () => focus(0);
-
 	setContext('accordion', { init, disabled });
 
 	$: isSingle = type === 'single';
 	$: value = isSingle ? '' : [];
 
-	function init(accordionTrigger: Node, { store: expandedStore, value, onInit }: InitProps<boolean>) {
+	function init(accordionTrigger: Node, { store: expandedStore, value, initResult }: InitProps<boolean>) {
 		expandedStores.push(expandedStore);
 		accordionTriggers.push(accordionTrigger as HTMLButtonElement);
 
@@ -37,7 +32,7 @@
 		if (hasValue(defaultValue, value)) select(index, value);
 		const toggleItem = () => toggle(index, value);
 
-		onInit({ toggleItem, index });
+		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	}
 
 	function toggle(index: number, value: string) {
@@ -64,24 +59,10 @@
 		dispatch('valueChange', value);
 	}
 
-	function onNavigate(event: KeyboardEvent): void {
-		const { key } = event;
-		const next: boolean = key === 'ArrowDown';
-		const previous: boolean = key === 'ArrowUp';
-		const last: boolean = key === 'End';
-		const first: boolean = key === 'Home';
-
-		if (next || previous || last || first) {
-			event.preventDefault();
-
-			if (next) focusNext();
-			else if (previous) focusPrevious();
-			else if (last) focusLast();
-			else if (first) focusFirst();
-		}
-	}
+	const handleNavigation = (event: KeyboardEvent) =>
+		handleKeyboardInteraction({ event, focusedIndex, max: expandedStores.length, focusNext: focus, focusPrevious: focus, focusFirst: focus, focusLast: focus, navDir: 'vertical' });
 </script>
 
-<div on:keydown={onNavigate} class={cn(className)}>
+<div on:keydown={handleNavigation} class={cn(className)}>
 	<slot />
 </div>
