@@ -58,5 +58,8 @@ export { default as SkeletonExampleCode } from './SkeletonExample.svelte?raw';
 export { default as SwitchExample } from './SwitchExample.svelte';
 export { default as SwitchExampleCode } from './SwitchExample.svelte?raw';
 
+export { default as TabsExample } from './TabsExample.svelte';
+export { default as TabsExampleCode } from './TabsExample.svelte?raw';
+
 export { default as TextareaExample } from './TextareaExample.svelte';
 export { default as TextareaExampleCode } from './TextareaExample.svelte?raw';

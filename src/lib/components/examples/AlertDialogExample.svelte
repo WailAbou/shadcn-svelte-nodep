@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Button } from '$components/ui/button';
 	import {
 		AlertDialog,

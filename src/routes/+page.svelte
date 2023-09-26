@@ -25,6 +25,7 @@
 		'Separator',
 		'Skeleton',
 		'Switch',
+		'Tabs',
 		'Textarea'
 	];
 

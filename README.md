@@ -38,6 +38,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Hover Card      | ❌     |
 | Input           | ✅     |
 | Label           | ✅     |
+| Link            | ✅     |
 | Menubar         | ❌     |
 | Navigation Menu | ❌     |
 | Popover         | ❌     |
@@ -51,7 +52,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Slider          | ❌     |
 | Switch          | ✅     |
 | Table           | ❌     |
-| Tabs            | ❌     |
+| Tabs            | ✅     |
 | Textarea        | ✅     |
 | Toast           | ❌     |
 | Toggle          | ❌     |
