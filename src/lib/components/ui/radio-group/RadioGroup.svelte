@@ -14,7 +14,7 @@
 	let value: string;
 	let checkedStores: Writable<boolean>[] = [];
 	let radioButtons: HTMLButtonElement[] = [];
-	let focusedIndex = 0;
+	let activeIndex = 0;
 
 	setContext('radio-group', { disabled, defaultValue, init });
 
@@ -36,7 +36,7 @@
 
 	function focus(index: number) {
 		radioButtons[index]?.focus();
-		focusedIndex = index;
+		activeIndex = index;
 	}
 
 	function select(index: number, newValue: string) {
@@ -47,7 +47,7 @@
 		dispatch('valueChange', value);
 	}
 
-	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, focusedIndex, max: checkedStores.length, focusNext: toggle, focusPrevious: toggle });
+	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkedStores.length, next: toggle, previous: toggle });
 </script>
 
 <div on:keydown={handleNavigation} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class={cn('grid gap-2 outline-none', className)}>

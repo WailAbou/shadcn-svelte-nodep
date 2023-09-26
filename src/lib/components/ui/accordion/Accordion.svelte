@@ -17,7 +17,7 @@
 	let value: undefined | string | string[];
 	let expandedStores: Writable<boolean>[] = [];
 	let accordionTriggers: HTMLButtonElement[] = [];
-	let focusedIndex = 0;
+	let activeIndex = 0;
 
 	setContext('accordion', { init, disabled });
 
@@ -42,7 +42,7 @@
 
 	function focus(index: number) {
 		accordionTriggers[index]?.focus();
-		focusedIndex = index;
+		activeIndex = index;
 	}
 
 	function select(index: number, newValue: string) {
@@ -60,7 +60,7 @@
 	}
 
 	const handleNavigation = (event: KeyboardEvent) =>
-		handleKeyboardInteraction({ event, focusedIndex, max: expandedStores.length, focusNext: focus, focusPrevious: focus, focusFirst: focus, focusLast: focus, navDir: 'vertical' });
+		handleKeyboardInteraction({ event, activeIndex, max: expandedStores.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
 </script>
 
 <div on:keydown={handleNavigation} class={cn(className)}>

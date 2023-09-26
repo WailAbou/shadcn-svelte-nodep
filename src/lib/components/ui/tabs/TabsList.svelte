@@ -7,8 +7,9 @@
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
+	export let loop: boolean = true;
 
-	let focusedIndex = 0;
+	let activeIndex = 0;
 	let activeStores: Writable<boolean>[] = [];
 	let tabsTriggers: HTMLButtonElement[] = [];
 	let { selectedValueStore, activationMode }: { selectedValueStore: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
@@ -21,19 +22,19 @@
 
 		let index = activeStores.length - 1;
 		if (hasValue($selectedValueStore, value)) select(index, value);
-		const toggleItem = () => toggle(index, value);
+		const toggleItem = () => toggle(index);
 
 		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	}
 
-	function toggle(index: number, value: string) {
+	function toggle(index: number) {
 		focus(index);
-		select(index, value);
+		select(index, tabsTriggers[index].value);
 	}
 
 	function focus(index: number) {
 		tabsTriggers[index]?.focus();
-		focusedIndex = index;
+		activeIndex = index;
 	}
 
 	function select(index: number, newValue: string) {
@@ -42,7 +43,10 @@
 		$selectedValueStore = newValue;
 	}
 
-	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, focusedIndex, max: activeStores.length, focusNext: focus, focusPrevious: focus, navDir: 'horizontal' });
+	const handleNavigation = (event: KeyboardEvent) => {
+		const selectMethod = activationMode == 'automatic' ? toggle : focus;
+		handleKeyboardInteraction({ event, activeIndex, max: activeStores.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
+	};
 </script>
 
 <div

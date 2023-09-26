@@ -23,44 +23,34 @@ const defaultNav = (_: number) => {};
 
 type KeyboardInteractionParams = {
 	event: KeyboardEvent;
-	focusedIndex: number;
+	activeIndex: number;
 	max: number;
-	focusNext: typeof defaultNav;
-	focusPrevious: typeof defaultNav;
-	focusLast?: typeof defaultNav;
-	focusFirst?: typeof defaultNav;
+	next: typeof defaultNav;
+	previous: typeof defaultNav;
+	last?: typeof defaultNav;
+	first?: typeof defaultNav;
 	navDir?: NavigationDirection;
 	loop?: boolean;
 };
 
-export function handleKeyboardInteraction({
-	event,
-	focusedIndex,
-	max,
-	focusNext,
-	focusPrevious,
-	focusLast = defaultNav,
-	focusFirst = defaultNav,
-	navDir = 'both',
-	loop = true
-}: KeyboardInteractionParams): void {
+export function handleKeyboardInteraction({ event, activeIndex, max, next, previous, last = defaultNav, first = defaultNav, navDir = 'both', loop = true }: KeyboardInteractionParams): void {
 	const { key } = event;
 
 	const nextDir = navDir == 'horizontal' ? 'Right' : 'Down';
 	const prevDir = navDir == 'horizontal' ? 'Left' : 'Up';
 
-	const next: boolean = navDir == 'both' ? key === 'ArrowRight' || key === 'ArrowDown' : key === `Arrow${nextDir}`;
-	const previous: boolean = navDir == 'both' ? key === 'ArrowLeft' || key === 'ArrowUp' : key === `Arrow${prevDir}`;
+	const nextPressed: boolean = navDir == 'both' ? key === 'ArrowRight' || key === 'ArrowDown' : key === `Arrow${nextDir}`;
+	const previousPressed: boolean = navDir == 'both' ? key === 'ArrowLeft' || key === 'ArrowUp' : key === `Arrow${prevDir}`;
 
-	const last: boolean = key === 'End';
-	const first: boolean = key === 'Home';
+	const lastPressed: boolean = key === 'End';
+	const firstPressed: boolean = key === 'Home';
 
-	if (next || previous || last || first) {
+	if (nextPressed || previousPressed || lastPressed || firstPressed) {
 		event.preventDefault();
 
-		if (next) focusNext?.((focusedIndex + 1) % max);
-		else if (previous) focusPrevious?.((focusedIndex - 1 + max) % max);
-		else if (last) focusLast?.(max - 1);
-		else if (first) focusFirst?.(0);
+		if (nextPressed) next?.(loop ? (activeIndex + 1) % max : Math.min(activeIndex + 1, max - 1));
+		else if (previousPressed) previous?.(loop ? (activeIndex - 1 + max) % max : Math.max(activeIndex - 1, 0));
+		else if (lastPressed) last?.(max - 1);
+		else if (firstPressed) first?.(0);
 	}
 }
