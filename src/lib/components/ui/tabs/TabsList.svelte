@@ -1,23 +1,23 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import { setContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { getContext, setContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	const focusNext = () => focus((focusedIndex + 1) % tabsTriggers.length);
-	const focusPrevious = () => focus((focusedIndex - 1 + tabsTriggers.length) % tabsTriggers.length);
+	const focusNext = () => focus((focusedIndex + 1) % $values.length);
+	const focusPrevious = () => focus((focusedIndex - 1 + $values.length) % $values.length);
 
 	let focusedIndex = 0;
-	let tabsTriggers: Writable<boolean>[] = [];
+	let values: Writable<string[]> = writable([]);
+	let selectedValueStore: Writable<string> = getContext('tabs');
 
-	setContext('tabs-list', tabsTriggers);
+	setContext('tabs-list', values);
 
 	function focus(index: number) {
 		focusedIndex = index;
-		tabsTriggers.forEach((trigger, i) => trigger.set(i == focusedIndex));
-		console.log(focusedIndex);
+		$selectedValueStore = $values[focusedIndex];
 	}
 
 	function onNavigate(event: KeyboardEvent): void {
