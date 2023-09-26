@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Textarea } from '$components/ui/textarea';
 	import { Button } from '$components/ui/button';
 	import { Label } from '$components/ui/label';
