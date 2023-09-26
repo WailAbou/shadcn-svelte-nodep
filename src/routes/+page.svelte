@@ -21,7 +21,9 @@
 		'Link',
 		'Progress',
 		'RadioGroup',
+		'ScrollArea',
 		'Separator',
+		'Skeleton',
 		'Switch',
 		'Textarea'
 	];
