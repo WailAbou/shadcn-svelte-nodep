@@ -55,7 +55,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Tabs            | ✅     |
 | Textarea        | ✅     |
 | Toast           | ❌     |
-| Toggle          | ❌     |
+| Toggle          | ✅     |
 | Tooltip         | ❌     |
 
 ## Usage

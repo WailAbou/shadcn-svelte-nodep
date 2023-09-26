@@ -26,7 +26,8 @@
 		'Skeleton',
 		'Switch',
 		'Tabs',
-		'Textarea'
+		'Textarea',
+		'Toggle'
 	];
 
 	const examples = names.map((name) => (ex as any)[`${name}Example`]);

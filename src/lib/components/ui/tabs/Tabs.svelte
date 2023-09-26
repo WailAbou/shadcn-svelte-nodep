@@ -7,9 +7,9 @@
 	export { className as class };
 	export let defaultValue: string;
 
-	let selectedValue: Writable<string> = writable(defaultValue);
+	let selectedValueStore: Writable<string> = writable(defaultValue);
 
-	setContext('tabs', selectedValue);
+	setContext('tabs', selectedValueStore);
 </script>
 
 <div dir="ltr" data-orientation="horizontal" class={cn(className)}>

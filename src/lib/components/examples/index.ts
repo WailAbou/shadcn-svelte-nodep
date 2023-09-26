@@ -63,3 +63,6 @@ export { default as TabsExampleCode } from './TabsExample.svelte?raw';
 
 export { default as TextareaExample } from './TextareaExample.svelte';
 export { default as TextareaExampleCode } from './TextareaExample.svelte?raw';
+
+export { default as ToggleExample } from './ToggleExample.svelte';
+export { default as ToggleExampleCode } from './ToggleExample.svelte?raw';
