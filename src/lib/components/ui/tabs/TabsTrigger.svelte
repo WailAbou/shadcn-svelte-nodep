@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InitResult, type InitFunction } from '$lib/helpers/types';
+	import { InitResult, type InitFunctionType } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -11,7 +11,7 @@
 
 	let initResult: InitResult = new InitResult();
 	let { selectedValueStore }: { selectedValueStore: Writable<string> } = getContext('tabs');
-	let init: InitFunction<boolean> = getContext('tabs-list');
+	let init: InitFunctionType = getContext('tabs-list');
 	let activeStore: Writable<boolean> = writable($selectedValueStore == value);
 </script>
 

@@ -3,14 +3,14 @@
 	import { cn } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
-	import { InitResult, type InitFunction } from '$lib/helpers/types';
+	import { InitResult, type InitFunctionType } from '$lib/helpers/types';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
 	let initResult: InitResult = new InitResult();
 	let { expandedStore, value }: { expandedStore: Writable<boolean>; value: string } = getContext('accordion-item');
-	let { init }: { init: InitFunction<boolean> } = getContext('accordion');
+	let { init }: { init: InitFunctionType } = getContext('accordion');
 </script>
 
 <h3 class="flex">

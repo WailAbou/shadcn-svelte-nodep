@@ -1,9 +1,9 @@
-import { writable, type Writable } from 'svelte/store';
-import type { InitProps, NavigationDirection } from './types';
+import type { Writable } from 'svelte/store';
+import type { InitFunctionType, InitProps, NavigationDirection } from './types';
 
-type interactType = (index: number, value: string) => void;
-
-const defaultNav = (index: number) => {};
+const defaultNav = (index: number) => {
+	index;
+};
 
 type KeyboardInteractionParams = {
 	event: KeyboardEvent;
@@ -39,21 +39,22 @@ export function handleKeyboardInteraction({ event, activeIndex, max, next, previ
 	}
 }
 
-export function createInit(defaultValue: string | string[] | undefined, select: interactType, toggle: interactType): [any, string[], Writable<boolean>[], HTMLButtonElement[]] {
+export function createInit(defaultValue: string | string[] | undefined, select: typeof defaultNav, toggle: typeof defaultNav): [InitFunctionType, string[], Writable<boolean>[], HTMLButtonElement[]] {
 	const values: string[] = [];
 	const stores: Writable<boolean>[] = [];
 	const triggers: HTMLButtonElement[] = [];
 
-	const init = (element: Node, { store, value, initResult }: InitProps<boolean>) => {
+	const init = (element: Node, { store, value, initResult }: InitProps) => {
 		values.push(value);
 		stores.push(store);
 		triggers.push(element as HTMLButtonElement);
 
 		const index = stores.length - 1;
-		if (value === defaultValue) select(index, value);
-		const toggleItem = () => toggle(index, value);
+		if (value === defaultValue) select(index);
+		const toggleItem = () => toggle(index);
 
 		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	};
+
 	return [init, values, stores, triggers];
 }

@@ -1,12 +1,12 @@
 import type { Writable } from 'svelte/store';
 
-export interface InitProps<T> {
-	store: Writable<T>;
+export interface InitProps {
+	store: Writable<boolean>;
 	value: string;
 	initResult: InitResult;
 }
 
-export type InitFunction<T> = (node: Node, { store, value, initResult }: InitProps<T>) => void;
+export type InitFunctionType = (node: Node, { store, value, initResult }: InitProps) => void;
 
 export class InitResult {
 	public toggleItem: VoidFunction = console.log;
