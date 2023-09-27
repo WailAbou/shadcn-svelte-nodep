@@ -1,4 +1,4 @@
-import type { Writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 import type { InitProps, NavigationDirection } from './types';
 
 type interactType = (index: number, value: string) => void;
@@ -39,12 +39,15 @@ export function handleKeyboardInteraction({ event, activeIndex, max, next, previ
 	}
 }
 
-export function createInit(stores: Writable<boolean>[], elements: HTMLButtonElement[], defaultValue: string | string[] | undefined, select: interactType, toggle: interactType): [any, string[]] {
+export function createInit(defaultValue: string | string[] | undefined, select: interactType, toggle: interactType): [any, string[], Writable<boolean>[], HTMLButtonElement[]] {
 	const values: string[] = [];
+	const stores: Writable<boolean>[] = [];
+	const triggers: HTMLButtonElement[] = [];
+
 	const init = (element: Node, { store, value, initResult }: InitProps<boolean>) => {
 		values.push(value);
 		stores.push(store);
-		elements.push(element as HTMLButtonElement);
+		triggers.push(element as HTMLButtonElement);
 
 		const index = stores.length - 1;
 		if (value === defaultValue) select(index, value);
@@ -52,5 +55,5 @@ export function createInit(stores: Writable<boolean>[], elements: HTMLButtonElem
 
 		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	};
-	return [init, values];
+	return [init, values, stores, triggers];
 }

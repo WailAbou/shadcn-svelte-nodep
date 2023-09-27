@@ -10,11 +10,9 @@
 	export let loop: boolean = true;
 
 	let activeIndex = 0;
-	let activeStores: Writable<boolean>[] = [];
-	let tabsTriggers: HTMLButtonElement[] = [];
 	let { selectedValueStore, activationMode }: { selectedValueStore: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 
-	const [init, values] = createInit(activeStores, tabsTriggers, undefined, select, toggle);
+	const [init, values, activeStores, tabsTriggers] = createInit(undefined, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) =>
 		handleKeyboardInteraction({ event, activeIndex, max: activeStores.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
 

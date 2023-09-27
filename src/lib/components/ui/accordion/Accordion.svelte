@@ -2,7 +2,6 @@
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
 	import type { AccordionType } from '.';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
@@ -15,11 +14,9 @@
 	export let type: AccordionType;
 
 	let value: undefined | string | string[];
-	let expandedStores: Writable<boolean>[] = [];
-	let accordionTriggers: HTMLButtonElement[] = [];
 	let activeIndex = 0;
 
-	const [init, values] = createInit(expandedStores, accordionTriggers, defaultValue, select, toggle);
+	const [init, values, expandedStores, accordionTriggers] = createInit(defaultValue, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) =>
 		handleKeyboardInteraction({ event, activeIndex, max: expandedStores.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
 

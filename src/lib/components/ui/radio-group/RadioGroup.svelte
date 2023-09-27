@@ -2,7 +2,6 @@
 	import { cn } from '$lib/helpers/utils';
 	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string }>();
 
@@ -12,11 +11,9 @@
 	export let disabled: boolean = false;
 
 	let value: string;
-	let checkedStores: Writable<boolean>[] = [];
-	let radioButtons: HTMLButtonElement[] = [];
 	let activeIndex = 0;
 
-	const [init, values] = createInit(checkedStores, radioButtons, defaultValue, select, toggle);
+	const [init, values, checkedStores, radioButtons] = createInit(defaultValue, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkedStores.length, next: toggle, previous: toggle });
 
 	setContext('radio-group', { disabled, defaultValue, init });
