@@ -24,7 +24,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Badge           | ✅     |
 | Button          | ✅     |
 | Calendar        | ❌     |
-| Card            | ❌     |
+| Card            | ✅     |
 | Checkbox        | ✅     |
 | Collapsible     | ✅     |
 | Combobox        | ❌     |
@@ -38,23 +38,24 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Hover Card      | ❌     |
 | Input           | ✅     |
 | Label           | ✅     |
+| Link            | ✅     |
 | Menubar         | ❌     |
 | Navigation Menu | ❌     |
 | Popover         | ❌     |
-| Progress        | ❌     |
+| Progress        | ✅     |
 | Radio Group     | ✅     |
-| Scroll Area     | ❌     |
+| Scroll Area     | ✅     |
 | Select          | ❌     |
 | Separator       | ✅     |
 | Sheet           | ❌     |
-| Skeleton        | ❌     |
+| Skeleton        | ✅     |
 | Slider          | ❌     |
 | Switch          | ✅     |
 | Table           | ❌     |
-| Tabs            | ❌     |
+| Tabs            | ✅     |
 | Textarea        | ✅     |
 | Toast           | ❌     |
-| Toggle          | ❌     |
+| Toggle          | ✅     |
 | Tooltip         | ❌     |
 
 ## Usage
