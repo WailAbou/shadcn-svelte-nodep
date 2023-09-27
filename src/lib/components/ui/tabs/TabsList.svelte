@@ -12,7 +12,7 @@
 	let activeIndex = 0;
 	let { selectedValueStore, activationMode }: { selectedValueStore: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 
-	const [init, values, activeStores, tabsTriggers] = createInit(undefined, select, toggle);
+	const [init, values, activeStores, tabsTriggers] = createInit($selectedValueStore, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) =>
 		handleKeyboardInteraction({ event, activeIndex, max: activeStores.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
 

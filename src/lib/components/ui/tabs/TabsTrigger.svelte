@@ -10,9 +10,8 @@
 	export let disabled: boolean = false;
 
 	let initResult: InitResult = new InitResult();
-	let { selectedValueStore }: { selectedValueStore: Writable<string> } = getContext('tabs');
+	let activeStore: Writable<boolean> = writable(false);
 	let init: InitFunctionType = getContext('tabs-list');
-	let activeStore: Writable<boolean> = writable($selectedValueStore == value);
 </script>
 
 <button
