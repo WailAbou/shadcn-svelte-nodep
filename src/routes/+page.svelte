@@ -12,16 +12,22 @@
 		'Avatar',
 		'Badge',
 		'Button',
+		'Card',
 		'Checkbox',
 		'Collapsible',
 		'Dialog',
 		'Input',
 		'Label',
 		'Link',
+		'Progress',
 		'RadioGroup',
+		'ScrollArea',
 		'Separator',
+		'Skeleton',
 		'Switch',
-		'Textarea'
+		'Tabs',
+		'Textarea',
+		'Toggle'
 	];
 
 	const examples = names.map((name) => (ex as any)[`${name}Example`]);

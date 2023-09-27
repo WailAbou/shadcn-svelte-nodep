@@ -14,7 +14,7 @@
 	let value: string;
 	let checkedStores: Writable<boolean>[] = [];
 	let radioButtons: HTMLButtonElement[] = [];
-	let focusedIndex = 0;
+	let activeIndex = 0;
 
 	const init = createInit(checkedStores, radioButtons, defaultValue, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkedStores.length, next: toggle, previous: toggle });
@@ -28,7 +28,7 @@
 
 	function focus(index: number) {
 		radioButtons[index]?.focus();
-		focusedIndex = index;
+		activeIndex = index;
 	}
 
 	function select(index: number, newValue: string) {

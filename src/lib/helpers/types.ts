@@ -9,8 +9,8 @@ export interface InitProps<T> {
 export type InitFunction<T> = (node: Node, { store, value, initResult }: InitProps<T>) => void;
 
 export class InitResult {
-	public toggleItem: VoidFunction;
-	public index: number;
+	public toggleItem: VoidFunction = console.log;
+	public index: number = 0;
 }
 
 export type NavigationDirection = 'vertical' | 'horizontal' | 'both';

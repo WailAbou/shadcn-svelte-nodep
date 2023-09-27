@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Link } from '$components/ui/link';
 	import { badgeVariants } from '$components/ui/badge';
 	import { buttonVariants } from '$components/ui/button';
