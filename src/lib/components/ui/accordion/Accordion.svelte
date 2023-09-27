@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
-	import type { AccordionType } from '.';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import type { AccordionType } from '.';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 
@@ -19,7 +19,7 @@
 	let accordionTriggers: HTMLButtonElement[] = [];
 	let activeIndex = 0;
 
-	const init = createInit(expandedStores, accordionTriggers, defaultValue, select, toggle);
+	const [init, values] = createInit(expandedStores, accordionTriggers, defaultValue, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) =>
 		handleKeyboardInteraction({ event, activeIndex, max: expandedStores.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
 
@@ -28,9 +28,9 @@
 	$: isSingle = type === 'single';
 	$: value = isSingle ? '' : [];
 
-	function toggle(index: number, value: string) {
+	function toggle(index: number) {
 		focus(index);
-		select(index, value);
+		select(index);
 	}
 
 	function focus(index: number) {
@@ -38,7 +38,9 @@
 		activeIndex = index;
 	}
 
-	function select(index: number, newValue: string) {
+	function select(index: number) {
+		const newValue = values[index];
+
 		expandedStores.forEach((store, i) => {
 			if (isSingle && i !== index) store.set(false);
 		});

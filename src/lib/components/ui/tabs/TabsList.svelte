@@ -14,7 +14,7 @@
 	let tabsTriggers: HTMLButtonElement[] = [];
 	let { selectedValueStore, activationMode }: { selectedValueStore: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 
-	const init = createInit(activeStores, tabsTriggers, undefined, select, toggle);
+	const [init, values] = createInit(activeStores, tabsTriggers, undefined, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) =>
 		handleKeyboardInteraction({ event, activeIndex, max: activeStores.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
 
@@ -24,7 +24,7 @@
 
 	function toggle(index: number) {
 		focus(index);
-		select(index, tabsTriggers[index].value);
+		select(index);
 	}
 
 	function focus(index: number) {
@@ -32,10 +32,10 @@
 		activeIndex = index;
 	}
 
-	function select(index: number, newValue: string) {
+	function select(index: number) {
 		activeStores.forEach((activeStore) => activeStore.set(false));
 		activeStores[index].set(true);
-		$selectedValueStore = newValue;
+		$selectedValueStore = values[index];
 	}
 </script>
 

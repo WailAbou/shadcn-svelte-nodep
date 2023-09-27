@@ -29,7 +29,6 @@
 		className
 	)}
 	{disabled}
-	{value}
 >
 	<slot />
 </button>

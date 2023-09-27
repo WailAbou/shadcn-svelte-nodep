@@ -16,14 +16,14 @@
 	let radioButtons: HTMLButtonElement[] = [];
 	let activeIndex = 0;
 
-	const init = createInit(checkedStores, radioButtons, defaultValue, select, toggle);
+	const [init, values] = createInit(checkedStores, radioButtons, defaultValue, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkedStores.length, next: toggle, previous: toggle });
 
 	setContext('radio-group', { disabled, defaultValue, init });
 
 	function toggle(index: number) {
 		focus(index);
-		select(index, radioButtons[index].value);
+		select(index);
 	}
 
 	function focus(index: number) {
@@ -31,11 +31,11 @@
 		activeIndex = index;
 	}
 
-	function select(index: number, newValue: string) {
+	function select(index: number) {
 		checkedStores.forEach((store) => store.set(false));
 		checkedStores[index].set(true);
 
-		value = newValue;
+		value = values[index];
 		dispatch('valueChange', value);
 	}
 </script>

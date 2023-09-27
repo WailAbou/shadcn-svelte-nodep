@@ -39,8 +39,10 @@ export function handleKeyboardInteraction({ event, activeIndex, max, next, previ
 	}
 }
 
-export function createInit(stores: Writable<boolean>[], elements: HTMLButtonElement[], defaultValue: string | string[] | undefined, select: interactType, toggle: interactType) {
-	return function init(element: Node, { store, value, initResult }: InitProps<boolean>) {
+export function createInit(stores: Writable<boolean>[], elements: HTMLButtonElement[], defaultValue: string | string[] | undefined, select: interactType, toggle: interactType): [any, string[]] {
+	const values: string[] = [];
+	const init = (element: Node, { store, value, initResult }: InitProps<boolean>) => {
+		values.push(value);
 		stores.push(store);
 		elements.push(element as HTMLButtonElement);
 
@@ -50,4 +52,5 @@ export function createInit(stores: Writable<boolean>[], elements: HTMLButtonElem
 
 		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	};
+	return [init, values];
 }
