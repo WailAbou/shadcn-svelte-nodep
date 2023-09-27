@@ -1,8 +1,7 @@
 <script lang="ts">
-	import { cn, handleKeyboardInteraction } from '$lib/helpers/utils';
-	import type { InitProps } from '$lib/helpers/types';
+	import { cn } from '$lib/helpers/utils';
+	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string }>();
 
@@ -12,26 +11,16 @@
 	export let disabled: boolean = false;
 
 	let value: string;
-	let checkedStores: Writable<boolean>[] = [];
-	let radioButtons: HTMLButtonElement[] = [];
 	let activeIndex = 0;
+
+	const [init, values, checkedStores, radioButtons] = createInit(defaultValue, select, toggle);
+	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkedStores.length, next: toggle, previous: toggle });
 
 	setContext('radio-group', { disabled, defaultValue, init });
 
-	function init(radioButton: Node, { store: checkedStore, value, initResult }: InitProps<boolean>) {
-		checkedStores.push(checkedStore);
-		radioButtons.push(radioButton as HTMLButtonElement);
-
-		let index = checkedStores.length - 1;
-		if (value === defaultValue) select(index, value);
-		const toggleItem = () => toggle(index);
-
-		[initResult.toggleItem, initResult.index] = [toggleItem, index];
-	}
-
 	function toggle(index: number) {
 		focus(index);
-		select(index, radioButtons[index].value);
+		select(index);
 	}
 
 	function focus(index: number) {
@@ -39,15 +28,13 @@
 		activeIndex = index;
 	}
 
-	function select(index: number, newValue: string) {
+	function select(index: number) {
 		checkedStores.forEach((store) => store.set(false));
 		checkedStores[index].set(true);
 
-		value = newValue;
+		value = values[index];
 		dispatch('valueChange', value);
 	}
-
-	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkedStores.length, next: toggle, previous: toggle });
 </script>
 
 <div on:keydown={handleNavigation} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class={cn('grid gap-2 outline-none', className)}>

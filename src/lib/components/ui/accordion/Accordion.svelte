@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { cn, handleKeyboardInteraction, hasValue, removeValue } from '$lib/helpers/utils';
-	import type { InitProps } from '$lib/helpers/types';
-	import type { AccordionType } from '.';
+	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
+	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import type { AccordionType } from '.';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 
@@ -15,29 +14,20 @@
 	export let type: AccordionType;
 
 	let value: undefined | string | string[];
-	let expandedStores: Writable<boolean>[] = [];
-	let accordionTriggers: HTMLButtonElement[] = [];
 	let activeIndex = 0;
+
+	const [init, values, expandedStores, accordionTriggers] = createInit(defaultValue, select, toggle);
+	const handleNavigation = (event: KeyboardEvent) =>
+		handleKeyboardInteraction({ event, activeIndex, max: expandedStores.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
 
 	setContext('accordion', { init, disabled });
 
 	$: isSingle = type === 'single';
 	$: value = isSingle ? '' : [];
 
-	function init(accordionTrigger: Node, { store: expandedStore, value, initResult }: InitProps<boolean>) {
-		expandedStores.push(expandedStore);
-		accordionTriggers.push(accordionTrigger as HTMLButtonElement);
-
-		let index = expandedStores.length - 1;
-		if (hasValue(defaultValue, value)) select(index, value);
-		const toggleItem = () => toggle(index, value);
-
-		[initResult.toggleItem, initResult.index] = [toggleItem, index];
-	}
-
-	function toggle(index: number, value: string) {
+	function toggle(index: number) {
 		focus(index);
-		select(index, value);
+		select(index);
 	}
 
 	function focus(index: number) {
@@ -45,7 +35,9 @@
 		activeIndex = index;
 	}
 
-	function select(index: number, newValue: string) {
+	function select(index: number) {
+		const newValue = values[index];
+
 		expandedStores.forEach((store, i) => {
 			if (isSingle && i !== index) store.set(false);
 		});
@@ -58,9 +50,6 @@
 
 		dispatch('valueChange', value);
 	}
-
-	const handleNavigation = (event: KeyboardEvent) =>
-		handleKeyboardInteraction({ event, activeIndex, max: expandedStores.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
 </script>
 
 <div on:keydown={handleNavigation} class={cn(className)}>
