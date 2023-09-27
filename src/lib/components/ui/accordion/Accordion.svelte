@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
-	import type { InitProps } from '$lib/helpers/types';
+	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
 	import type { AccordionType } from '.';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -17,28 +17,16 @@
 	let value: undefined | string | string[];
 	let expandedStores: Writable<boolean>[] = [];
 	let accordionTriggers: HTMLButtonElement[] = [];
-	let focusedIndex = 0;
+	let activeIndex = 0;
 
-	const focusNext = () => focus((focusedIndex + 1) % expandedStores.length);
-	const focusPrevious = () => focus((focusedIndex - 1 + expandedStores.length) % expandedStores.length);
-	const focusLast = () => focus(expandedStores.length - 1);
-	const focusFirst = () => focus(0);
+	const init = createInit(expandedStores, accordionTriggers, defaultValue, select, toggle);
+	const handleNavigation = (event: KeyboardEvent) =>
+		handleKeyboardInteraction({ event, activeIndex, max: expandedStores.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
 
 	setContext('accordion', { init, disabled });
 
 	$: isSingle = type === 'single';
 	$: value = isSingle ? '' : [];
-
-	function init(accordionTrigger: Node, { store: expandedStore, value, onInit }: InitProps<boolean>) {
-		expandedStores.push(expandedStore);
-		accordionTriggers.push(accordionTrigger as HTMLButtonElement);
-
-		let index = expandedStores.length - 1;
-		if (hasValue(defaultValue, value)) select(index, value);
-		const toggleItem = () => toggle(index, value);
-
-		onInit({ toggleItem, index });
-	}
 
 	function toggle(index: number, value: string) {
 		focus(index);
@@ -47,7 +35,7 @@
 
 	function focus(index: number) {
 		accordionTriggers[index]?.focus();
-		focusedIndex = index;
+		activeIndex = index;
 	}
 
 	function select(index: number, newValue: string) {
@@ -63,25 +51,8 @@
 
 		dispatch('valueChange', value);
 	}
-
-	function onNavigate(event: KeyboardEvent): void {
-		const { key } = event;
-		const next: boolean = key === 'ArrowDown';
-		const previous: boolean = key === 'ArrowUp';
-		const last: boolean = key === 'End';
-		const first: boolean = key === 'Home';
-
-		if (next || previous || last || first) {
-			event.preventDefault();
-
-			if (next) focusNext();
-			else if (previous) focusPrevious();
-			else if (last) focusLast();
-			else if (first) focusFirst();
-		}
-	}
 </script>
 
-<div on:keydown={onNavigate} class={cn(className)}>
+<div on:keydown={handleNavigation} class={cn(className)}>
 	<slot />
 </div>

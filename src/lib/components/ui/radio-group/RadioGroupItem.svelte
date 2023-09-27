@@ -12,7 +12,6 @@
 	export let disabled: boolean = false;
 
 	let initResult: InitResult;
-	const onInit = (result: InitResult) => (initResult = result);
 	let checkedStore: Writable<boolean> = writable(false);
 	let { disabled: allDisabled, defaultValue, init }: { disabled: boolean; defaultValue: string; init: InitFunction<boolean> } = getContext('radio-group');
 
@@ -20,7 +19,7 @@
 </script>
 
 <button
-	use:init={{ store: checkedStore, value, onInit }}
+	use:init={{ store: checkedStore, value, initResult }}
 	on:click={initResult.toggleItem}
 	{id}
 	{disabled}

@@ -3,9 +3,14 @@ import type { Writable } from 'svelte/store';
 export interface InitProps<T> {
 	store: Writable<T>;
 	value: string;
-	onInit: (result: InitResult) => void;
+	initResult: InitResult;
 }
 
-export type InitFunction<T> = (node: Node, { store, value, onInit }: InitProps<T>) => void;
+export type InitFunction<T> = (node: Node, { store, value, initResult }: InitProps<T>) => void;
 
-export type InitResult = { toggleItem: VoidFunction; index: number };
+export class InitResult {
+	public toggleItem: VoidFunction;
+	public index: number;
+}
+
+export type NavigationDirection = 'vertical' | 'horizontal' | 'both';
