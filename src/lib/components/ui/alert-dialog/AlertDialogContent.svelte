@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
+	import { createAnimationend } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
@@ -7,15 +8,10 @@
 	export { className as class };
 
 	let isOpenStore: Writable<boolean> = getContext('alert-dialog');
-	let finishedAnimation: boolean = true;
-	$: if ($isOpenStore) finishedAnimation = false;
-
-	function onAnimationend(event: AnimationEvent) {
-		if (event.animationName === 'exit') finishedAnimation = true;
-	}
+	let [finishedAnimation, onAnimationend] = createAnimationend(isOpenStore);
 </script>
 
-{#if $isOpenStore || !finishedAnimation}
+{#if $isOpenStore || !$finishedAnimation}
 	<div
 		data-state={$isOpenStore ? 'open' : 'closed'}
 		class="pointer-events-auto fixed inset-0 z-50 bg-background/80 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"

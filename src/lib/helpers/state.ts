@@ -1,4 +1,4 @@
-import type { Writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 import type { InitFunctionType, InitProps, NavigationDirection } from './types';
 
 const defaultNav = (index: number) => {
@@ -57,4 +57,18 @@ export function createInit(defaultValue: string | string[] | undefined, select: 
 	};
 
 	return [init, values, stores, triggers];
+}
+
+export function createAnimationend(state: Writable<boolean>): [Writable<boolean>, (event: AnimationEvent) => void] {
+	const finishedAnimation: Writable<boolean> = writable(true);
+
+	state.subscribe((newState) => {
+		if (newState) finishedAnimation.set(false);
+	});
+
+	const onAnimationend = (event: AnimationEvent) => {
+		if (event.animationName === 'exit') finishedAnimation.set(true);
+	};
+
+	return [finishedAnimation, onAnimationend];
 }
