@@ -2,11 +2,17 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let { tooltipTriggerStore, isHovering }: { tooltipTriggerStore: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('tooltip');
+	let hoveringTimer: number = 0;
+
+	let { tooltipTriggerStore, isHoveringStore }: { tooltipTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('tooltip');
+	let { delayDuration }: { delayDuration: number } = getContext('tooltip-provider');
+
+	function handleHover() {
+		clearTimeout(hoveringTimer);
+		hoveringTimer = setTimeout(() => ($isHoveringStore = true), delayDuration);
+	}
 </script>
 
-<svelte:window on:scroll={() => ($isHovering = false)} />
-
-<button bind:this={$tooltipTriggerStore} on:mouseenter={() => ($isHovering = true)} on:mouseleave={() => ($isHovering = false)}>
+<button bind:this={$tooltipTriggerStore} on:mouseenter={handleHover} on:mouseleave={() => ($isHoveringStore = false)}>
 	<slot />
 </button>

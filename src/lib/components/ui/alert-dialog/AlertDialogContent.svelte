@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import { createAnimationend } from '$lib/helpers/state';
+	import { createAnimationEnd } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
@@ -8,7 +8,7 @@
 	export { className as class };
 
 	let isOpenStore: Writable<boolean> = getContext('alert-dialog');
-	let [finishedAnimation, onAnimationend] = createAnimationend(isOpenStore);
+	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpenStore);
 </script>
 
 {#if $isOpenStore || !$finishedAnimation}
@@ -19,7 +19,7 @@
 		aria-hidden="true"
 	/>
 	<div
-		on:animationend={onAnimationend}
+		on:animationend={onAnimationEnd}
 		role="alertdialog"
 		data-state={$isOpenStore ? 'open' : 'closed'}
 		class={cn(

@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { createAnimationend } from '$lib/helpers/state';
+	import { createAnimationEnd, delayValue } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
 	let { x, y }: { x: number; y: number } = { x: 0, y: 0 };
 	let tooltipContent: HTMLDivElement;
 
-	let { tooltipTriggerStore, isHovering }: { tooltipTriggerStore: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('tooltip');
-	let [finishedAnimation, onAnimationend] = createAnimationend(isHovering);
+	let { tooltipTriggerStore, isHoveringStore }: { tooltipTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('tooltip');
+	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHoveringStore);
+	let delayedIsHovering = delayValue(isHoveringStore, false);
 
 	$: if ($tooltipTriggerStore && tooltipContent) {
 		x = $tooltipTriggerStore.getBoundingClientRect().x - $tooltipTriggerStore.getBoundingClientRect().width / 4;
@@ -15,13 +16,19 @@
 	}
 </script>
 
-{#if $isHovering || !$finishedAnimation}
-	<div bind:this={tooltipContent} style="transform: translate({x}px, {y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
+{#if $delayedIsHovering || !$finishedAnimation}
+	<div
+		bind:this={tooltipContent}
+		on:mouseenter={() => ($isHoveringStore = true)}
+		on:mouseleave={() => ($isHoveringStore = false)}
+		style="transform: translate({x}px, {y}px);"
+		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
+	>
 		<div
-			on:animationend={onAnimationend}
+			on:animationend={onAnimationEnd}
 			data-side="top"
 			data-align="center"
-			data-state={$isHovering ? 'delayed-open' : 'closed'}
+			data-state={$delayedIsHovering ? 'delayed-open' : 'closed'}
 			class="z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
 		>
 			<slot />
