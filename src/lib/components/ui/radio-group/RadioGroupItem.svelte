@@ -12,21 +12,21 @@
 	export let disabled: boolean = false;
 
 	let initResult: InitResult = new InitResult();
-	let checkedStore: Writable<boolean> = writable(false);
+	let checked: Writable<boolean> = writable(false);
 	let { disabled: allDisabled, defaultValue, init }: { disabled: boolean; defaultValue: string; init: InitFunctionType } = getContext('radio-group');
 
 	disabled = disabled || allDisabled;
 </script>
 
 <button
-	use:init={{ store: checkedStore, value, initResult }}
+	use:init={{ store: checked, value, initResult }}
 	on:click={initResult.toggleItem}
 	{id}
 	{disabled}
 	{value}
-	tabindex={$checkedStore || (initResult?.index == 0 && !defaultValue) ? 0 : -1}
-	aria-checked={$checkedStore}
-	data-state={$checkedStore ? 'checked' : 'unchecked'}
+	tabindex={$checked || (initResult?.index == 0 && !defaultValue) ? 0 : -1}
+	aria-checked={$checked}
+	data-state={$checked ? 'checked' : 'unchecked'}
 	type="button"
 	role="radio"
 	class={cn(
@@ -34,10 +34,10 @@
 		className
 	)}
 >
-	{#if $checkedStore}
+	{#if $checked}
 		<span data-state="checked" class="flex items-center justify-center">
 			<Circle class="h-2.5 w-2.5 fill-current text-current" />
 		</span>
 	{/if}
 </button>
-<input checked={$checkedStore} {disabled} {value} aria-hidden="true" tabindex="-1" type="radio" class="pointer-events-none absolute !m-0 h-4 w-4 opacity-0" />
+<input checked={$checked} {disabled} {value} aria-hidden="true" tabindex="-1" type="radio" class="pointer-events-none absolute !m-0 h-4 w-4 opacity-0" />

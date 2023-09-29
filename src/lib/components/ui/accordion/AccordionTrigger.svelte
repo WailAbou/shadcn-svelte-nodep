@@ -9,18 +9,18 @@
 	export { className as class };
 
 	let initResult: InitResult = new InitResult();
-	let { expandedStore, value }: { expandedStore: Writable<boolean>; value: string } = getContext('accordion-item');
+	let { expanded, value }: { expanded: Writable<boolean>; value: string } = getContext('accordion-item');
 	let { init }: { init: InitFunctionType } = getContext('accordion');
 </script>
 
 <h3 class="flex">
 	<button
-		use:init={{ store: expandedStore, value, initResult }}
+		use:init={{ store: expanded, value, initResult }}
 		on:click={initResult.toggleItem}
 		type="button"
 		class={cn('flex flex-1 items-center justify-between py-4 font-medium hover:underline', className)}
 	>
 		<slot />
-		<ChevronDown class="h-4 w-4 transition-transform {$expandedStore ? 'rotate-180' : ''}" />
+		<ChevronDown class="h-4 w-4 transition-transform {$expanded ? 'rotate-180' : ''}" />
 	</button>
 </h3>

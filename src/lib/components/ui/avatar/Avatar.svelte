@@ -3,9 +3,9 @@
 	import { writable, type Writable } from 'svelte/store';
 	import type { AvatarLoadingtatus } from '.';
 
-	let imageLoadingStatusStore: Writable<AvatarLoadingtatus> = writable('idle');
+	let imageLoadingStatus: Writable<AvatarLoadingtatus> = writable('idle');
 
-	setContext('avatar', imageLoadingStatusStore);
+	setContext('avatar', imageLoadingStatus);
 </script>
 
 <span class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">

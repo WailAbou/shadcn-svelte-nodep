@@ -8,19 +8,19 @@
 	export let src: string;
 	export let alt: undefined | string = undefined;
 
-	let imageLoadingStatusStore: Writable<AvatarLoadingtatus> = getContext('avatar');
+	let imageLoadingStatus: Writable<AvatarLoadingtatus> = getContext('avatar');
 
-	$: dispatch('loadingStatusChange', $imageLoadingStatusStore);
+	$: dispatch('loadingStatusChange', $imageLoadingStatus);
 
 	onMount(() => {
-		imageLoadingStatusStore.set('loading');
+		imageLoadingStatus.set('loading');
 		const img = new Image();
 		img.src = src;
-		img.onload = () => imageLoadingStatusStore.set('loaded');
-		img.onerror = () => imageLoadingStatusStore.set('error');
+		img.onload = () => imageLoadingStatus.set('loaded');
+		img.onerror = () => imageLoadingStatus.set('error');
 	});
 </script>
 
-{#if $imageLoadingStatusStore === 'loaded'}
+{#if $imageLoadingStatus === 'loaded'}
 	<img {src} {alt} class="aspect-square h-full w-full" />
 {/if}

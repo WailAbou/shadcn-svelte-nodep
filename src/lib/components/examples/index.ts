@@ -31,6 +31,9 @@ export { default as CollapsibleExampleCode } from './CollapsibleExample.svelte?r
 export { default as DialogExample } from './DialogExample.svelte';
 export { default as DialogExampleCode } from './DialogExample.svelte?raw';
 
+export { default as HoverCardExample } from './HoverCardExample.svelte';
+export { default as HoverCardExampleCode } from './HoverCardExample.svelte?raw';
+
 export { default as InputExample } from './InputExample.svelte';
 export { default as InputExampleCode } from './InputExample.svelte?raw';
 
@@ -66,3 +69,6 @@ export { default as TextareaExampleCode } from './TextareaExample.svelte?raw';
 
 export { default as ToggleExample } from './ToggleExample.svelte';
 export { default as ToggleExampleCode } from './ToggleExample.svelte?raw';
+
+export { default as TooltipExample } from './TooltipExample.svelte';
+export { default as TooltipExampleCode } from './TooltipExample.svelte?raw';

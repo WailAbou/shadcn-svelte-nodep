@@ -11,11 +11,11 @@
 	export let defaultOpen: boolean = false;
 	export let disabled: boolean = false;
 
-	let openStore: Writable<boolean> = writable(defaultOpen);
+	let open: Writable<boolean> = writable(defaultOpen);
 
-	setContext('collapsible', { openStore, disabled });
+	setContext('collapsible', { open, disabled });
 
-	$: dispatch('openChange', $openStore);
+	$: dispatch('openChange', $open);
 </script>
 
 <div class={cn(className)}>

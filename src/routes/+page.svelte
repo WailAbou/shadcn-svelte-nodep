@@ -16,6 +16,7 @@
 		'Checkbox',
 		'Collapsible',
 		'Dialog',
+		'HoverCard',
 		'Input',
 		'Label',
 		'Link',
@@ -27,7 +28,8 @@
 		'Switch',
 		'Tabs',
 		'Textarea',
-		'Toggle'
+		'Toggle',
+		'Tooltip'
 	];
 
 	const examples = names.map((name) => (ex as any)[`${name}Example`]);

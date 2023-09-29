@@ -7,10 +7,10 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { expandedStore }: { expandedStore: Writable<boolean> } = getContext('accordion-item');
+	let { expanded }: { expanded: Writable<boolean> } = getContext('accordion-item');
 </script>
 
-{#if $expandedStore}
+{#if $expanded}
 	<div class={cn('overflow-hidden text-sm', className)} transition:slide>
 		<div class="pb-4 pt-0">
 			<slot />

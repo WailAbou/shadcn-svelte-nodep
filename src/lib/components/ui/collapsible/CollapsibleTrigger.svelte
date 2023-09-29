@@ -6,9 +6,9 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { openStore, disabled }: { openStore: Writable<boolean>; disabled: boolean } = getContext('collapsible');
+	let { open, disabled }: { open: Writable<boolean>; disabled: boolean } = getContext('collapsible');
 </script>
 
-<button {disabled} class={cn('disabled:pointer-events-none disabled:opacity-50', className)} aria-expanded={$openStore} on:click={() => ($openStore = !$openStore)}>
+<button {disabled} class={cn('disabled:pointer-events-none disabled:opacity-50', className)} aria-expanded={$open} on:click={() => ($open = !$open)}>
 	<slot />
 </button>

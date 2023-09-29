@@ -10,11 +10,10 @@
 	export let loop: boolean = true;
 
 	let activeIndex = 0;
-	let { selectedValueStore, activationMode }: { selectedValueStore: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
+	let { selectedValue, activationMode }: { selectedValue: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 
-	const [init, values, activeStores, tabsTriggers] = createInit($selectedValueStore, select, toggle);
-	const handleNavigation = (event: KeyboardEvent) =>
-		handleKeyboardInteraction({ event, activeIndex, max: activeStores.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
+	const [init, values, actives, tabsTriggers] = createInit($selectedValue, select, toggle);
+	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: actives.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
 
 	setContext('tabs-list', init);
 
@@ -31,9 +30,9 @@
 	}
 
 	function select(index: number) {
-		activeStores.forEach((activeStore) => activeStore.set(false));
-		activeStores[index].set(true);
-		$selectedValueStore = values[index];
+		actives.forEach((active) => active.set(false));
+		actives[index].set(true);
+		$selectedValue = values[index];
 	}
 </script>
 

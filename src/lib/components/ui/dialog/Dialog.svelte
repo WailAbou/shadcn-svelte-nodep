@@ -8,19 +8,19 @@
 	export let open: boolean = false;
 
 	if (defaultOpen) open = true;
-	let isOpenStore: Writable<boolean> = writable(open);
+	let isOpen: Writable<boolean> = writable(open);
 
-	$: $isOpenStore = open;
-	$: dispatch('openChange', $isOpenStore);
+	$: $isOpen = open;
+	$: dispatch('openChange', $isOpen);
 
-	setContext('alert-dialog', isOpenStore);
+	setContext('alert-dialog', isOpen);
 
 	function onWheel(event: WheelEvent): void {
-		if ($isOpenStore) event.preventDefault();
+		if ($isOpen) event.preventDefault();
 	}
 
 	function onKeydown({ key }: KeyboardEvent): void {
-		if (key === 'Escape') $isOpenStore = false;
+		if (key === 'Escape') $isOpen = false;
 	}
 </script>
 

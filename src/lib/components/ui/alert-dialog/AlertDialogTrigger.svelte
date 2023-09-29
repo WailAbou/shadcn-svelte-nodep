@@ -6,9 +6,9 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let isOpenStore: Writable<boolean> = getContext('alert-dialog');
+	let isOpen: Writable<boolean> = getContext('alert-dialog');
 </script>
 
-<button type="button" class={cn('flex flex-1 items-center justify-between py-4 font-medium hover:underline', className)} on:click={() => ($isOpenStore = !$isOpenStore)}>
+<button type="button" class={cn('flex flex-1 items-center justify-between py-4 font-medium hover:underline', className)} on:click={() => ($isOpen = !$isOpen)}>
 	<slot />
 </button>

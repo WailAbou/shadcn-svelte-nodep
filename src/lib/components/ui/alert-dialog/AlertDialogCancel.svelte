@@ -3,9 +3,9 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let isOpenStore: Writable<boolean> = getContext('alert-dialog');
+	let isOpen: Writable<boolean> = getContext('alert-dialog');
 </script>
 
-<Button variant="outline" on:click={() => ($isOpenStore = !$isOpenStore)}>
+<Button variant="outline" on:click={() => ($isOpen = !$isOpen)}>
 	<slot />
 </Button>
