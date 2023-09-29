@@ -1,4 +1,4 @@
-import { get, writable, type Writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 import type { InitFunctionType, InitProps, NavigationDirection } from './types';
 
 const defaultNav = (index: number) => {
@@ -71,13 +71,4 @@ export function createAnimationEnd(state: Writable<boolean>): [Writable<boolean>
 	};
 
 	return [finishedAnimation, onAnimationEnd];
-}
-
-export function delayValue<T>(target: Writable<T>, valueToDelay: T, delay: number = 100): Writable<T> {
-	const delayedTarget: Writable<T> = writable(get(target));
-	target.subscribe((value) => {
-		if (value == valueToDelay) setTimeout(() => delayedTarget.set(get(target)), delay);
-		else delayedTarget.set(value);
-	});
-	return delayedTarget;
 }

@@ -1,19 +1,22 @@
 <script lang="ts">
-	import { createAnimationEnd, delayValue } from '$lib/helpers/state';
+	import { createAnimationEnd } from '$lib/helpers/state';
+	import type { Align, Side } from '$lib/helpers/types';
+	import { delayValue, getPosition } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let { x, y }: { x: number; y: number } = { x: 0, y: 0 };
-	let tooltipContent: HTMLDivElement;
+	export let side: Side = 'top';
+	export let align: Align = 'center';
+	export let sideOffset: number = 0;
+	export let alignOffset: number = 0;
 
 	let { tooltipTriggerStore, isHoveringStore }: { tooltipTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('tooltip');
+
+	let tooltipContent: HTMLDivElement;
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHoveringStore);
 	let delayedIsHovering = delayValue(isHoveringStore, false);
 
-	$: if ($tooltipTriggerStore && tooltipContent) {
-		x = $tooltipTriggerStore.getBoundingClientRect().x - $tooltipTriggerStore.getBoundingClientRect().width / 4;
-		y = $tooltipTriggerStore.getBoundingClientRect().y - tooltipContent.getBoundingClientRect().height - 5;
-	}
+	$: position = getPosition($tooltipTriggerStore, tooltipContent, side, align, sideOffset, alignOffset);
 </script>
 
 {#if $delayedIsHovering || !$finishedAnimation}
@@ -21,7 +24,7 @@
 		bind:this={tooltipContent}
 		on:mouseenter={() => ($isHoveringStore = true)}
 		on:mouseleave={() => ($isHoveringStore = false)}
-		style="transform: translate({x}px, {y}px);"
+		style="transform: translate({position?.x}px, {position?.y}px);"
 		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
 	>
 		<div

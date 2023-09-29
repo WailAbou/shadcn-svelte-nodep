@@ -1,31 +1,30 @@
 <script lang="ts">
-	import { cn } from '$lib/helpers/utils';
-	import { createAnimationEnd, delayValue } from '$lib/helpers/state';
+	import { cn, delayValue, getPosition } from '$lib/helpers/utils';
+	import { createAnimationEnd } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import type { Align, Side } from '$lib/helpers/types';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
-
-	let { x, y }: { x: number; y: number } = { x: 0, y: 0 };
-	let hoverCardContent: HTMLDivElement;
+	export let side: Side = 'bottom';
+	export let align: Align = 'center';
+	export let sideOffset: number = 0;
+	export let alignOffset: number = 0;
 
 	let { hoverCardTriggerStore, isHoveringStore }: { hoverCardTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('hovercard');
+
+	let hoverCardContent: HTMLDivElement;
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHoveringStore);
 	let delayedIsHovering = delayValue(isHoveringStore, false);
 
-	$: if ($hoverCardTriggerStore && hoverCardContent) calculatePosition();
-
-	function calculatePosition() {
-		x = $hoverCardTriggerStore.getBoundingClientRect().x - hoverCardContent.getBoundingClientRect().width / 2 + $hoverCardTriggerStore.getBoundingClientRect().width / 2;
-		y = $hoverCardTriggerStore.getBoundingClientRect().y + 40;
-	}
+	$: position = getPosition($hoverCardTriggerStore, hoverCardContent, side, align, sideOffset, alignOffset);
 </script>
 
-<svelte:window on:scroll={calculatePosition} />
+<svelte:window on:scroll={() => (position = getPosition($hoverCardTriggerStore, hoverCardContent, side, align, sideOffset, alignOffset))} />
 
 {#if $delayedIsHovering || !$finishedAnimation}
-	<div bind:this={hoverCardContent} style="transform: translate({x}px, {y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
+	<div bind:this={hoverCardContent} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
 		<div
 			on:animationend={onAnimationEnd}
 			data-side="bottom"

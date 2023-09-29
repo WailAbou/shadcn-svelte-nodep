@@ -14,3 +14,9 @@ export class InitResult {
 }
 
 export type NavigationDirection = 'vertical' | 'horizontal' | 'both';
+
+export type Position = { x: number; y: number };
+
+export type Side = 'top' | 'right' | 'bottom' | 'left';
+
+export type Align = 'start' | 'center' | 'end';
