@@ -17,17 +17,17 @@ type KeyboardInteractionParams = {
 	loop?: boolean;
 };
 
-export function handleKeyboardInteraction({ event, activeIndex, max, next, previous, last = defaultNav, first = defaultNav, navDir = 'both', loop = true }: KeyboardInteractionParams): void {
-	const { key } = event;
+export function createKeyboardNavigation({ event, activeIndex, max, next, previous, last = defaultNav, first = defaultNav, navDir = 'both', loop = true }: KeyboardInteractionParams): void {
+	const { code } = event;
 
 	const nextDir = navDir == 'horizontal' ? 'Right' : 'Down';
 	const prevDir = navDir == 'horizontal' ? 'Left' : 'Up';
 
-	const nextPressed: boolean = navDir == 'both' ? key === 'ArrowRight' || key === 'ArrowDown' : key === `Arrow${nextDir}`;
-	const previousPressed: boolean = navDir == 'both' ? key === 'ArrowLeft' || key === 'ArrowUp' : key === `Arrow${prevDir}`;
+	const nextPressed: boolean = navDir == 'both' ? code === 'ArrowRight' || code === 'ArrowDown' : code === `Arrow${nextDir}`;
+	const previousPressed: boolean = navDir == 'both' ? code === 'ArrowLeft' || code === 'ArrowUp' : code === `Arrow${prevDir}`;
 
-	const lastPressed: boolean = key === 'End';
-	const firstPressed: boolean = key === 'Home';
+	const lastPressed: boolean = code === 'End';
+	const firstPressed: boolean = code === 'Home';
 
 	if (nextPressed || previousPressed || lastPressed || firstPressed) {
 		event.preventDefault();

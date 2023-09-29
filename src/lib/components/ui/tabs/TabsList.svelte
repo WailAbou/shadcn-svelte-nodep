@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
+	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
 	import { getContext, setContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { TabsActivationMode } from '.';
@@ -13,7 +13,7 @@
 	let { selectedValue, activationMode }: { selectedValue: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 
 	const [init, values, actives, tabsTriggers] = createInit($selectedValue, select, toggle);
-	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: actives.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
+	const onKeyDown = (event: KeyboardEvent) => createKeyboardNavigation({ event, activeIndex, max: actives.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
 
 	setContext('tabs-list', init);
 
@@ -37,7 +37,7 @@
 </script>
 
 <div
-	on:keydown={handleNavigation}
+	on:keydown={onKeyDown}
 	role="tablist"
 	aria-orientation="horizontal"
 	tabindex="0"

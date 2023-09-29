@@ -26,6 +26,8 @@
 {#if $delayedIsHovering || !$finishedAnimation}
 	<div bind:this={hoverCardContent} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
 		<div
+			role="dialog"
+			tabindex="-1"
 			on:animationend={onAnimationEnd}
 			data-side={side}
 			data-align={align}
