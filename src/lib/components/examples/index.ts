@@ -31,6 +31,9 @@ export { default as CollapsibleExampleCode } from './CollapsibleExample.svelte?r
 export { default as DialogExample } from './DialogExample.svelte';
 export { default as DialogExampleCode } from './DialogExample.svelte?raw';
 
+export { default as HoverCardExample } from './HoverCardExample.svelte';
+export { default as HoverCardExampleCode } from './HoverCardExample.svelte?raw';
+
 export { default as InputExample } from './InputExample.svelte';
 export { default as InputExampleCode } from './InputExample.svelte?raw';
 

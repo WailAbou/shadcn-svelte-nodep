@@ -16,7 +16,7 @@
 	{href}
 	{target}
 	{...$$restProps}
-	class={cn('font-semibold text-primary underline-offset-2 visited:text-primary/50 hover:text-primary/50 hover:underline', className)}
+	class={cn('font-semibold text-primary underline-offset-2 visited:text-primary/50 hover:cursor-pointer hover:text-primary/50 hover:underline', className)}
 	on:click
 	on:change
 	on:keydown

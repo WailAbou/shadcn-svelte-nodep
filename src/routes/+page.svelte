@@ -16,6 +16,7 @@
 		'Checkbox',
 		'Collapsible',
 		'Dialog',
+		'HoverCard',
 		'Input',
 		'Label',
 		'Link',

@@ -35,7 +35,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Dialog          | ✅     |
 | Dropdown Menu   | ❌     |
 | Form            | ❌     |
-| Hover Card      | ❌     |
+| Hover Card      | ✅     |
 | Input           | ✅     |
 | Label           | ✅     |
 | Link            | ✅     |
