@@ -7,10 +7,10 @@
 	export { className as class };
 	export let value: string;
 
-	let { selectedValueStore }: { selectedValueStore: Writable<string> } = getContext('tabs');
+	let { selectedValue }: { selectedValue: Writable<string> } = getContext('tabs');
 </script>
 
-{#if value === $selectedValueStore}
+{#if value === $selectedValue}
 	<div
 		data-state="active"
 		data-orientation="horizontal"

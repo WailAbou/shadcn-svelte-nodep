@@ -4,15 +4,15 @@
 
 	let hoveringTimer: number = 0;
 
-	let { tooltipTriggerStore, isHoveringStore }: { tooltipTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('tooltip');
+	let { tooltipTrigger, isHovering }: { tooltipTrigger: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('tooltip');
 	let { delayDuration }: { delayDuration: number } = getContext('tooltip-provider');
 
 	function handleHover() {
 		clearTimeout(hoveringTimer);
-		hoveringTimer = setTimeout(() => ($isHoveringStore = true), delayDuration);
+		hoveringTimer = setTimeout(() => ($isHovering = true), delayDuration);
 	}
 </script>
 
-<button bind:this={$tooltipTriggerStore} on:mouseenter={handleHover} on:mouseleave={() => ($isHoveringStore = false)}>
+<button bind:this={$tooltipTrigger} on:mouseenter={handleHover} on:mouseleave={() => ($isHovering = false)}>
 	<slot />
 </button>

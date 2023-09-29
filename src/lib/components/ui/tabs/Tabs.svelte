@@ -9,9 +9,9 @@
 	export let defaultValue: string;
 	export let activationMode: TabsActivationMode = 'automatic';
 
-	let selectedValueStore: Writable<string> = writable(defaultValue);
+	let selectedValue: Writable<string> = writable(defaultValue);
 
-	setContext('tabs', { selectedValueStore, activationMode });
+	setContext('tabs', { selectedValue, activationMode });
 </script>
 
 <div dir="ltr" data-orientation="horizontal" class={cn(className)}>

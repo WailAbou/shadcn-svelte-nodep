@@ -13,8 +13,8 @@
 	let value: string;
 	let activeIndex = 0;
 
-	const [init, values, checkedStores, radioButtons] = createInit(defaultValue, select, toggle);
-	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkedStores.length, next: toggle, previous: toggle });
+	const [init, values, checkeds, radioButtons] = createInit(defaultValue, select, toggle);
+	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkeds.length, next: toggle, previous: toggle });
 
 	setContext('radio-group', { disabled, defaultValue, init });
 
@@ -29,8 +29,8 @@
 	}
 
 	function select(index: number) {
-		checkedStores.forEach((store) => store.set(false));
-		checkedStores[index].set(true);
+		checkeds.forEach((store) => store.set(false));
+		checkeds[index].set(true);
 
 		value = values[index];
 		dispatch('valueChange', value);

@@ -2,9 +2,9 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let { hoverCardTriggerStore, isHoveringStore }: { hoverCardTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('hovercard');
+	let { hoverCardTrigger, isHovering }: { hoverCardTrigger: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('hovercard');
 </script>
 
-<button bind:this={$hoverCardTriggerStore} on:mouseenter={() => ($isHoveringStore = true)} on:mouseleave={() => ($isHoveringStore = false)}>
+<button bind:this={$hoverCardTrigger} on:mouseenter={() => ($isHovering = true)} on:mouseleave={() => ($isHovering = false)}>
 	<slot />
 </button>

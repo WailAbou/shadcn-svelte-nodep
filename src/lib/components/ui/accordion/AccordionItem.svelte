@@ -8,11 +8,11 @@
 	export let value: string;
 	export let disabled: boolean = false;
 
-	let expandedStore: Writable<boolean> = writable(false);
+	let expanded: Writable<boolean> = writable(false);
 	let { disabled: allDisabled }: { disabled: boolean } = getContext('accordion');
 	disabled = disabled || allDisabled;
 
-	setContext('accordion-item', { expandedStore, value });
+	setContext('accordion-item', { expanded, value });
 </script>
 
 <div aria-disabled={disabled} class={cn('border-b aria-disabled:pointer-events-none aria-disabled:opacity-50', className)}>

@@ -10,20 +10,20 @@
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { tooltipTriggerStore, isHoveringStore }: { tooltipTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('tooltip');
+	let { tooltipTrigger, isHovering }: { tooltipTrigger: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('tooltip');
 
 	let tooltipContent: HTMLDivElement;
-	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHoveringStore);
-	let delayedIsHovering = delayValue(isHoveringStore, false);
+	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHovering);
+	let delayedIsHovering = delayValue(isHovering, false);
 
-	$: position = getPosition($tooltipTriggerStore, tooltipContent, side, align, sideOffset, alignOffset);
+	$: position = getPosition($tooltipTrigger, tooltipContent, side, align, sideOffset, alignOffset);
 </script>
 
 {#if $delayedIsHovering || !$finishedAnimation}
 	<div
 		bind:this={tooltipContent}
-		on:mouseenter={() => ($isHoveringStore = true)}
-		on:mouseleave={() => ($isHoveringStore = false)}
+		on:mouseenter={() => ($isHovering = true)}
+		on:mouseleave={() => ($isHovering = false)}
 		style="transform: translate({position?.x}px, {position?.y}px);"
 		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
 	>

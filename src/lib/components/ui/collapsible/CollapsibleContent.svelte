@@ -6,9 +6,9 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { openStore }: { openStore: Writable<boolean> } = getContext('collapsible');
+	let { open }: { open: Writable<boolean> } = getContext('collapsible');
 </script>
 
-<div hidden={!$openStore} class={cn(className)}>
+<div hidden={!$open} class={cn(className)}>
 	<slot />
 </div>

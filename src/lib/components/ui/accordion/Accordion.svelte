@@ -16,9 +16,9 @@
 	let value: undefined | string | string[];
 	let activeIndex = 0;
 
-	const [init, values, expandedStores, accordionTriggers] = createInit(defaultValue, select, toggle);
+	const [init, values, expandeds, accordionTriggers] = createInit(defaultValue, select, toggle);
 	const handleNavigation = (event: KeyboardEvent) =>
-		handleKeyboardInteraction({ event, activeIndex, max: expandedStores.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
+		handleKeyboardInteraction({ event, activeIndex, max: expandeds.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
 
 	setContext('accordion', { init, disabled });
 
@@ -38,10 +38,10 @@
 	function select(index: number) {
 		const newValue = values[index];
 
-		expandedStores.forEach((store, i) => {
+		expandeds.forEach((store, i) => {
 			if (isSingle && i !== index) store.set(false);
 		});
-		expandedStores[index].update((expanded) => (collapsible ? !expanded : true));
+		expandeds[index].update((expanded) => (collapsible ? !expanded : true));
 
 		if (Array.isArray(value)) {
 			if (!hasValue(value, newValue)) value.push(newValue);

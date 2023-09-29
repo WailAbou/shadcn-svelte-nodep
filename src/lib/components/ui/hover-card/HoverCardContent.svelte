@@ -12,16 +12,16 @@
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { hoverCardTriggerStore, isHoveringStore }: { hoverCardTriggerStore: Writable<HTMLElement>; isHoveringStore: Writable<boolean> } = getContext('hovercard');
+	let { hoverCardTrigger, isHovering }: { hoverCardTrigger: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('hovercard');
 
 	let hoverCardContent: HTMLDivElement;
-	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHoveringStore);
-	let delayedIsHovering = delayValue(isHoveringStore, false);
+	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHovering);
+	let delayedIsHovering = delayValue(isHovering, false);
 
-	$: position = getPosition($hoverCardTriggerStore, hoverCardContent, side, align, sideOffset, alignOffset);
+	$: position = getPosition($hoverCardTrigger, hoverCardContent, side, align, sideOffset, alignOffset);
 </script>
 
-<svelte:window on:scroll={() => (position = getPosition($hoverCardTriggerStore, hoverCardContent, side, align, sideOffset, alignOffset))} />
+<svelte:window on:scroll={() => (position = getPosition($hoverCardTrigger, hoverCardContent, side, align, sideOffset, alignOffset))} />
 
 {#if $delayedIsHovering || !$finishedAnimation}
 	<div bind:this={hoverCardContent} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
