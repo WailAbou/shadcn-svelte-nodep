@@ -10,20 +10,20 @@
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { tooltipTrigger, isHovering }: { tooltipTrigger: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('tooltip');
+	let { tooltipTrigger, isOpen }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('tooltip');
 
 	let tooltipContent: HTMLDivElement;
-	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isHovering);
-	let delayedIsHovering = delayValue(isHovering, false);
+	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
+	let delayedIsOpen = delayValue(isOpen, false);
 
 	$: position = getPosition($tooltipTrigger, tooltipContent, side, align, sideOffset, alignOffset);
 </script>
 
-{#if $delayedIsHovering || !$finishedAnimation}
+{#if $delayedIsOpen || !$finishedAnimation}
 	<div
 		bind:this={tooltipContent}
-		on:mouseenter={() => ($isHovering = true)}
-		on:mouseleave={() => ($isHovering = false)}
+		on:mouseenter={() => ($isOpen = true)}
+		on:mouseleave={() => ($isOpen = false)}
 		style="transform: translate({position?.x}px, {position?.y}px);"
 		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
 	>
@@ -31,7 +31,7 @@
 			on:animationend={onAnimationEnd}
 			data-side={side}
 			data-align={align}
-			data-state={$delayedIsHovering ? 'delayed-open' : 'closed'}
+			data-state={$delayedIsOpen ? 'delayed-open' : 'closed'}
 			class="z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
 		>
 			<slot />

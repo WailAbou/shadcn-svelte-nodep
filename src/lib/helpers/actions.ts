@@ -1,13 +1,18 @@
-export function clickOutside(node: Node, callbackFunction: VoidFunction) {
+export function clickOutside(node: Node, { callback, except }: { callback: VoidFunction; except?: HTMLElement }) {
 	const onClick = (event: MouseEvent) => {
-		if (!node.contains(event.target as Node)) callbackFunction();
+		const target = event.target as Node;
+
+		if (!node.contains(target) && (!except || !except.contains(target))) {
+			callback();
+		}
 	};
 
 	document.body.addEventListener('click', onClick);
 
 	return {
-		update(newCallbackFunction: VoidFunction) {
-			callbackFunction = newCallbackFunction;
+		update(newCallback: VoidFunction, newExcept?: HTMLElement) {
+			callback = newCallback;
+			except = newExcept;
 		},
 		destroy() {
 			document.body.removeEventListener('click', onClick);

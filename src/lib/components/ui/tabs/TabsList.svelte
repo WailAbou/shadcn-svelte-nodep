@@ -13,7 +13,7 @@
 	let { selectedValue, activationMode }: { selectedValue: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 
 	const [init, values, actives, tabsTriggers] = createInit($selectedValue, select, toggle);
-	const onKeyDown = (event: KeyboardEvent) => createKeyboardNavigation({ event, activeIndex, max: actives.length, next: selectMethod, previous: selectMethod, navDir: 'horizontal', loop });
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, activeIndex, actives.length, 'horizontal', false, loop);
 
 	setContext('tabs-list', init);
 

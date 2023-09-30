@@ -14,7 +14,7 @@
 	let activeIndex = 0;
 
 	const [init, values, checkeds, radioButtons] = createInit(defaultValue, select, toggle);
-	const onKeyDown = (event: KeyboardEvent) => createKeyboardNavigation({ event, activeIndex, max: checkeds.length, next: toggle, previous: toggle });
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, activeIndex, checkeds.length, 'both');
 
 	setContext('radio-group', { disabled, defaultValue, init });
 

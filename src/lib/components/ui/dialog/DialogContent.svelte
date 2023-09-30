@@ -21,7 +21,7 @@
 	/>
 	<div
 		on:animationend={onAnimationEnd}
-		use:clickOutside={() => ($isOpen = false)}
+		use:clickOutside={{ callback: () => ($isOpen = false) }}
 		role="alertdialog"
 		data-state={$isOpen ? 'open' : 'closed'}
 		class={cn(

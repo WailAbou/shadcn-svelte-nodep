@@ -17,7 +17,7 @@
 	let activeIndex = 0;
 
 	const [init, values, expandeds, accordionTriggers] = createInit(defaultValue, select, toggle);
-	const onKeyDown = (event: KeyboardEvent) => createKeyboardNavigation({ event, activeIndex, max: expandeds.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, expandeds.length, 'vertical', true);
 
 	setContext('accordion', { init, disabled });
 

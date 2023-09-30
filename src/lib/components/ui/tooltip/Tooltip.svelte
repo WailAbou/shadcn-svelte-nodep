@@ -3,11 +3,11 @@
 	import { writable, type Writable } from 'svelte/store';
 
 	let tooltipTrigger: Writable<HTMLElement> = writable();
-	let isHovering: Writable<boolean> = writable(false);
+	let isOpen: Writable<boolean> = writable(false);
 
-	setContext('tooltip', { tooltipTrigger, isHovering });
+	setContext('tooltip', { tooltipTrigger, isOpen });
 </script>
 
-<svelte:window on:scroll={() => ($isHovering = false)} />
+<svelte:window on:scroll={() => ($isOpen = false)} />
 
 <slot />

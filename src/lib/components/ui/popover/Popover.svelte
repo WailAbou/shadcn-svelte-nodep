@@ -2,10 +2,10 @@
 	import { setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 
-	let hoverCardTrigger: Writable<HTMLElement> = writable();
-	let isHovering: Writable<boolean> = writable(false);
+	let popoverTrigger: Writable<HTMLElement> = writable();
+	let isOpen: Writable<boolean> = writable(false);
 
-	setContext('hovercard', { hoverCardTrigger, isHovering });
+	setContext('popover', { popoverTrigger, isOpen });
 </script>
 
 <slot />

@@ -1,32 +1,26 @@
 <script lang="ts">
+	import { createKeyDown } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
 	let hoveringTimer: number = 0;
+	const onKeyDown = (e: KeyboardEvent) => createKeyDown(e, ['Space', 'Enter', 'Escape'], () => ($isOpen = false));
 
-	let { tooltipTrigger, isHovering }: { tooltipTrigger: Writable<HTMLElement>; isHovering: Writable<boolean> } = getContext('tooltip');
+	let { tooltipTrigger, isOpen }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('tooltip');
 	let { delayDuration }: { delayDuration: number } = getContext('tooltip-provider');
 
 	function onMouseEnter() {
 		clearTimeout(hoveringTimer);
-		hoveringTimer = setTimeout(() => ($isHovering = true), delayDuration);
-	}
-
-	function onKeyDown(event: KeyboardEvent) {
-		const { code } = event;
-		if (['Space', 'Enter', 'Escape'].includes(code)) {
-			event.preventDefault();
-			$isHovering = false;
-		}
+		hoveringTimer = setTimeout(() => ($isOpen = true), delayDuration);
 	}
 </script>
 
 <button
 	bind:this={$tooltipTrigger}
-	on:focusin={() => ($isHovering = true)}
 	on:mouseenter={onMouseEnter}
-	on:mouseleave={() => ($isHovering = false)}
-	on:focusout={() => ($isHovering = false)}
+	on:mouseleave={() => ($isOpen = false)}
+	on:focusin={() => ($isOpen = true)}
+	on:focusout={() => ($isOpen = false)}
 	on:keydown={onKeyDown}
 >
 	<slot />
