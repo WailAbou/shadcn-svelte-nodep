@@ -3,17 +3,24 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let hoveringTimer: number = 0;
-	const onKeyDown = (e: KeyboardEvent) => createKeyDown(e, ['Escape'], () => ($isOpen = false));
+	let openTimer: number = 0;
+	let closeTimer: number = 0;
+	const onKeyDown = (e: KeyboardEvent) => createKeyDown(e, ['Escape'], onMouseLeave);
 
-	let { hoverCardTrigger, isOpen, openDelay }: { hoverCardTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; openDelay: number } = getContext('hovercard');
+	let { openDelay, closeDelay, hoverCardTrigger, isOpen }: { openDelay: number; closeDelay: number; hoverCardTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('hovercard');
 
 	function onMouseEnter() {
-		clearTimeout(hoveringTimer);
-		hoveringTimer = setTimeout(() => ($isOpen = true), openDelay);
+		clearTimeout(openTimer);
+		clearTimeout(closeTimer);
+		openTimer = setTimeout(() => ($isOpen = true), openDelay);
+	}
+
+	function onMouseLeave() {
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(() => ($isOpen = false), closeDelay);
 	}
 </script>
 
-<button bind:this={$hoverCardTrigger} on:mouseenter={onMouseEnter} on:mouseleave={() => ($isOpen = false)} on:focusin={onMouseEnter} on:focusout={() => ($isOpen = false)} on:keydown={onKeyDown}>
+<button bind:this={$hoverCardTrigger} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave} on:focusin={onMouseEnter} on:focusout={onMouseLeave} on:keydown={onKeyDown}>
 	<slot />
 </button>

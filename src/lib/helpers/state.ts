@@ -13,21 +13,20 @@ export function createKeyboardNavigation(
 	loop: boolean = true
 ): void {
 	const { code } = event;
-
 	const nextDir = navDir == 'horizontal' ? 'Right' : 'Down';
 	const prevDir = navDir == 'horizontal' ? 'Left' : 'Up';
 
 	const nextPressed: boolean = navDir == 'both' ? code === 'ArrowRight' || code === 'ArrowDown' : code === `Arrow${nextDir}`;
 	const previousPressed: boolean = navDir == 'both' ? code === 'ArrowLeft' || code === 'ArrowUp' : code === `Arrow${prevDir}`;
 
-	const lastPressed: boolean = code === 'End';
-	const firstPressed: boolean = code === 'Home';
-
 	if (nextPressed || previousPressed) {
 		event.preventDefault();
 		if (nextPressed) action(loop ? (activeIndex + 1) % maxIndex : Math.min(activeIndex + 1, maxIndex - 1));
 		else if (previousPressed) action(loop ? (activeIndex - 1 + maxIndex) % maxIndex : Math.max(activeIndex - 1, 0));
 	}
+
+	const lastPressed: boolean = code === 'End';
+	const firstPressed: boolean = code === 'Home';
 
 	if (skip && (lastPressed || firstPressed)) {
 		event.preventDefault();

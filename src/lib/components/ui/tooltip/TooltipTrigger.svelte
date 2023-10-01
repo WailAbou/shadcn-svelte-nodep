@@ -2,25 +2,46 @@
 	import { createKeyDown } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import type { TooltipState } from '.';
 
-	let hoveringTimer: number = 0;
-	const onKeyDown = (e: KeyboardEvent) => createKeyDown(e, ['Space', 'Enter', 'Escape'], () => ($isOpen = false));
+	let openTimer: number = 0;
+	let closeTimer: number = 0;
+	let skipDelay: boolean = false;
+	const onKeyDown = (e: KeyboardEvent) => createKeyDown(e, ['Space', 'Enter', 'Escape'], close);
 
-	let { tooltipTrigger, isOpen }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('tooltip');
-	let { delayDuration }: { delayDuration: number } = getContext('tooltip-provider');
+	let { tooltipTrigger, isOpen, tooltipState }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
+	let { delayDuration, skipDelayDuration }: { delayDuration: number; skipDelayDuration: number } = getContext('tooltip-provider');
 
-	function onMouseEnter() {
-		clearTimeout(hoveringTimer);
-		hoveringTimer = setTimeout(() => ($isOpen = true), delayDuration);
+	function delayedOpen() {
+		clearTimeout(openTimer);
+		openTimer = setTimeout(() => {
+			$isOpen = true;
+			$tooltipState = 'delayed-open';
+		}, delayDuration);
+	}
+
+	function instantOpen() {
+		$isOpen = true;
+		$tooltipState = 'instant-open';
+	}
+
+	function close() {
+		$isOpen = false;
+		$tooltipState = 'closed';
+		skipDelay = true;
+
+		clearTimeout(closeTimer);
+		closeTimer = setTimeout(() => (skipDelay = false), skipDelayDuration);
 	}
 </script>
 
 <button
+	data-state={$tooltipState}
 	bind:this={$tooltipTrigger}
-	on:mouseenter={onMouseEnter}
-	on:mouseleave={() => ($isOpen = false)}
-	on:focusin={() => ($isOpen = true)}
-	on:focusout={() => ($isOpen = false)}
+	on:mouseenter={() => (skipDelay ? instantOpen() : delayedOpen())}
+	on:mouseleave={close}
+	on:focusin={instantOpen}
+	on:focusout={close}
 	on:keydown={onKeyDown}
 >
 	<slot />

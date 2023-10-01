@@ -4,13 +4,14 @@
 	import { delayValue, getPosition } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import type { TooltipState } from '.';
 
 	export let side: Side = 'top';
 	export let align: Align = 'center';
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { tooltipTrigger, isOpen }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('tooltip');
+	let { tooltipTrigger, isOpen, tooltipState }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
 
 	let tooltipContent: HTMLDivElement;
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
@@ -31,7 +32,7 @@
 			on:animationend={onAnimationEnd}
 			data-side={side}
 			data-align={align}
-			data-state={$delayedIsOpen ? 'delayed-open' : 'closed'}
+			data-state={$tooltipState}
 			class="z-50 overflow-hidden rounded-md border bg-popover px-3 py-1.5 text-sm text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2"
 		>
 			<slot />
