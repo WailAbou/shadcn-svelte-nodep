@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { createKeyDown } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 
@@ -9,6 +10,7 @@
 
 	if (defaultOpen) open = true;
 	let isOpen: Writable<boolean> = writable(open);
+	const onKeyDown = (e: KeyboardEvent) => createKeyDown(e, ['Escape'], () => ($isOpen = false));
 
 	$: $isOpen = open;
 	$: dispatch('openChange', $isOpen);
@@ -18,11 +20,7 @@
 	function onWheel(event: WheelEvent): void {
 		if ($isOpen) event.preventDefault();
 	}
-
-	function onKeydown({ key }: KeyboardEvent): void {
-		if (key === 'Escape') $isOpen = false;
-	}
 </script>
 
-<svelte:window on:wheel|nonpassive={onWheel} on:keydown={onKeydown} />
+<svelte:window on:wheel|nonpassive={onWheel} on:keydown={onKeyDown} />
 <slot />

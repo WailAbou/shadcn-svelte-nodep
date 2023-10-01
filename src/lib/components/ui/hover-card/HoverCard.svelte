@@ -2,10 +2,13 @@
 	import { setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 
-	let hoverCardTrigger: Writable<HTMLElement> = writable();
-	let isHovering: Writable<boolean> = writable(false);
+	export let openDelay: number = 700;
+	export let closeDelay: number = 300;
 
-	setContext('hovercard', { hoverCardTrigger, isHovering });
+	let hoverCardTrigger: Writable<HTMLElement> = writable();
+	let isOpen: Writable<boolean> = writable(false);
+
+	setContext('hovercard', { openDelay, closeDelay, hoverCardTrigger, isOpen });
 </script>
 
 <slot />

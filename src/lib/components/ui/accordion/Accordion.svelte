@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
-	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
+	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import type { AccordionType } from '.';
 
@@ -17,8 +17,7 @@
 	let activeIndex = 0;
 
 	const [init, values, expandeds, accordionTriggers] = createInit(defaultValue, select, toggle);
-	const handleNavigation = (event: KeyboardEvent) =>
-		handleKeyboardInteraction({ event, activeIndex, max: expandeds.length, next: focus, previous: focus, first: focus, last: focus, navDir: 'vertical' });
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, expandeds.length, 'vertical', true);
 
 	setContext('accordion', { init, disabled });
 
@@ -52,6 +51,6 @@
 	}
 </script>
 
-<div on:keydown={handleNavigation} class={cn(className)}>
+<div on:keydown={onKeyDown} class={cn(className)}>
 	<slot />
 </div>

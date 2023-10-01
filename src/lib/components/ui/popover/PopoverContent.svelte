@@ -4,6 +4,7 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { Align, Side } from '$lib/helpers/types';
+	import { clickOutside } from '$lib/helpers/actions';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -12,20 +13,27 @@
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { hoverCardTrigger, isOpen }: { hoverCardTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('hovercard');
+	let { popoverTrigger, isOpen }: { popoverTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('popover');
 
 	let hoverCardContent: HTMLDivElement;
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
 	let delayedIsOpen = delayValue(isOpen, false);
 
-	$: position = getPosition($hoverCardTrigger, hoverCardContent, side, align, sideOffset, alignOffset);
+	$: position = getPosition($popoverTrigger, hoverCardContent, side, align, sideOffset, alignOffset);
 </script>
 
-<svelte:window on:scroll={() => (position = getPosition($hoverCardTrigger, hoverCardContent, side, align, sideOffset, alignOffset))} />
+<svelte:window on:scroll={() => (position = getPosition($popoverTrigger, hoverCardContent, side, align, sideOffset, alignOffset))} />
 
 {#if $delayedIsOpen || !$finishedAnimation}
-	<div bind:this={hoverCardContent} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
+	<div
+		bind:this={hoverCardContent}
+		use:clickOutside={{ callback: () => isOpen.set(false), except: $popoverTrigger }}
+		style="transform: translate({position?.x}px, {position?.y}px);"
+		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
+	>
 		<div
+			role="dialog"
+			tabindex="-1"
 			on:animationend={onAnimationEnd}
 			data-side={side}
 			data-align={align}

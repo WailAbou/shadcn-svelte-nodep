@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import { createInit, handleKeyboardInteraction } from '$lib/helpers/state';
+	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
 
 	const dispatch = createEventDispatcher<{ valueChange: string }>();
@@ -14,7 +14,7 @@
 	let activeIndex = 0;
 
 	const [init, values, checkeds, radioButtons] = createInit(defaultValue, select, toggle);
-	const handleNavigation = (event: KeyboardEvent) => handleKeyboardInteraction({ event, activeIndex, max: checkeds.length, next: toggle, previous: toggle });
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, activeIndex, checkeds.length, 'both');
 
 	setContext('radio-group', { disabled, defaultValue, init });
 
@@ -37,6 +37,6 @@
 	}
 </script>
 
-<div on:keydown={handleNavigation} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class={cn('grid gap-2 outline-none', className)}>
+<div on:keydown={onKeyDown} role="radiogroup" aria-required="false" dir="ltr" tabindex="-1" class={cn('grid gap-2 outline-none', className)}>
 	<slot />
 </div>

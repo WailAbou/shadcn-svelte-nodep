@@ -60,11 +60,11 @@ export function getPosition(centerElement: HTMLElement, targetElement: HTMLEleme
 function getAlign(centerStart: number, centerLength: number, targetLength: number, align: Align): number {
 	switch (align) {
 		case 'start':
-			return centerStart + centerLength / 2;
+			return centerStart;
 		case 'center':
 			return centerStart + centerLength / 2 - targetLength / 2;
 		case 'end':
-			return centerStart + centerLength / 2 - targetLength;
+			return centerStart - targetLength + centerLength;
 		default:
 			return 0;
 	}
