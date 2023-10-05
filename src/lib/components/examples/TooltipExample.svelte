@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '$components/ui/tooltip';
 	import { Button } from '$components/ui/button';
 </script>
