@@ -13,10 +13,12 @@ export class InitResult {
 	public index: number = 0;
 }
 
-export type NavigationDirection = 'vertical' | 'horizontal' | 'both';
+export type Direction = 'ltr' | 'rtl';
 
-export type Position = { x: number; y: number };
+export type NavigationDirection = 'vertical' | 'horizontal' | 'both';
 
 export type Side = 'top' | 'right' | 'bottom' | 'left';
 
 export type Align = 'start' | 'center' | 'end';
+
+export type Position = { x: number; y: number };
