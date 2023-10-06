@@ -6,7 +6,7 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { selectTrigger, isOpen }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('select');
+	let { selectTrigger, isOpen, selectContentUuid }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; selectContentUuid: string } = getContext('select');
 
 	let selectContent: HTMLDivElement;
 	$: position = getPosition($selectTrigger, selectContent, 'bottom', 'start');
@@ -16,7 +16,7 @@
 {#if $isOpen}
 	<div bind:this={selectContent} dir="ltr" class="fixed left-0 top-0 z-50 min-w-max will-change-transform" style="transform: translate({position?.x}px, {position?.y}px);">
 		<div
-			id="radix-:r4l:"
+			id={selectContentUuid}
 			dir="ltr"
 			data-side="bottom"
 			data-align="start"

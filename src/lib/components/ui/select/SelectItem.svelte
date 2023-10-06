@@ -1,16 +1,20 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
+	import { getContext } from 'svelte';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
 	export let value: string;
 
+	let { disabled }: { disabled: boolean } = getContext('select');
+
 	let uuid = crypto.randomUUID();
 </script>
 
 <div
-	role="option"
+	data-disabled={disabled ? true : undefined}
 	aria-labelledby={uuid}
+	role="option"
 	aria-selected="false"
 	data-state="unchecked"
 	tabindex="-1"

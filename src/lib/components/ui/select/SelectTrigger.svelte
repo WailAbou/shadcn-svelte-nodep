@@ -7,14 +7,15 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { selectTrigger, isOpen }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('select');
+	let { selectTrigger, isOpen, disabled, selectContentUuid }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; disabled: boolean; selectContentUuid: string } = getContext('select');
 </script>
 
 <button
+	{disabled}
 	use:clickOutside={{ callback: () => isOpen.set(false) }}
 	bind:this={$selectTrigger}
 	on:mousedown={() => ($isOpen = !$isOpen)}
-	aria-controls="radix-:r4l:"
+	aria-controls={selectContentUuid}
 	type="button"
 	role="combobox"
 	aria-expanded="false"
