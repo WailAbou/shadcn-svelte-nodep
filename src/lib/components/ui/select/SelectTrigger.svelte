@@ -14,9 +14,9 @@
 	use:clickOutside={{ callback: () => isOpen.set(false) }}
 	bind:this={$selectTrigger}
 	on:mousedown={() => ($isOpen = !$isOpen)}
+	aria-controls="radix-:r4l:"
 	type="button"
 	role="combobox"
-	aria-controls="radix-:r4l:"
 	aria-expanded="false"
 	aria-autocomplete="none"
 	dir="ltr"

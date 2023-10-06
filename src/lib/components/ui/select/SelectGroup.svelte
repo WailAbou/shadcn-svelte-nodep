@@ -5,6 +5,6 @@
 	export { className as class };
 </script>
 
-<div role="group" aria-labelledby="radix-:rfq:">
+<div aria-labelledby="radix-:rfq:" role="group">
 	<slot />
 </div>

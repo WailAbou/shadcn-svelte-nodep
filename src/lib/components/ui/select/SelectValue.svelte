@@ -7,5 +7,5 @@
 	export let placeholder: string;
 </script>
 
-<span style="pointer-events: none;">{placeholder}</span>
+<span class="pointer-events-none">{placeholder}</span>
 <ChevronDown class="h-4 w-4" />
