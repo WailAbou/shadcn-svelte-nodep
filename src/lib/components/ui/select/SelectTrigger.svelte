@@ -1,11 +1,19 @@
 <script lang="ts">
+	import { clickOutside } from '$lib/helpers/actions';
 	import { cn } from '$lib/helpers/utils';
+	import { getContext } from 'svelte';
+	import type { Writable } from 'svelte/store';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
+
+	let { selectTrigger, isOpen }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('select');
 </script>
 
 <button
+	use:clickOutside={{ callback: () => isOpen.set(false) }}
+	bind:this={$selectTrigger}
+	on:mousedown={() => ($isOpen = !$isOpen)}
 	type="button"
 	role="combobox"
 	aria-controls="radix-:r4l:"
