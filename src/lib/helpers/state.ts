@@ -1,11 +1,9 @@
 import { writable, type Writable } from 'svelte/store';
-import type { InitProps, InitReturns, NavigationDirection } from './types';
-
-type Action = (index: number) => void;
+import type { InitProps, InitReturns, NavigationDirection, SimpleAction } from './types';
 
 export function createKeyboardNavigation(
 	event: KeyboardEvent,
-	action: Action,
+	action: SimpleAction,
 	activeIndex: number,
 	maxIndex: number,
 	navDir: NavigationDirection = 'both',
@@ -35,11 +33,11 @@ export function createKeyboardNavigation(
 	}
 }
 
-export function createInit(defaultValue: string | string[] | undefined, select: Action, toggle: Action): InitReturns {
+export function createInit(defaultValue: string | string[] | undefined, select: SimpleAction): InitReturns {
 	const allValues: string[] = [];
 	const items: Writable<boolean>[] = [];
 	const triggers: HTMLButtonElement[] = [];
-	const activeIndex: number = 0;
+	const activeIndex: Writable<number> = writable(0);
 
 	const init = (element: HTMLButtonElement, [value, item, initResult]: InitProps) => {
 		allValues.push(value);
@@ -53,7 +51,17 @@ export function createInit(defaultValue: string | string[] | undefined, select: 
 		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	};
 
-	return { methods: { init }, values: { allValues, items, triggers, activeIndex } };
+	function toggle(index: number) {
+		focus(index);
+		select(index);
+	}
+
+	function focus(index: number) {
+		triggers[index]?.focus();
+		activeIndex.set(index);
+	}
+
+	return { methods: { init, toggle, focus }, values: { allValues, items, activeIndex } };
 }
 
 export function createAnimationEnd(state: Writable<boolean>): [Writable<boolean>, (event: AnimationEvent) => void] {

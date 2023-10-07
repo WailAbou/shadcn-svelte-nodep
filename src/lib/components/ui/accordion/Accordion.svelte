@@ -15,25 +15,15 @@
 
 	let value: undefined | string | string[];
 	let {
-		methods: { init },
-		values: { allValues, items, triggers, activeIndex }
-	} = createInit(defaultValue, select, toggle);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical', true);
+		methods: { init, focus },
+		values: { allValues, items, activeIndex }
+	} = createInit(defaultValue, select);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, $activeIndex, items.length, 'vertical', true);
 
 	setContext('accordion', { init, disabled });
 
 	$: isSingle = type === 'single';
 	$: value = isSingle ? '' : [];
-
-	function toggle(index: number) {
-		focus(index);
-		select(index);
-	}
-
-	function focus(index: number) {
-		triggers[index]?.focus();
-		activeIndex = index;
-	}
 
 	function select(index: number) {
 		const newValue = allValues[index];

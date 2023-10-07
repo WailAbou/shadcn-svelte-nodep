@@ -19,20 +19,10 @@
 	let selectContentUuid: string = crypto.randomUUID();
 	let {
 		methods: { init },
-		values: { allValues, items, triggers, activeIndex }
-	} = createInit(defaultValue, select, toggle);
+		values: { allValues, items }
+	} = createInit(defaultValue, select);
 
 	setContext('select', { selectTrigger, isOpen, init, defaultValue, defaultOpen, disabled, selectContentUuid, dir });
-
-	function toggle(index: number) {
-		focus(index);
-		select(index);
-	}
-
-	function focus(index: number) {
-		triggers[index]?.focus();
-		activeIndex = index;
-	}
 
 	function select(index: number) {
 		items.forEach((item) => item.set(false));

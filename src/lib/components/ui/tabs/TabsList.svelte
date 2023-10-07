@@ -11,24 +11,14 @@
 
 	let { selectedValue, activationMode }: { selectedValue: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 	let {
-		methods: { init },
-		values: { allValues, items, triggers, activeIndex }
-	} = createInit($selectedValue, select, toggle);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, activeIndex, items.length, 'horizontal', false, loop);
+		methods: { init, toggle, focus },
+		values: { allValues, items, activeIndex }
+	} = createInit($selectedValue, select);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, $activeIndex, items.length, 'horizontal', false, loop);
 
 	setContext('tabs-list', init);
 
 	$: selectMethod = activationMode == 'automatic' ? toggle : focus;
-
-	function toggle(index: number) {
-		focus(index);
-		select(index);
-	}
-
-	function focus(index: number) {
-		triggers[index]?.focus();
-		activeIndex = index;
-	}
 
 	function select(index: number) {
 		items.forEach((item) => item.set(false));

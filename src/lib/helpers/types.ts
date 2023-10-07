@@ -1,5 +1,7 @@
 import type { Writable } from 'svelte/store';
 
+export type SimpleAction = (index: number) => void;
+
 export type InitProps = [string, Writable<boolean>, InitResult];
 
 export type InitFunction = (node: HTMLButtonElement, [value, item, initResult]: InitProps) => void;
@@ -20,6 +22,6 @@ export type Align = 'start' | 'center' | 'end';
 export type Position = { x: number; y: number };
 
 export interface InitReturns {
-	methods: { init: InitFunction };
-	values: { allValues: string[]; items: Writable<boolean>[]; triggers: HTMLButtonElement[]; activeIndex: number };
+	methods: { init: InitFunction; toggle: SimpleAction; focus: SimpleAction };
+	values: { allValues: string[]; items: Writable<boolean>[]; activeIndex: Writable<number> };
 }

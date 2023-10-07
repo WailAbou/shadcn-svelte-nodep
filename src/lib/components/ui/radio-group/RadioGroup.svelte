@@ -12,22 +12,12 @@
 
 	let value: string;
 	let {
-		methods: { init },
-		values: { allValues, items, triggers, activeIndex }
-	} = createInit(defaultValue, select, toggle);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, activeIndex, items.length, 'both');
+		methods: { init, toggle },
+		values: { allValues, items, activeIndex }
+	} = createInit(defaultValue, select);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, $activeIndex, items.length, 'both');
 
 	setContext('radio-group', { disabled, defaultValue, init });
-
-	function toggle(index: number) {
-		focus(index);
-		select(index);
-	}
-
-	function focus(index: number) {
-		triggers[index]?.focus();
-		activeIndex = index;
-	}
 
 	function select(index: number) {
 		items.forEach((item) => item.set(false));
