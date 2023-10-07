@@ -27,7 +27,7 @@
 {#if $delayedIsOpen || !$finishedAnimation}
 	<div
 		bind:this={hoverCardContent}
-		use:clickOutside={{ callback: () => isOpen.set(false), except: $popoverTrigger }}
+		use:clickOutside={[() => isOpen.set(false), $popoverTrigger]}
 		style="transform: translate({position?.x}px, {position?.y}px);"
 		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
 	>

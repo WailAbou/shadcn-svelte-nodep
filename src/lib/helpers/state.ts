@@ -68,11 +68,3 @@ export function createAnimationEnd(state: Writable<boolean>): [Writable<boolean>
 
 	return [finishedAnimation, onAnimationEnd];
 }
-
-export function createKeyDown(event: KeyboardEvent, keys: string[], callback: VoidFunction) {
-	const { code } = event;
-	if (keys.includes(code)) {
-		event.preventDefault();
-		callback();
-	}
-}

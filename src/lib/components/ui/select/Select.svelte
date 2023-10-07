@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { preventScroll } from '$lib/helpers/actions';
 	import type { Direction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { setContext } from 'svelte';
@@ -16,11 +17,7 @@
 	let selectContentUuid: string = crypto.randomUUID();
 
 	setContext('select', { selectTrigger, isOpen, selectedValue, defaultOpen, disabled, selectContentUuid, dir });
-
-	function onWheel(event: WheelEvent): void {
-		if ($isOpen) event.preventDefault();
-	}
 </script>
 
-<svelte:window on:wheel|nonpassive={onWheel} />
+<svelte:window use:preventScroll={$isOpen} />
 <slot />

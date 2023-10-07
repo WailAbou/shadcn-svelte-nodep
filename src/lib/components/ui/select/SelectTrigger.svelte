@@ -19,7 +19,7 @@
 
 <button
 	{disabled}
-	use:clickOutside={{ callback: () => isOpen.set(false) }}
+	use:clickOutside={[() => isOpen.set(false)]}
 	bind:this={$selectTrigger}
 	on:mousedown={() => ($isOpen = !$isOpen)}
 	aria-controls={selectContentUuid}
