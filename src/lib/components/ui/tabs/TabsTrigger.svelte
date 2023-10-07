@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InitResult, type InitFunction } from '$lib/helpers/types';
+	import type { InitResult, InitFunction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -9,14 +9,14 @@
 	export let value: string;
 	export let disabled: boolean = false;
 
-	let initResult: InitResult = new InitResult();
+	let initResult: Writable<InitResult> = writable();
 	let isActive: Writable<boolean> = writable(false);
 	let init: InitFunction = getContext('tabs-list');
 </script>
 
 <button
 	use:init={[value, isActive, initResult]}
-	on:click={initResult.toggleItem}
+	on:click={$initResult?.toggleItem}
 	type="button"
 	role="tab"
 	aria-selected="true"

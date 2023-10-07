@@ -2,6 +2,7 @@
 	import { cn } from '$lib/helpers/utils';
 	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string }>();
 
@@ -11,17 +12,19 @@
 	export let disabled: boolean = false;
 
 	let value: string;
+	let hasValue: Writable<boolean> = writable(false);
 	let {
 		methods: { init, toggle },
 		values: { allValues, items, activeIndex }
 	} = createInit(defaultValue, select);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, $activeIndex, items.length, 'both');
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, activeIndex, items.length, 'both');
 
-	setContext('radio-group', { disabled, defaultValue, init });
+	setContext('radio-group', { disabled, hasValue, init });
 
 	function select(index: number) {
 		items.forEach((item) => item.set(false));
 		items[index].set(true);
+		hasValue.set(true);
 
 		value = allValues[index];
 		dispatch('valueChange', value);

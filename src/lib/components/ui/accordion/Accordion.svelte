@@ -18,7 +18,7 @@
 		methods: { init, focus },
 		values: { allValues, items, activeIndex }
 	} = createInit(defaultValue, select);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, $activeIndex, items.length, 'vertical', true);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical', true, true);
 
 	setContext('accordion', { init, disabled });
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InitResult, type InitFunction } from '$lib/helpers/types';
+	import type { InitResult, InitFunction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { Check } from 'lucide-svelte';
 	import { getContext } from 'svelte';
@@ -9,7 +9,7 @@
 	export { className as class };
 	export let value: string;
 
-	let initResult: InitResult = new InitResult();
+	let initResult: Writable<InitResult> = writable();
 	let selected: Writable<boolean> = writable(false);
 	let uuid = crypto.randomUUID();
 
@@ -18,7 +18,7 @@
 
 <button
 	use:init={[value, selected, initResult]}
-	on:click={initResult.toggleItem}
+	on:click={$initResult?.toggleItem}
 	data-disabled={disabled ? true : undefined}
 	aria-labelledby={uuid}
 	role="option"

@@ -14,7 +14,7 @@
 		methods: { init, toggle, focus },
 		values: { allValues, items, activeIndex }
 	} = createInit($selectedValue, select);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, $activeIndex, items.length, 'horizontal', false, loop);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, activeIndex, items.length, 'horizontal', false, false, loop);
 
 	setContext('tabs-list', init);
 
