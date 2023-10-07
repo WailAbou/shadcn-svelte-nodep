@@ -14,33 +14,24 @@
 	export let type: AccordionType;
 
 	let value: undefined | string | string[];
-	let activeIndex = 0;
-
-	const [init, values, expandeds, accordionTriggers] = createInit(defaultValue, select, toggle);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, expandeds.length, 'vertical', true);
+	let {
+		methods: { init, focus },
+		values: { allValues, items, activeIndex }
+	} = createInit(defaultValue, select);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, $activeIndex, items.length, 'vertical', true);
 
 	setContext('accordion', { init, disabled });
 
 	$: isSingle = type === 'single';
 	$: value = isSingle ? '' : [];
 
-	function toggle(index: number) {
-		focus(index);
-		select(index);
-	}
-
-	function focus(index: number) {
-		accordionTriggers[index]?.focus();
-		activeIndex = index;
-	}
-
 	function select(index: number) {
-		const newValue = values[index];
+		const newValue = allValues[index];
 
-		expandeds.forEach((store, i) => {
-			if (isSingle && i !== index) store.set(false);
+		items.forEach((item, i) => {
+			if (isSingle && i !== index) item.set(false);
 		});
-		expandeds[index].update((expanded) => (collapsible ? !expanded : true));
+		items[index].update((item) => (collapsible ? !item : true));
 
 		if (Array.isArray(value)) {
 			if (!hasValue(value, newValue)) value.push(newValue);

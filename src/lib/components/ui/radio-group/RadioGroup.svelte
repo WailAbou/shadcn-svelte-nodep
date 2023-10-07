@@ -11,28 +11,19 @@
 	export let disabled: boolean = false;
 
 	let value: string;
-	let activeIndex = 0;
-
-	const [init, values, checkeds, radioButtons] = createInit(defaultValue, select, toggle);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, activeIndex, checkeds.length, 'both');
+	let {
+		methods: { init, toggle },
+		values: { allValues, items, activeIndex }
+	} = createInit(defaultValue, select);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, $activeIndex, items.length, 'both');
 
 	setContext('radio-group', { disabled, defaultValue, init });
 
-	function toggle(index: number) {
-		focus(index);
-		select(index);
-	}
-
-	function focus(index: number) {
-		radioButtons[index]?.focus();
-		activeIndex = index;
-	}
-
 	function select(index: number) {
-		checkeds.forEach((store) => store.set(false));
-		checkeds[index].set(true);
+		items.forEach((item) => item.set(false));
+		items[index].set(true);
 
-		value = values[index];
+		value = allValues[index];
 		dispatch('valueChange', value);
 	}
 </script>

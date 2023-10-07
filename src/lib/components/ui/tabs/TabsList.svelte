@@ -9,30 +9,21 @@
 	export { className as class };
 	export let loop: boolean = true;
 
-	let activeIndex = 0;
 	let { selectedValue, activationMode }: { selectedValue: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
-
-	const [init, values, actives, tabsTriggers] = createInit($selectedValue, select, toggle);
-	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, activeIndex, actives.length, 'horizontal', false, loop);
+	let {
+		methods: { init, toggle, focus },
+		values: { allValues, items, activeIndex }
+	} = createInit($selectedValue, select);
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, $activeIndex, items.length, 'horizontal', false, loop);
 
 	setContext('tabs-list', init);
 
 	$: selectMethod = activationMode == 'automatic' ? toggle : focus;
 
-	function toggle(index: number) {
-		focus(index);
-		select(index);
-	}
-
-	function focus(index: number) {
-		tabsTriggers[index]?.focus();
-		activeIndex = index;
-	}
-
 	function select(index: number) {
-		actives.forEach((active) => active.set(false));
-		actives[index].set(true);
-		$selectedValue = values[index];
+		items.forEach((item) => item.set(false));
+		items[index].set(true);
+		$selectedValue = allValues[index];
 	}
 </script>
 

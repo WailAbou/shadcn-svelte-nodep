@@ -1,15 +1,13 @@
 import type { Writable } from 'svelte/store';
 
-export interface InitProps {
-	store: Writable<boolean>;
-	value: string;
-	initResult: InitResult;
-}
+export type SimpleAction = (index: number) => void;
 
-export type InitFunctionType = (node: Node, { store, value, initResult }: InitProps) => void;
+export type InitProps = [string, Writable<boolean>, InitResult];
+
+export type InitFunction = (node: HTMLButtonElement, [value, item, initResult]: InitProps) => void;
 
 export class InitResult {
-	public toggleItem: VoidFunction = console.log;
+	public toggleItem: VoidFunction = () => {};
 	public index: number = 0;
 }
 
@@ -22,3 +20,8 @@ export type Side = 'top' | 'right' | 'bottom' | 'left';
 export type Align = 'start' | 'center' | 'end';
 
 export type Position = { x: number; y: number };
+
+export interface InitReturns {
+	methods: { init: InitFunction; toggle: SimpleAction; focus: SimpleAction };
+	values: { allValues: string[]; items: Writable<boolean>[]; activeIndex: Writable<number> };
+}

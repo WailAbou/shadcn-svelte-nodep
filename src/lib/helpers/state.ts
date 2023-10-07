@@ -1,12 +1,10 @@
 import { writable, type Writable } from 'svelte/store';
-import type { InitFunctionType, InitProps, NavigationDirection } from './types';
-
-type Action = (index: number) => void;
+import type { InitProps, InitReturns, NavigationDirection, SimpleAction } from './types';
 
 export function createKeyboardNavigation(
 	event: KeyboardEvent,
-	action: Action,
-	activeIndex: number,
+	action: SimpleAction,
+	index: number,
 	maxIndex: number,
 	navDir: NavigationDirection = 'both',
 	skip: boolean = false,
@@ -21,8 +19,8 @@ export function createKeyboardNavigation(
 
 	if (nextPressed || previousPressed) {
 		event.preventDefault();
-		if (nextPressed) action(loop ? (activeIndex + 1) % maxIndex : Math.min(activeIndex + 1, maxIndex - 1));
-		else if (previousPressed) action(loop ? (activeIndex - 1 + maxIndex) % maxIndex : Math.max(activeIndex - 1, 0));
+		if (nextPressed) action(loop ? (index + 1) % maxIndex : Math.min(index + 1, maxIndex - 1));
+		else if (previousPressed) action(loop ? (index - 1 + maxIndex) % maxIndex : Math.max(index - 1, 0));
 	}
 
 	const lastPressed: boolean = code === 'End';
@@ -35,24 +33,35 @@ export function createKeyboardNavigation(
 	}
 }
 
-export function createInit(defaultValue: string | string[] | undefined, select: Action, toggle: Action): [InitFunctionType, string[], Writable<boolean>[], HTMLButtonElement[]] {
-	const values: string[] = [];
-	const stores: Writable<boolean>[] = [];
+export function createInit(defaultValue: string | string[] | undefined, select: SimpleAction): InitReturns {
+	const allValues: string[] = [];
+	const items: Writable<boolean>[] = [];
 	const triggers: HTMLButtonElement[] = [];
+	const activeIndex: Writable<number> = writable(0);
 
-	const init = (element: Node, { store, value, initResult }: InitProps) => {
-		values.push(value);
-		stores.push(store);
-		triggers.push(element as HTMLButtonElement);
+	const init = (element: HTMLButtonElement, [value, item, initResult]: InitProps) => {
+		allValues.push(value);
+		items.push(item);
+		triggers.push(element);
 
-		const index = stores.length - 1;
+		const index = items.length - 1;
 		if (value === defaultValue) select(index);
 		const toggleItem = () => toggle(index);
 
 		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	};
 
-	return [init, values, stores, triggers];
+	function toggle(index: number) {
+		focus(index);
+		select(index);
+	}
+
+	function focus(index: number) {
+		triggers[index]?.focus();
+		activeIndex.set(index);
+	}
+
+	return { methods: { init, toggle, focus }, values: { allValues, items, activeIndex } };
 }
 
 export function createAnimationEnd(state: Writable<boolean>): [Writable<boolean>, (event: AnimationEvent) => void] {

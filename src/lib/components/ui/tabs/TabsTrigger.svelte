@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { InitResult, type InitFunctionType } from '$lib/helpers/types';
+	import { InitResult, type InitFunction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -11,11 +11,11 @@
 
 	let initResult: InitResult = new InitResult();
 	let isActive: Writable<boolean> = writable(false);
-	let init: InitFunctionType = getContext('tabs-list');
+	let init: InitFunction = getContext('tabs-list');
 </script>
 
 <button
-	use:init={{ store: isActive, value, initResult }}
+	use:init={[value, isActive, initResult]}
 	on:click={initResult.toggleItem}
 	type="button"
 	role="tab"
