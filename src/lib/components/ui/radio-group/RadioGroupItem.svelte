@@ -19,7 +19,7 @@
 </script>
 
 <button
-	use:init={[checked, value, initResult]}
+	use:init={[value, checked, initResult]}
 	on:click={initResult.toggleItem}
 	{id}
 	{disabled}

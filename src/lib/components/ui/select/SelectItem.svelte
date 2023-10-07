@@ -16,8 +16,8 @@
 	let { disabled, init }: { disabled: boolean; init: InitFunction } = getContext('select');
 </script>
 
-<div
-	use:init={[selected, value, initResult]}
+<button
+	use:init={[value, selected, initResult]}
 	on:click={initResult.toggleItem}
 	data-disabled={disabled ? true : undefined}
 	aria-labelledby={uuid}
@@ -37,4 +37,4 @@
 	<span id={uuid}>
 		<slot />
 	</span>
-</div>
+</button>

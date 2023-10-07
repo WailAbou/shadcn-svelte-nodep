@@ -14,11 +14,13 @@
 	export let dir: Direction = 'ltr';
 
 	let value: undefined | string | string[];
-	let activeIndex = 0;
 	let selectTrigger: Writable<HTMLElement> = writable();
 	let isOpen: Writable<boolean> = writable(defaultOpen);
 	let selectContentUuid: string = crypto.randomUUID();
-	const [init, values, items, selectTriggers] = createInit(defaultValue, select, toggle);
+	let {
+		methods: { init },
+		values: { allValues, items, triggers, activeIndex }
+	} = createInit(defaultValue, select, toggle);
 
 	setContext('select', { selectTrigger, isOpen, init, defaultValue, defaultOpen, disabled, selectContentUuid, dir });
 
@@ -28,15 +30,15 @@
 	}
 
 	function focus(index: number) {
-		selectTriggers[index]?.focus();
+		triggers[index]?.focus();
 		activeIndex = index;
 	}
 
 	function select(index: number) {
-		items.forEach((store) => store.set(false));
+		items.forEach((item) => item.set(false));
 		items[index].set(true);
 
-		value = values[index];
+		value = allValues[index];
 		// dispatch('valueChange', value);
 	}
 </script>

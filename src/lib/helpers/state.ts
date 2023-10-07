@@ -1,5 +1,5 @@
 import { writable, type Writable } from 'svelte/store';
-import type { InitFunction, InitProps, NavigationDirection } from './types';
+import type { InitProps, InitReturns, NavigationDirection } from './types';
 
 type Action = (index: number) => void;
 
@@ -35,24 +35,25 @@ export function createKeyboardNavigation(
 	}
 }
 
-export function createInit(defaultValue: string | string[] | undefined, select: Action, toggle: Action): [InitFunction, string[], Writable<boolean>[], HTMLButtonElement[]] {
-	const values: string[] = [];
-	const stores: Writable<boolean>[] = [];
+export function createInit(defaultValue: string | string[] | undefined, select: Action, toggle: Action): InitReturns {
+	const allValues: string[] = [];
+	const items: Writable<boolean>[] = [];
 	const triggers: HTMLButtonElement[] = [];
+	const activeIndex: number = 0;
 
-	const init = (element: Node, [store, value, initResult]: InitProps) => {
-		values.push(value);
-		stores.push(store);
-		triggers.push(element as HTMLButtonElement);
+	const init = (element: HTMLButtonElement, [value, item, initResult]: InitProps) => {
+		allValues.push(value);
+		items.push(item);
+		triggers.push(element);
 
-		const index = stores.length - 1;
+		const index = items.length - 1;
 		if (value === defaultValue) select(index);
 		const toggleItem = () => toggle(index);
 
 		[initResult.toggleItem, initResult.index] = [toggleItem, index];
 	};
 
-	return [init, values, stores, triggers];
+	return { methods: { init }, values: { allValues, items, triggers, activeIndex } };
 }
 
 export function createAnimationEnd(state: Writable<boolean>): [Writable<boolean>, (event: AnimationEvent) => void] {

@@ -15,7 +15,7 @@
 </script>
 
 <button
-	use:init={[isActive, value, initResult]}
+	use:init={[value, isActive, initResult]}
 	on:click={initResult.toggleItem}
 	type="button"
 	role="tab"
