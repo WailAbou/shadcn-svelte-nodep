@@ -7,14 +7,8 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let {
-		selectTrigger,
-		isOpen,
-		selectedValue,
-		disabled,
-		selectContentUuid,
-		dir
-	}: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; selectedValue: Writable<string>; disabled: boolean; selectContentUuid: string; dir: string } = getContext('select');
+	let { selectTrigger, isOpen, disabled, selectContentUuid, dir }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; disabled: boolean; selectContentUuid: string; dir: string } =
+		getContext('select');
 </script>
 
 <button
@@ -30,7 +24,6 @@
 	aria-autocomplete="none"
 	data-state={$isOpen ? 'open' : 'closed'}
 	data-disabled={disabled ? true : undefined}
-	data-placeholder={!$selectedValue ? true : undefined}
 	class={cn(
 		'flex h-10 items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50',
 		className

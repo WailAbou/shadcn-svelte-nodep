@@ -35,6 +35,7 @@
 	}
 
 	function select(index: number) {
+		console.log(index);
 		const newValue = values[index];
 
 		expandeds.forEach((store, i) => {

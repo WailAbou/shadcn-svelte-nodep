@@ -1,5 +1,5 @@
 import { writable, type Writable } from 'svelte/store';
-import type { InitFunctionType, InitProps, NavigationDirection } from './types';
+import type { InitFunction, InitProps, NavigationDirection } from './types';
 
 type Action = (index: number) => void;
 
@@ -35,12 +35,12 @@ export function createKeyboardNavigation(
 	}
 }
 
-export function createInit(defaultValue: string | string[] | undefined, select: Action, toggle: Action): [InitFunctionType, string[], Writable<boolean>[], HTMLButtonElement[]] {
+export function createInit(defaultValue: string | string[] | undefined, select: Action, toggle: Action): [InitFunction, string[], Writable<boolean>[], HTMLButtonElement[]] {
 	const values: string[] = [];
 	const stores: Writable<boolean>[] = [];
 	const triggers: HTMLButtonElement[] = [];
 
-	const init = (element: Node, { store, value, initResult }: InitProps) => {
+	const init = (element: Node, [store, value, initResult]: InitProps) => {
 		values.push(value);
 		stores.push(store);
 		triggers.push(element as HTMLButtonElement);
