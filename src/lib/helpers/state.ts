@@ -19,8 +19,8 @@ export function createKeyboardNavigation(
 	const nextTabPressed: boolean = code === 'Tab' && !shiftKey && tab;
 	const previousTabPressed: boolean = code === 'Tab' && shiftKey && tab;
 
-	if (nextTabPressed) activeIndex.update((i) => i + 1);
-	else if (previousTabPressed) activeIndex.update((i) => i - 1);
+	if (nextTabPressed) activeIndex.set(Math.min(index + 1, max - 1));
+	else if (previousTabPressed) activeIndex.set(Math.max(index - 1, 0));
 
 	const nextPressed: boolean = navDir == 'both' ? code === 'ArrowRight' || code === 'ArrowDown' : code === `Arrow${nextDir}`;
 	const previousPressed: boolean = navDir == 'both' ? code === 'ArrowLeft' || code === 'ArrowUp' : code === `Arrow${prevDir}`;
