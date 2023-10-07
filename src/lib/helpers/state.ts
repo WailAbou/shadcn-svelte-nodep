@@ -4,7 +4,7 @@ import type { InitProps, InitReturns, NavigationDirection, SimpleAction } from '
 export function createKeyboardNavigation(
 	event: KeyboardEvent,
 	action: SimpleAction,
-	activeIndex: number,
+	index: number,
 	maxIndex: number,
 	navDir: NavigationDirection = 'both',
 	skip: boolean = false,
@@ -19,8 +19,8 @@ export function createKeyboardNavigation(
 
 	if (nextPressed || previousPressed) {
 		event.preventDefault();
-		if (nextPressed) action(loop ? (activeIndex + 1) % maxIndex : Math.min(activeIndex + 1, maxIndex - 1));
-		else if (previousPressed) action(loop ? (activeIndex - 1 + maxIndex) % maxIndex : Math.max(activeIndex - 1, 0));
+		if (nextPressed) action(loop ? (index + 1) % maxIndex : Math.min(index + 1, maxIndex - 1));
+		else if (previousPressed) action(loop ? (index - 1 + maxIndex) % maxIndex : Math.max(index - 1, 0));
 	}
 
 	const lastPressed: boolean = code === 'End';
