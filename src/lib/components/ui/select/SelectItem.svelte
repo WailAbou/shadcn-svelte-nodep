@@ -3,7 +3,7 @@
 	import { cn } from '$lib/helpers/utils';
 	import { Check } from 'lucide-svelte';
 	import { getContext } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
+	import { get, writable, type Writable } from 'svelte/store';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -14,6 +14,8 @@
 	let uuid = crypto.randomUUID();
 
 	let { disabled, init }: { disabled: boolean; init: InitFunction } = getContext('select');
+
+	$: if ($initResult?.currentValue) $selected = get($initResult.currentValue) === value;
 </script>
 
 <button
@@ -21,9 +23,9 @@
 	on:click={$initResult?.toggleItem}
 	data-disabled={disabled ? true : undefined}
 	aria-labelledby={uuid}
+	aria-selected={$selected}
+	data-state={$selected ? 'checked' : 'uncheked'}
 	role="option"
-	aria-selected="false"
-	data-state="unchecked"
 	tabindex="-1"
 	class="relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
 >

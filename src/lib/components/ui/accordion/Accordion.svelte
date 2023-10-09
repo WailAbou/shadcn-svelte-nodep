@@ -28,9 +28,7 @@
 	function select(index: number) {
 		const newValue = allValues[index];
 
-		items.forEach((item, i) => {
-			if (isSingle && i !== index) item.set(false);
-		});
+		if (isSingle) items.filter((_, i) => i !== index).forEach((item) => item.set(false));
 		items[index].update((item) => (collapsible ? !item : true));
 
 		if (Array.isArray(value)) {

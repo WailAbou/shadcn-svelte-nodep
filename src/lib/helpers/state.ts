@@ -41,7 +41,7 @@ export function createKeyboardNavigation(
 	}
 }
 
-export function createInit(defaultValue: string | string[] | undefined, select: SimpleAction): InitReturns {
+export function createInit(defaultValue: string | string[] | undefined, select: SimpleAction, currentValue?: Writable<string>): InitReturns {
 	const allValues: string[] = [];
 	const items: Writable<boolean>[] = [];
 	const triggers: HTMLButtonElement[] = [];
@@ -56,7 +56,7 @@ export function createInit(defaultValue: string | string[] | undefined, select: 
 		if (value === defaultValue) select(index);
 		const toggleItem = () => toggle(index);
 
-		initResult.set({ toggleItem, index });
+		initResult.set({ toggleItem, index, currentValue });
 	};
 
 	function toggle(index: number) {

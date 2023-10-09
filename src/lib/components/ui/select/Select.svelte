@@ -3,8 +3,10 @@
 	import { createInit } from '$lib/helpers/state';
 	import type { Direction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
-	import { setContext } from 'svelte';
+	import { createEventDispatcher, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
+
+	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -13,23 +15,23 @@
 	export let disabled: boolean = false;
 	export let dir: Direction = 'ltr';
 
-	let value: undefined | string | string[];
+	let value: Writable<string> = writable(defaultValue);
 	let selectTrigger: Writable<HTMLElement> = writable();
 	let isOpen: Writable<boolean> = writable(defaultOpen);
 	let selectContentUuid: string = crypto.randomUUID();
 	let {
 		methods: { init },
 		values: { allValues, items }
-	} = createInit(defaultValue, select);
+	} = createInit(defaultValue, select, value);
 
-	setContext('select', { selectTrigger, isOpen, init, defaultValue, defaultOpen, disabled, selectContentUuid, dir });
+	setContext('select', { selectTrigger, isOpen, init, defaultOpen, disabled, selectContentUuid, dir });
 
 	function select(index: number) {
 		items.forEach((item) => item.set(false));
 		items[index].set(true);
 
-		value = allValues[index];
-		// dispatch('valueChange', value);
+		$value = allValues[index];
+		dispatch('valueChange', $value);
 	}
 </script>
 

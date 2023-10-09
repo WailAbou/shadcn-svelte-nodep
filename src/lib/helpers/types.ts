@@ -9,6 +9,7 @@ export type InitFunction = (node: HTMLButtonElement, [value, item, initResult]: 
 export interface InitResult {
 	toggleItem: VoidFunction;
 	index: number;
+	currentValue?: Writable<string>;
 }
 
 export interface InitReturns {
