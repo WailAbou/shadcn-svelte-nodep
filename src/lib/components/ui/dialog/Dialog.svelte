@@ -17,5 +17,5 @@
 	setContext('alert-dialog', isOpen);
 </script>
 
-<svelte:window use:preventScroll={$isOpen} use:keyDown={[() => isOpen.set(false), ['Escape']]} />
+<svelte:window use:preventScroll={$isOpen} use:keyDown={[isOpen, () => isOpen.set(false), ['Escape']]} />
 <slot />

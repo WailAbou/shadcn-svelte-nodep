@@ -37,7 +37,7 @@
 <button
 	data-state={$tooltipState}
 	bind:this={$tooltipTrigger}
-	use:keyDown={[close, ['Space', 'Enter', 'Escape']]}
+	use:keyDown={[isOpen, close, ['Space', 'Enter', 'Escape']]}
 	on:mouseenter={() => (skipDelay ? instantOpen() : delayedOpen())}
 	on:mouseleave={close}
 	on:focusin={instantOpen}
