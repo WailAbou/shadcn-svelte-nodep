@@ -60,8 +60,22 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 
 ## Usage
 
-Clone the repository and follow the instructions in the individual component folders to use the components in your project. Make sure to refer to the original `shadcn/ui` documentation for detailed usage instructions.
+Make sure to refer to the original `shadcn/ui` documentation for detailed usage instructions.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Special Thanks
+
+I want to extend my gratitude to the following individuals and projects for their valuable contributions to this port:
+
+- **Duder-onomy** for their excellent work on [svelte-focus-trap](https://github.com/Duder-onomy/svelte-focus-trap/blob/master/src/utils.js).
+
+- **SkeletonLabs Team** for their genius implementation of [FocusTrap](https://github.com/skeletonlabs/skeleton/blob/master/packages/skeleton/src/lib/actions/FocusTrap/focusTrap.ts) in the Skeleton framework.
+
+- **shadcn** for their fantastic [shadcn/ui](https://github.com/shadcn-ui/ui) library, which inspired this project.
+
+- **huntabyte** for their port of shadcn/ui with Radix Dependency, which served as an excellent reference. Check out their work [here](https://github.com/huntabyte/shadcn-svelte).
+
+I am grateful for their contributions, which helped make this project possible.
