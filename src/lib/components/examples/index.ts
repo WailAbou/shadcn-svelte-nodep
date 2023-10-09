@@ -55,6 +55,9 @@ export { default as RadioGroupExampleCode } from './RadioGroupExample.svelte?raw
 export { default as ScrollAreaExample } from './ScrollAreaExample.svelte';
 export { default as ScrollAreaExampleCode } from './ScrollAreaExample.svelte?raw';
 
+export { default as SelectExample } from './SelectExample.svelte';
+export { default as SelectExampleCode } from './SelectExample.svelte?raw';
+
 export { default as SeparatorExample } from './SeparatorExample.svelte';
 export { default as SeparatorExampleCode } from './SeparatorExample.svelte?raw';
 

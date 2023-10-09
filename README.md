@@ -45,7 +45,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Progress        | ✅     |
 | Radio Group     | ✅     |
 | Scroll Area     | ✅     |
-| Select          | ❌     |
+| Select          | ✅     |
 | Separator       | ✅     |
 | Sheet           | ❌     |
 | Skeleton        | ✅     |

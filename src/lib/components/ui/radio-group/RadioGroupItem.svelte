@@ -1,6 +1,6 @@
 <script lang="ts">
+	import type { InitFunction, InitResult } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
-	import { InitResult, type InitFunctionType } from '$lib/helpers/types';
 	import { Circle } from 'lucide-svelte';
 	import { getContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
@@ -11,20 +11,20 @@
 	export let id: string | undefined = undefined;
 	export let disabled: boolean = false;
 
-	let initResult: InitResult = new InitResult();
+	let initResult: Writable<InitResult> = writable();
 	let checked: Writable<boolean> = writable(false);
-	let { disabled: allDisabled, defaultValue, init }: { disabled: boolean; defaultValue: string; init: InitFunctionType } = getContext('radio-group');
+	let { disabled: allDisabled, hasValue, init }: { disabled: boolean; hasValue: Writable<boolean>; init: InitFunction } = getContext('radio-group');
 
 	disabled = disabled || allDisabled;
 </script>
 
 <button
-	use:init={{ store: checked, value, initResult }}
-	on:click={initResult.toggleItem}
+	use:init={[value, checked, initResult]}
+	on:click={$initResult?.toggleItem}
 	{id}
 	{disabled}
 	{value}
-	tabindex={$checked || (initResult?.index == 0 && !defaultValue) ? 0 : -1}
+	tabindex={$checked || ($initResult?.index == 0 && !$hasValue) ? 0 : -1}
 	aria-checked={$checked}
 	data-state={$checked ? 'checked' : 'unchecked'}
 	type="button"

@@ -29,7 +29,7 @@ export function delayValue<T>(target: Writable<T>, valueToDelay: T, delay: numbe
 	return delayedTarget;
 }
 
-export function getPosition(centerElement: HTMLElement, targetElement: HTMLElement, side: Side, align: Align, sideOffset: number, alignOffest: number): Position {
+export function getPosition(centerElement: HTMLElement, targetElement: HTMLElement, side: Side, align: Align, sideOffset: number = 0, alignOffest: number = 0): Position {
 	const [center, target] = [centerElement?.getBoundingClientRect(), targetElement?.getBoundingClientRect()];
 	let [x, y] = [0, 0];
 

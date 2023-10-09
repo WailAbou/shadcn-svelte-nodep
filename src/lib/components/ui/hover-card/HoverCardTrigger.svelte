@@ -1,11 +1,10 @@
 <script lang="ts">
-	import { createKeyDown } from '$lib/helpers/state';
+	import { keyDown } from '$lib/helpers/actions';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
 	let openTimer: number = 0;
 	let closeTimer: number = 0;
-	const onKeyDown = (e: KeyboardEvent) => createKeyDown(e, ['Escape'], onMouseLeave);
 
 	let { openDelay, closeDelay, hoverCardTrigger, isOpen }: { openDelay: number; closeDelay: number; hoverCardTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('hovercard');
 
@@ -21,6 +20,6 @@
 	}
 </script>
 
-<button bind:this={$hoverCardTrigger} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave} on:focusin={onMouseEnter} on:focusout={onMouseLeave} on:keydown={onKeyDown}>
+<button bind:this={$hoverCardTrigger} use:keyDown={[onMouseLeave, ['Escape']]} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave} on:focusin={onMouseEnter} on:focusout={onMouseLeave}>
 	<slot />
 </button>

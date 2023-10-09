@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { preventDefault } from '$lib/helpers/actions';
 	import { cn } from '$lib/helpers/utils';
 	import { Check } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
@@ -19,15 +20,11 @@
 		checked = !checked;
 		dispatch('checkedChange', checked);
 	}
-
-	function preventEnter(event: KeyboardEvent) {
-		if (event.key === 'Enter') event.preventDefault();
-	}
 </script>
 
 <button
 	on:click={toggle}
-	on:keydown={preventEnter}
+	use:preventDefault={['Enter']}
 	{id}
 	{disabled}
 	aria-checked={checked}
