@@ -11,6 +11,6 @@
 	export let size: VariantProps<typeof buttonVariants>['size'] = 'default';
 </script>
 
-<button tabindex="0" {...$$restProps} {type} class={cn(buttonVariants({ variant, size, className }))} on:click on:change on:keydown on:keyup on:mouseenter on:mouseleave>
+<button {...$$restProps} {type} class={cn(buttonVariants({ variant, size, className }))} on:click on:change on:keydown on:keyup on:mouseenter on:mouseleave>
 	<slot />
 </button>

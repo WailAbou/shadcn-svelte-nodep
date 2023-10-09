@@ -6,6 +6,6 @@
 	let { popoverTrigger, isOpen }: { popoverTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('popover');
 </script>
 
-<button bind:this={$popoverTrigger} use:keyDown={[() => isOpen.set(false), ['Escape']]} on:click={() => ($isOpen = !$isOpen)}>
+<button bind:this={$popoverTrigger} use:keyDown={[isOpen, () => isOpen.set(false), ['Escape']]} on:click={() => ($isOpen = !$isOpen)}>
 	<slot />
 </button>

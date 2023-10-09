@@ -20,6 +20,6 @@
 	}
 </script>
 
-<button bind:this={$hoverCardTrigger} use:keyDown={[onMouseLeave, ['Escape']]} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave} on:focusin={onMouseEnter} on:focusout={onMouseLeave}>
+<button bind:this={$hoverCardTrigger} use:keyDown={[isOpen, onMouseLeave, ['Escape']]} on:mouseenter={onMouseEnter} on:mouseleave={onMouseLeave} on:focusin={onMouseEnter} on:focusout={onMouseLeave}>
 	<slot />
 </button>
