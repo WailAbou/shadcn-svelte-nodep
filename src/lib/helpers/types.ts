@@ -19,7 +19,9 @@ export interface InitReturns {
 
 export type Direction = 'ltr' | 'rtl';
 
-export type NavigationDirection = 'vertical' | 'horizontal' | 'both';
+export type Orientation = 'horizontal' | 'vertical';
+
+export type NavigationDirection = 'horizontal' | 'vertical' | 'both';
 
 export type Side = 'top' | 'right' | 'bottom' | 'left';
 

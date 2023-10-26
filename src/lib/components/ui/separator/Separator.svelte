@@ -1,11 +1,11 @@
 <script lang="ts">
+	import type { Orientation } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
-	import type { SeparatorOrientation } from '.';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	export let orientation: SeparatorOrientation = 'horizontal';
+	export let orientation: Orientation = 'horizontal';
 	export let decorative: boolean = true;
 
 	const ariaOrientation = orientation === 'vertical' ? orientation : undefined;

@@ -2,7 +2,7 @@ import type { ClassValue } from 'clsx';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import type { Align, Position, Side } from './types';
-import { get, writable, type Writable } from 'svelte/store';
+import { get, writable, type Readable, type Writable } from 'svelte/store';
 
 export function cn(...inputs: ClassValue[]): string {
 	return twMerge(clsx(inputs));
@@ -20,7 +20,7 @@ export function hasValue<T>(source: undefined | T | T[], target: T): boolean {
 	return (!Array.isArray(source) && source === target) || (Array.isArray(source) && source?.includes(target));
 }
 
-export function delayValue<T>(target: Writable<T>, valueToDelay: T, delay: number = 100): Writable<T> {
+export function delayValue<T>(target: Writable<T>, valueToDelay: T, delay: number = 100): Readable<T> {
 	const delayedTarget: Writable<T> = writable(get(target));
 	target.subscribe((value) => {
 		if (value == valueToDelay) setTimeout(() => delayedTarget.set(get(target)), delay);

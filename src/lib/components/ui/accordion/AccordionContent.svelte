@@ -7,10 +7,10 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { expanded }: { expanded: Writable<boolean> } = getContext('accordion-item');
+	let { isOpen }: { isOpen: Writable<boolean> } = getContext('accordion-item');
 </script>
 
-{#if $expanded}
+{#if $isOpen}
 	<div class={cn('overflow-hidden text-sm', className)} transition:slide>
 		<div class="pb-4 pt-0">
 			<slot />

@@ -10,6 +10,5 @@
 	setContext('tooltip', { tooltipTrigger, isOpen, tooltipState });
 </script>
 
-<svelte:window on:scroll={() => ($isOpen = false)} />
-
+<svelte:window on:scroll={() => isOpen.set(false)} />
 <slot />

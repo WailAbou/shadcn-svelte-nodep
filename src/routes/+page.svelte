@@ -27,6 +27,7 @@
 		'Select',
 		'Separator',
 		'Skeleton',
+		'Slider',
 		'Switch',
 		'Tabs',
 		'Textarea',
