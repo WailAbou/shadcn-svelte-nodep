@@ -28,3 +28,5 @@ export type Side = 'top' | 'right' | 'bottom' | 'left';
 export type Align = 'start' | 'center' | 'end';
 
 export type Position = { x: number; y: number };
+
+export type KeyCombination = 'always' | 'never' | 'ignore';

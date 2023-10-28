@@ -1,5 +1,6 @@
 import type { ActionReturn } from 'svelte/action';
 import { get, type Writable } from 'svelte/store';
+import type { KeyCombination } from './types';
 
 export function clickOutside(node: Node, [callback, except]: [VoidFunction, HTMLElement?]): ActionReturn<[VoidFunction, HTMLElement?]> {
 	const onClick = (event: MouseEvent) => {
@@ -22,9 +23,10 @@ export function clickOutside(node: Node, [callback, except]: [VoidFunction, HTML
 	};
 }
 
-export function keyDown(node: Node, [condition, callback, codes, shiftKey]: [Writable<boolean>, VoidFunction, string[], boolean?]): ActionReturn {
+export function keyDown(node: Node, [condition, callback, codes, shiftKey = 'ignore']: [Writable<boolean>, VoidFunction, string[], KeyCombination?]): ActionReturn {
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (get(condition) && codes.includes(e.code) && (!shiftKey || (shiftKey && e.shiftKey))) {
+		const shiftCondtion = shiftKey === 'ignore' || (shiftKey === 'never' && !e.shiftKey) || (shiftKey === 'always' && e.shiftKey);
+		if (get(condition) && codes.includes(e.code) && shiftCondtion) {
 			e.preventDefault();
 			callback();
 		}

@@ -53,10 +53,10 @@
 	aria-disabled={disabled}
 	use:keyDown={[isFocused, () => updateValues(100), ['End']]}
 	use:keyDown={[isFocused, () => updateValues(0), ['Home']]}
-	use:keyDown={[isFocused, () => updateValues(handleX + 1), ['ArrowRight', 'ArrowUp']]}
-	use:keyDown={[isFocused, () => updateValues(handleX - 1), ['ArrowLeft', 'ArrowDown']]}
-	use:keyDown={[isFocused, () => updateValues(handleX + 10), ['ArrowRight', 'ArrowUp'], true]}
-	use:keyDown={[isFocused, () => updateValues(handleX - 10), ['ArrowLeft', 'ArrowDown'], true]}
+	use:keyDown={[isFocused, () => updateValues(handleX + step), ['ArrowRight', 'ArrowUp'], 'never']}
+	use:keyDown={[isFocused, () => updateValues(handleX - step), ['ArrowLeft', 'ArrowDown'], 'never']}
+	use:keyDown={[isFocused, () => updateValues(handleX + step * 10), ['ArrowRight', 'ArrowUp'], 'always']}
+	use:keyDown={[isFocused, () => updateValues(handleX - step * 10), ['ArrowLeft', 'ArrowDown'], 'always']}
 	on:mousedown={(e) => {
 		isDragging = true;
 		onMouseMove(e);
