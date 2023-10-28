@@ -6,9 +6,10 @@
 	export let closeDelay: number = 300;
 
 	let hoverCardTrigger: Writable<HTMLElement> = writable();
+	let hoverCount: Writable<number> = writable(0);
 	let isOpen: Writable<boolean> = writable(false);
 
-	setContext('hovercard', { openDelay, closeDelay, hoverCardTrigger, isOpen });
+	setContext('hovercard', { openDelay, closeDelay, hoverCardTrigger, hoverCount, isOpen });
 </script>
 
 <slot />

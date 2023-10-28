@@ -35,13 +35,13 @@
 </script>
 
 <button
-	data-state={$tooltipState}
 	bind:this={$tooltipTrigger}
 	use:keyDown={[isOpen, close, ['Space', 'Enter', 'Escape']]}
 	on:mouseenter={() => (skipDelay ? instantOpen() : delayedOpen())}
 	on:mouseleave={close}
 	on:focusin={instantOpen}
 	on:focusout={close}
+	data-state={$tooltipState}
 >
 	<slot />
 </button>
