@@ -22,9 +22,9 @@ export function clickOutside(node: Node, [callback, except]: [VoidFunction, HTML
 	};
 }
 
-export function keyDown(node: Node, [condition, callback, codes]: [Writable<boolean>, VoidFunction, string[]]): ActionReturn {
+export function keyDown(node: Node, [condition, callback, codes, shiftKey]: [Writable<boolean>, VoidFunction, string[], boolean?]): ActionReturn {
 	const onKeyDown = (e: KeyboardEvent) => {
-		if (get(condition) && codes.includes(e.code)) {
+		if (get(condition) && codes.includes(e.code) && (!shiftKey || (shiftKey && e.shiftKey))) {
 			e.preventDefault();
 			callback();
 		}

@@ -1,7 +1,9 @@
 <script lang="ts">
+	import { keyDown } from '$lib/helpers/actions';
 	import { cn } from '$lib/helpers/utils';
 	import { TestTube } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: number }>();
 
@@ -17,6 +19,7 @@
 	let isDragging: boolean = false;
 	let scrollArea: HTMLDivElement;
 	let handleX: number;
+	let isFocused: Writable<boolean> = writable(false);
 
 	const mappedDefaultValue = ((defaultValue - min) / (max - min)) * 100;
 	updateValues(mappedDefaultValue);
@@ -48,10 +51,18 @@
 	data-orientation="horizontal"
 	data-disabled={disabled ? true : undefined}
 	aria-disabled={disabled}
+	use:keyDown={[isFocused, () => updateValues(100), ['End']]}
+	use:keyDown={[isFocused, () => updateValues(0), ['Home']]}
+	use:keyDown={[isFocused, () => updateValues(handleX + 1), ['ArrowRight', 'ArrowUp']]}
+	use:keyDown={[isFocused, () => updateValues(handleX - 1), ['ArrowLeft', 'ArrowDown']]}
+	use:keyDown={[isFocused, () => updateValues(handleX + 10), ['ArrowRight', 'ArrowUp'], true]}
+	use:keyDown={[isFocused, () => updateValues(handleX - 10), ['ArrowLeft', 'ArrowDown'], true]}
 	on:mousedown={(e) => {
 		isDragging = true;
 		onMouseMove(e);
 	}}
+	on:focusin={() => isFocused.set(true)}
+	on:foucsout={() => isFocused.set(false)}
 	class={cn('relative flex touch-none select-none items-center aria-disabled:pointer-events-none aria-disabled:opacity-50', className)}
 >
 	<span bind:this={scrollArea} data-orientation="horizontal" data-disabled={disabled ? true : undefined} class="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
