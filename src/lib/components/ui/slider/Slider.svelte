@@ -46,22 +46,24 @@
 <span
 	dir="ltr"
 	data-orientation="horizontal"
+	data-disabled={disabled ? true : undefined}
+	aria-disabled={disabled}
 	on:mousedown={(e) => {
 		isDragging = true;
 		onMouseMove(e);
 	}}
-	aria-disabled={disabled}
 	class={cn('relative flex touch-none select-none items-center aria-disabled:pointer-events-none aria-disabled:opacity-50', className)}
 >
-	<span bind:this={scrollArea} data-orientation="horizontal" class="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
-		<span data-orientation="horizontal" class="absolute left-0 h-full bg-primary" style="right: {100 - handleX}%;"></span>
+	<span bind:this={scrollArea} data-orientation="horizontal" data-disabled={disabled ? true : undefined} class="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary">
+		<span data-orientation="horizontal" data-disabled={disabled ? true : undefined} class="absolute left-0 h-full bg-primary" style="right: {100 - handleX}%;"></span>
 	</span>
 	<span style="left: {handleX}%" class="absolute translate-x-[-50%]">
 		<span
+			tabindex="0"
 			role="slider"
 			aria-orientation="horizontal"
 			data-orientation="horizontal"
-			tabindex="0"
+			data-disabled={disabled ? true : undefined}
 			aria-valuemin={min}
 			aria-valuemax={max}
 			aria-valuenow={value}
