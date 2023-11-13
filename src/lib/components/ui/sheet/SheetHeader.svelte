@@ -3,7 +3,7 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let isOpen: Writable<boolean> = getContext('alert-dialog');
+	let isOpen: Writable<boolean> = getContext('sheet');
 </script>
 
 <button

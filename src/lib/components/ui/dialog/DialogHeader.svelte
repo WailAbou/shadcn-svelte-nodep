@@ -3,10 +3,11 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let isOpen: Writable<boolean> = getContext('alert-dialog');
+	let isOpen: Writable<boolean> = getContext('dialog');
 </script>
 
 <button
+	data-focustrap="skip"
 	on:click={() => ($isOpen = false)}
 	type="button"
 	class="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"

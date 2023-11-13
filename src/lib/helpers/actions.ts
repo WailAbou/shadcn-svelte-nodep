@@ -112,7 +112,9 @@ export function focusTrap(node: HTMLElement, enabled: boolean = true) {
 			elemFirst = focusableElems[0];
 			elemLast = focusableElems[focusableElems.length - 1];
 
-			if (!fromObserver) elemFirst.focus();
+			if (!fromObserver) {
+				elemFirst.dataset.focustrap === 'skip' ? focusableElems[1].focus() : elemFirst.focus();
+			}
 
 			elemFirst.addEventListener('keydown', onFirstElemKeydown);
 			elemLast.addEventListener('keydown', onLastElemKeydown);

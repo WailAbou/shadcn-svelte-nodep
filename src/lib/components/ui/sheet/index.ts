@@ -6,3 +6,4 @@ export { default as SheetFooter } from './SheetFooter.svelte';
 export { default as SheetHeader } from './SheetHeader.svelte';
 export { default as SheetTitle } from './SheetTitle.svelte';
 export { default as SheetTrigger } from './SheetTrigger.svelte';
+export { sheetVariants } from './sheetVariants';

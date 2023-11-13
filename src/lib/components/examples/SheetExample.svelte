@@ -1,15 +1,25 @@
 <script lang="ts">
-	import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from '$components/ui/sheet';
+	import { Options } from '$components/custom/options';
+	import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger, sheetVariants } from '$components/ui/sheet';
 	import { Button } from '$components/ui/button';
 	import { Label } from '$components/ui/label';
 	import { Input } from '$components/ui/input';
+	import type { VariantProps } from 'class-variance-authority';
+
+	$: side = sides[sideIndex];
+	let sides: VariantProps<typeof sheetVariants>['side'][] = ['right', 'left', 'top', 'bottom'];
+	let sideIndex = 0;
 </script>
+
+<Options>
+	<Button on:click={() => (sideIndex = (sideIndex + 1) % sides.length)}>Side: {side}</Button>
+</Options>
 
 <Sheet>
 	<SheetTrigger>
 		<Button variant="outline">Open</Button>
 	</SheetTrigger>
-	<SheetContent>
+	<SheetContent {side}>
 		<SheetHeader>
 			<SheetTitle>Edit profile</SheetTitle>
 			<SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>

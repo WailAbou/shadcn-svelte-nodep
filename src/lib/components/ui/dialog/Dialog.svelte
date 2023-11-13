@@ -14,7 +14,7 @@
 	$: $isOpen = open;
 	$: dispatch('openChange', $isOpen);
 
-	setContext('alert-dialog', isOpen);
+	setContext('dialog', isOpen);
 </script>
 
 <svelte:window use:preventScroll={$isOpen} use:keyDown={[isOpen, () => isOpen.set(false), ['Escape']]} />
