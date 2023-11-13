@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { keyDown } from '$lib/helpers/actions';
 	import { cn } from '$lib/helpers/utils';
-	import { TestTube } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 
