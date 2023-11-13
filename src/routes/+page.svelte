@@ -26,6 +26,7 @@
 		'ScrollArea',
 		'Select',
 		'Separator',
+		'Sheet',
 		'Skeleton',
 		'Slider',
 		'Switch',

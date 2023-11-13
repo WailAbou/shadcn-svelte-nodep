@@ -61,6 +61,9 @@ export { default as SelectExampleCode } from './SelectExample.svelte?raw';
 export { default as SeparatorExample } from './SeparatorExample.svelte';
 export { default as SeparatorExampleCode } from './SeparatorExample.svelte?raw';
 
+export { default as SheetExample } from './SheetExample.svelte';
+export { default as SheetExampleCode } from './SheetExample.svelte?raw';
+
 export { default as SkeletonExample } from './SkeletonExample.svelte';
 export { default as SkeletonExampleCode } from './SkeletonExample.svelte?raw';
 
