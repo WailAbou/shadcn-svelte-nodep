@@ -20,6 +20,7 @@
 		'Input',
 		'Label',
 		'Link',
+		'Pagination',
 		'Popover',
 		'Progress',
 		'RadioGroup',
