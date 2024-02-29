@@ -43,6 +43,9 @@ export { default as LabelExampleCode } from './LabelExample.svelte?raw';
 export { default as LinkExample } from './LinkExample.svelte';
 export { default as LinkExampleCode } from './LinkExample.svelte?raw';
 
+export { default as PaginationExample } from './PaginationExample.svelte';
+export { default as PaginationExampleCode } from './PaginationExample.svelte?raw';
+
 export { default as PopoverExample } from './PopoverExample.svelte';
 export { default as PopoverExampleCode } from './PopoverExample.svelte?raw';
 

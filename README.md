@@ -43,7 +43,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Link            | ✅     |
 | Menubar         | ❌     |
 | Navigation Menu | ❌     |
-| Pagination      | ❌     |
+| Pagination      | ✅     |
 | Popover         | ✅     |
 | Progress        | ✅     |
 | Radio Group     | ✅     |
