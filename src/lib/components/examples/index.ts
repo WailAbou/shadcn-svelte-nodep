@@ -16,6 +16,9 @@ export { default as AvatarExampleCode } from './AvatarExample.svelte?raw';
 export { default as BadgeExample } from './BadgeExample.svelte';
 export { default as BadgeExampleCode } from './BadgeExample.svelte?raw';
 
+export { default as BreadcrumbExample } from './BreadcrumbExample.svelte';
+export { default as BreadcrumbExampleCode } from './BreadcrumbExample.svelte?raw';
+
 export { default as ButtonExample } from './ButtonExample.svelte';
 export { default as ButtonExampleCode } from './ButtonExample.svelte?raw';
 

@@ -11,6 +11,7 @@
 		'AspectRatio',
 		'Avatar',
 		'Badge',
+		'Breadcrumb',
 		'Button',
 		'Card',
 		'Checkbox',

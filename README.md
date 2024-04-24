@@ -16,52 +16,54 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 
 | Component       | Status |
 | --------------- | ------ |
-| Accordion       | ✅     |
-| Alert           | ✅     |
-| Alert Dialog    | ✅     |
-| Aspect Ratio    | ✅     |
-| Avatar          | ✅     |
-| Badge           | ✅     |
-| Button          | ✅     |
-| Calendar        | ❌     |
-| Card            | ✅     |
-| Carousel        | ❌     |
-| Checkbox        | ✅     |
-| Collapsible     | ✅     |
-| Combobox        | ❌     |
-| Command         | ❌     |
-| Context Menu    | ❌     |
-| Data Table      | ❌     |
-| Date Picker     | ❌     |
-| Dialog          | ✅     |
-| Drawer          | ❌     |
-| Dropdown Menu   | ❌     |
-| Form            | ❌     |
-| Hover Card      | ✅     |
-| Input           | ✅     |
-| Label           | ✅     |
-| Link            | ✅     |
-| Menubar         | ❌     |
-| Navigation Menu | ❌     |
-| Pagination      | ✅     |
-| Popover         | ✅     |
-| Progress        | ✅     |
-| Radio Group     | ✅     |
-| Resizable       | ❌     |
-| Scroll Area     | ✅     |
-| Select          | ✅     |
-| Separator       | ✅     |
-| Sheet           | ✅     |
-| Skeleton        | ✅     |
-| Slider          | ✅     |
-| Sonner          | ❌     |
-| Switch          | ✅     |
-| Table           | ❌     |
-| Tabs            | ✅     |
-| Textarea        | ✅     |
-| Toast           | ❌     |
-| Toggle          | ✅     |
-| Tooltip         | ✅     |
+| Accordion       |   ✅   |
+| Alert           |   ✅   |
+| Alert Dialog    |   ✅   |
+| Aspect Ratio    |   ✅   |
+| Avatar          |   ✅   |
+| Badge           |   ✅   |
+| Breadcrumb      |   ✅   |
+| Button          |   ✅   |
+| Calendar        |   ❌   |
+| Card            |   ✅   |
+| Carousel        |   ❌   |
+| Checkbox        |   ✅   |
+| Collapsible     |   ✅   |
+| Combobox        |   ❌   |
+| Command         |   ❌   |
+| Context Menu    |   ❌   |
+| Data Table      |   ❌   |
+| Date Picker     |   ❌   |
+| Dialog          |   ✅   |
+| Drawer          |   ❌   |
+| Dropdown Menu   |   ❌   |
+| Form            |   ❌   |
+| Hover Card      |   ✅   |
+| Input           |   ✅   |
+| Input OTP       |   ❌   |
+| Label           |   ✅   |
+| Link            |   ✅   |
+| Menubar         |   ❌   |
+| Navigation Menu |   ❌   |
+| Pagination      |   ✅   |
+| Popover         |   ✅   |
+| Progress        |   ✅   |
+| Radio Group     |   ✅   |
+| Resizable       |   ❌   |
+| Scroll Area     |   ✅   |
+| Select          |   ✅   |
+| Separator       |   ✅   |
+| Sheet           |   ✅   |
+| Skeleton        |   ✅   |
+| Slider          |   ✅   |
+| Sonner          |   ❌   |
+| Switch          |   ✅   |
+| Table           |   ❌   |
+| Tabs            |   ✅   |
+| Textarea        |   ✅   |
+| Toast           |   ❌   |
+| Toggle          |   ✅   |
+| Tooltip         |   ✅   |
 
 ## Usage
 
