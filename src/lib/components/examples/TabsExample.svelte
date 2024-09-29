@@ -6,7 +6,7 @@
 	import { Button } from '$components/ui/button';
 </script>
 
-<Tabs defaultValue="account" class="w-[400px]">
+<Tabs defaultValue="account">
 	<TabsList class="grid w-full grid-cols-2">
 		<TabsTrigger value="account">Account</TabsTrigger>
 		<TabsTrigger value="password">Password</TabsTrigger>
