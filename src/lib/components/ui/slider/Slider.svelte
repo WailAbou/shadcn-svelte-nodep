@@ -23,14 +23,16 @@
 	const mappedDefaultValue = ((defaultValue - min) / (max - min)) * 100;
 	updateValues(mappedDefaultValue);
 
-	const onMouseMove = (event: MouseEvent) => {
+	const onMove = (clientX: number) => {
 		if (isDragging) {
 			const start = scrollArea.getBoundingClientRect().x;
 			const end = start + scrollArea.clientWidth;
-			const absolutePercentage = ((event.clientX - start) / (end - start)) * 100;
+			const absolutePercentage = ((clientX - start) / (end - start)) * 100;
 			updateValues(absolutePercentage);
 		}
 	};
+	const onMouseMove = (event: MouseEvent) => onMove(event.clientX);
+	const onTouchMove = ({ touches }: TouchEvent) => touches[0] && onMove(touches[0].clientX);
 
 	function updateValues(value: number) {
 		const steppedPercentage = Math.round(value * (1 / step)) / (1 / step);
@@ -43,7 +45,7 @@
 	}
 </script>
 
-<svelte:window on:mousemove={onMouseMove} on:mouseup={() => (isDragging = false)} />
+<svelte:window on:mousemove={onMouseMove} on:mouseup={() => (isDragging = false)} on:touchmove={onTouchMove} on:touchend={() => (isDragging = false)} />
 
 <span
 	dir="ltr"
@@ -59,6 +61,10 @@
 	on:mousedown={(e) => {
 		isDragging = true;
 		onMouseMove(e);
+	}}
+	on:touchstart={(e) => {
+		isDragging = true;
+		onTouchMove(e);
 	}}
 	on:focusin={() => isFocused.set(true)}
 	on:foucsout={() => isFocused.set(false)}
