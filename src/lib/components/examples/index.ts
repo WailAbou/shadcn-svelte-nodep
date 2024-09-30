@@ -88,5 +88,8 @@ export { default as TextareaExampleCode } from './TextareaExample.svelte?raw';
 export { default as ToggleExample } from './ToggleExample.svelte';
 export { default as ToggleExampleCode } from './ToggleExample.svelte?raw';
 
+export { default as ToggleGroupExample } from './ToggleGroupExample.svelte';
+export { default as ToggleGroupExampleCode } from './ToggleGroupExample.svelte?raw';
+
 export { default as TooltipExample } from './TooltipExample.svelte';
 export { default as TooltipExampleCode } from './TooltipExample.svelte?raw';

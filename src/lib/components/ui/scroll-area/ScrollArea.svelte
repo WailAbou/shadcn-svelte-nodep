@@ -18,20 +18,22 @@
 	$: if (type == 'auto' && scrollAreaMaxY < scrollBarMaxY) isScrollBarHidden = true;
 	$: showScrollBar = type == 'always' || (type == 'hover' && isHovering) || (type == 'auto' && !isScrollBarHidden) || (type == 'scroll' && isScrolling);
 
-	const syncScrollBarToArea = () => {
+	const onScroll = () => {
 		const percentage = scrollArea.scrollTop / scrollAreaMaxY;
 		scrollBarY = percentage * scrollBarMaxY;
 		handleScroll();
 	};
 
-	const syncAreaToScrollBar = (event: MouseEvent) => {
+	const onMove = (clientY: number) => {
 		if (isDragging) {
-			const relativeY = event.clientY - scrollBarMinY;
+			const relativeY = clientY - scrollBarMinY;
 			const percentage = relativeY / scrollBarMaxY;
 			scrollArea.scrollTop = percentage * scrollAreaMaxY;
 			handleScroll();
 		}
 	};
+	const onMouseMove = (event: MouseEvent) => onMove(event.clientY);
+	const onTouchMove = ({ touches }: TouchEvent) => touches[0] && onMove(touches[0].clientY);
 
 	const handleScroll = () => {
 		isScrolling = true;
@@ -46,10 +48,10 @@
 	};
 </script>
 
-<svelte:window on:mousemove={syncAreaToScrollBar} on:mouseup={() => (isDragging = false)} />
+<svelte:window on:mousemove={onMouseMove} on:mouseup={() => (isDragging = false)} on:touchmove={onTouchMove} on:touchend={() => (isDragging = false)} />
 
 <div dir="ltr" class={cn('relative overflow-hidden', className)} on:mouseover={handleHover} on:mouseleave={handleHover}>
-	<div bind:this={scrollArea} on:scroll={syncScrollBarToArea} class="h-full w-full overflow-x-hidden overflow-y-scroll rounded-[inherit]" data-scroll-area-viewport>
+	<div bind:this={scrollArea} on:scroll={onScroll} class="h-full w-full overflow-x-hidden overflow-y-scroll rounded-[inherit]" data-scroll-area-viewport>
 		<div style="min-width: 100%; display: table;">
 			<slot />
 		</div>
@@ -58,6 +60,7 @@
 		<div
 			bind:this={scrollBar}
 			on:mousedown={() => (isDragging = true)}
+			on:touchstart={() => (isDragging = true)}
 			data-orientation="vertical"
 			data-state="visible"
 			class="absolute right-0 top-0 flex h-full w-2.5 touch-none select-none border-l border-l-transparent p-[1px] transition-colors"

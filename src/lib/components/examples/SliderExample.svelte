@@ -22,7 +22,7 @@
 <Options>
 	<p class="flex items-center justify-center">Value: {value}</p>
 	<Button on:click={() => (disabled = !disabled)}>Disabled: {disabled}</Button>
-	<Button on:click={() => (stepIndex = (stepIndex + 1) % steps.length)}>Step Size: {steps[stepIndex]}</Button>
+	<Button on:click={() => (stepIndex = (stepIndex + 1) % steps.length)}>Step Size: {step}</Button>
 	<Button on:click={() => (rangeIndex = (rangeIndex + 1) % ranges.length)}>Range: {range[0]} - {range[1]}</Button>
 </Options>
 

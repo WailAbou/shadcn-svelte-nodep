@@ -35,6 +35,7 @@
 		'Tabs',
 		'Textarea',
 		'Toggle',
+		'ToggleGroup',
 		'Tooltip'
 	];
 
