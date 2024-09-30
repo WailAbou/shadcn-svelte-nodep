@@ -2,14 +2,11 @@
 	import { preventScroll } from '$lib/helpers/actions';
 	import { createInit } from '$lib/helpers/state';
 	import type { Direction } from '$lib/helpers/types';
-	import { cn } from '$lib/helpers/utils';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import { writable, type Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 
-	let className: string | undefined | null = undefined;
-	export { className as class };
 	export let defaultValue: string | undefined = undefined;
 	export let defaultOpen: boolean = false;
 	export let disabled: boolean = false;

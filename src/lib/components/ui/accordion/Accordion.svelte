@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
+	import type { SelectionMode } from '$lib/helpers/types';
+	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import type { AccordionType } from '.';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 
@@ -11,7 +11,7 @@
 	export let collapsible: boolean = false;
 	export let disabled: boolean = false;
 	export let defaultValue: undefined | string | string[] = undefined;
-	export let type: AccordionType;
+	export let type: SelectionMode;
 
 	let value: undefined | string | string[];
 	let {

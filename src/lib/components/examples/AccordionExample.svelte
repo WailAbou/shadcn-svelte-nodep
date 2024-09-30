@@ -1,10 +1,11 @@
 <script lang="ts">
-	import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, type AccordionType } from '$components/ui/accordion';
-	import { Button } from '$components/ui/button';
 	import { Options } from '$components/custom/options';
+	import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '$components/ui/accordion';
+	import { Button } from '$components/ui/button';
+	import type { SelectionMode } from '$lib/helpers/types';
 
 	let value: undefined | string | string[];
-	let type: AccordionType = 'single';
+	let type: SelectionMode = 'single';
 	let collapsible: boolean = true;
 	let disabled: boolean = false;
 

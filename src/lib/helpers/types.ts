@@ -17,6 +17,8 @@ export interface InitReturns {
 	values: { allValues: string[]; items: Writable<boolean>[]; activeIndex: Writable<number> };
 }
 
+export type SelectionMode = 'single' | 'multiple';
+
 export type Direction = 'ltr' | 'rtl';
 
 export type Orientation = 'horizontal' | 'vertical';
