@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { writable, type Writable } from 'svelte/store';
-	import { createEventDispatcher, setContext } from 'svelte';
+	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
+	import type { Direction, Orientation, SelectionMode } from '$lib/helpers/types';
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import type { VariantProps } from 'class-variance-authority';
-	import type { Direction, Orientation, SelectionMode } from '$lib/helpers/types';
+	import { createEventDispatcher, setContext } from 'svelte';
+	import { writable, type Writable } from 'svelte/store';
 	import { toggleVariants } from './toggleVariants';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
@@ -17,12 +18,21 @@
 	export let dir: Direction = 'ltr';
 	export let variant: VariantProps<typeof toggleVariants>['variant'] = 'default';
 	export let size: VariantProps<typeof toggleVariants>['size'] = 'default';
+	export let rovingFocus: boolean = true;
+	export let loop: boolean = true;
 
 	let value: Writable<undefined | string | string[]> = writable(defaultValue);
+	let {
+		methods: { init, focus },
+		values: { allValues, items, activeIndex }
+	} = createInit(defaultValue, select);
+	const onKeyDown = (e: KeyboardEvent) => rovingFocus && createKeyboardNavigation(e, focus, activeIndex, items.length, orientation, true, false, loop);
 
-	setContext('toggle-group', { disabled, variant, size, select, value });
+	setContext('toggle-group', { disabled, variant, size, init });
 
-	function select(newValue: string) {
+	function select(index: number) {
+		const newValue = allValues[index];
+
 		value.update((currentValue) => {
 			if (type === 'multiple') {
 				currentValue = Array.isArray(currentValue) ? currentValue : [];
@@ -32,10 +42,22 @@
 			}
 		});
 
+		items.forEach((item, i) => {
+			item.set(type === 'multiple' ? hasValue($value, allValues[i]) : i === index && hasValue($value, newValue));
+		});
+
 		dispatch('valueChange', $value || '');
 	}
 </script>
 
-<div {dir} data-orientation={orientation} role="group" tabindex="0" class={cn('flex items-center justify-center gap-1 outline-none', { 'flex-col space-y-1': orientation === 'vertical' }, className)}>
+<div
+	{dir}
+	data-orientation={orientation}
+	role="group"
+	tabindex="0"
+	class={cn('flex items-center justify-center gap-1 outline-none', { 'flex-col space-y-1': orientation === 'vertical' }, className)}
+	on:keydown={onKeyDown}
+	on:focus={() => focus($activeIndex)}
+>
 	<slot />
 </div>
