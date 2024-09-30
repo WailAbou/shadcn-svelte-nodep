@@ -64,7 +64,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Textarea        |   ✅   |
 | Toast           |   ❌   |
 | Toggle          |   ✅   |
-| Toggle Group    |   ❌   |
+| Toggle Group    |   ✅   |
 | Tooltip         |   ✅   |
 
 ## Usage
