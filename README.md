@@ -55,6 +55,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Select          |   ✅   |
 | Separator       |   ✅   |
 | Sheet           |   ✅   |
+| Sidebar         |   ❌   |
 | Skeleton        |   ✅   |
 | Slider          |   ✅   |
 | Sonner          |   ❌   |
