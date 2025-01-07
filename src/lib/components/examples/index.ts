@@ -40,6 +40,9 @@ export { default as HoverCardExampleCode } from './HoverCardExample.svelte?raw';
 export { default as InputExample } from './InputExample.svelte';
 export { default as InputExampleCode } from './InputExample.svelte?raw';
 
+export { default as InputOtpExample } from './InputOtpExample.svelte';
+export { default as InputOtpExampleCode } from './InputOtpExample.svelte?raw';
+
 export { default as LabelExample } from './LabelExample.svelte';
 export { default as LabelExampleCode } from './LabelExample.svelte?raw';
 
