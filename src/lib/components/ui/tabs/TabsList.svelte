@@ -2,7 +2,7 @@
 	import { cn } from '$lib/helpers/utils';
 	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
 	import { getContext, setContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { get, type Writable } from 'svelte/store';
 	import type { TabsActivationMode } from '.';
 
 	let className: string | undefined | null = undefined;
@@ -12,7 +12,7 @@
 	let { selectedValue, activationMode }: { selectedValue: Writable<string>; activationMode: TabsActivationMode } = getContext('tabs');
 	let {
 		methods: { init, toggle, focus },
-		values: { allValues, items, activeIndex }
+		variables: { values, items, activeIndex }
 	} = createInit($selectedValue, select);
 	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, activeIndex, items.length, 'horizontal', false, false, loop);
 
@@ -23,7 +23,7 @@
 	function select(index: number) {
 		items.forEach((item) => item.set(false));
 		items[index].set(true);
-		$selectedValue = allValues[index];
+		$selectedValue = get(values[index]);
 	}
 </script>
 

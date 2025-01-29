@@ -3,6 +3,7 @@
 	import type { SelectionMode } from '$lib/helpers/types';
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import { createEventDispatcher, setContext } from 'svelte';
+	import { get } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 
@@ -16,7 +17,7 @@
 	let value: undefined | string | string[];
 	let {
 		methods: { init, focus },
-		values: { allValues, items, activeIndex }
+		variables: { values, items, activeIndex }
 	} = createInit(defaultValue, select);
 	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical', true, true);
 
@@ -26,7 +27,7 @@
 	$: value = isSingle ? '' : [];
 
 	function select(index: number) {
-		const newValue = allValues[index];
+		const newValue = get(values[index]);
 
 		if (isSingle) items.filter((_, i) => i !== index).forEach((item) => item.set(false));
 		items[index].update((item) => (collapsible ? !item : true));

@@ -42,18 +42,20 @@ export function createKeyboardNavigation(
 }
 
 export function createInit(defaultValue: string | string[] | undefined, select: SimpleAction, currentValue?: Writable<string>): InitReturns {
-	const allValues: string[] = [];
+	const values: Writable<string>[] = [];
 	const items: Writable<boolean>[] = [];
-	const triggers: HTMLButtonElement[] = [];
+	const triggers: HTMLElement[] = [];
 	const activeIndex: Writable<number> = writable(0);
 
-	const init = (element: HTMLButtonElement, [value, item, initResult]: InitProps) => {
-		allValues.push(value);
+	const init = (element: HTMLElement, [value, item, initResult]: InitProps) => {
+		const writableValue: Writable<string> = typeof value === 'string' ? writable(value) : value;
+
+		values.push(writableValue);
 		items.push(item);
 		triggers.push(element);
 
 		const index = items.length - 1;
-		if (value === defaultValue) select(index);
+		if (get(writableValue) === defaultValue) select(index);
 		const toggleItem = () => toggle(index);
 
 		initResult.set({ toggleItem, index, currentValue });
@@ -69,7 +71,7 @@ export function createInit(defaultValue: string | string[] | undefined, select: 
 		activeIndex.set(index);
 	}
 
-	return { methods: { init, toggle, focus }, values: { allValues, items, activeIndex } };
+	return { methods: { init, toggle, focus }, variables: { values, items, activeIndex } };
 }
 
 export function createAnimationEnd(state: Writable<boolean>): [Writable<boolean>, (event: AnimationEvent) => void] {

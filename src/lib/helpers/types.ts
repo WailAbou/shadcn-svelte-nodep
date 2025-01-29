@@ -2,9 +2,9 @@ import type { Writable } from 'svelte/store';
 
 export type SimpleAction = (index: number) => void;
 
-export type InitProps = [string, Writable<boolean>, Writable<InitResult>];
+export type InitProps = [string | Writable<string>, Writable<boolean>, Writable<InitResult>];
 
-export type InitFunction = (node: HTMLButtonElement, [value, item, initResult]: InitProps) => void;
+export type InitFunction = (node: HTMLElement, [value, item, initResult]: InitProps) => void;
 
 export interface InitResult {
 	toggleItem: VoidFunction;
@@ -14,7 +14,7 @@ export interface InitResult {
 
 export interface InitReturns {
 	methods: { init: InitFunction; toggle: SimpleAction; focus: SimpleAction };
-	values: { allValues: string[]; items: Writable<boolean>[]; activeIndex: Writable<number> };
+	variables: { values: Writable<string>[]; items: Writable<boolean>[]; activeIndex: Writable<number> };
 }
 
 export type SelectionMode = 'single' | 'multiple';

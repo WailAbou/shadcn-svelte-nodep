@@ -2,7 +2,7 @@
 	import { cn } from '$lib/helpers/utils';
 	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
+	import { get, writable, type Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string }>();
 
@@ -15,7 +15,7 @@
 	let hasValue: Writable<boolean> = writable(false);
 	let {
 		methods: { init, toggle },
-		values: { allValues, items, activeIndex }
+		variables: { values, items, activeIndex }
 	} = createInit(defaultValue, select);
 	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, activeIndex, items.length, 'both');
 
@@ -26,7 +26,7 @@
 		items[index].set(true);
 		hasValue.set(true);
 
-		value = allValues[index];
+		value = get(values[index]);
 		dispatch('valueChange', value);
 	}
 </script>
