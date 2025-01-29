@@ -4,7 +4,7 @@ This repository contains a port of the `shadcn/ui` library, a collection of UI c
 
 # Demo
 
-A live demo can be found [here](https://polite-tree-0b771a303.3.azurestaticapps.net)
+A live demo can be found [here](https://nice-sky-059595e10.4.azurestaticapps.net)
 
 ![Global Showcase GIF](https://github.com/WailAbou/shadcn-svelte-nodep/raw/main/assets/gifs/showcase.gif)
 
