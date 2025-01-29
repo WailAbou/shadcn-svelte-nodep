@@ -8,7 +8,9 @@
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
-	export let maxLength: number | undefined = undefined;
+	export let maxLength: number;
+	export let pattern: RegExp = /^\d+$/;
+	export let disabled: boolean = false;
 
 	let value: string;
 
@@ -20,35 +22,45 @@
 
 	function select(index: number) {
 		items.forEach((item) => item.set(false));
-		items[index].set(true);
+		if (index !== -1) items[index].set(true);
 
-		value = get(values[index]);
+		value = values
+			.flatMap((value) => get(value))
+			.join('')
+			.trim();
 		dispatch('valueChange', value);
 	}
 
-	function handleKeydown(event: KeyboardEvent) {
-		values[get(activeIndex)].set(event.key);
-		activeIndex.update((i) => i + 1);
-		select(get(activeIndex));
+	function onKeydown(event: KeyboardEvent) {
+		if (event.key === 'Backspace' && $activeIndex === maxLength - 1 && get(values[$activeIndex])) {
+			values[$activeIndex].set('');
+		} else if (event.key === 'Backspace') {
+			activeIndex.update((i) => Math.max(i - 1, 0));
+			select($activeIndex);
+			values[$activeIndex].set('');
+		} else if (pattern.test(event.key)) {
+			values[$activeIndex].set(event.key);
+			activeIndex.update((i) => Math.min(i + 1, maxLength - 1));
+			select($activeIndex);
+		}
 	}
 </script>
 
-<div data-input-otp-container="true" class={cn('flex items-center gap-2 has-[:disabled]:opacity-50', className)} style="position: relative; cursor: text; user-select: none; --root-height: 40px;">
+<div data-input-otp-container="true" class={cn('pointer-events-none relative flex cursor-text select-none items-center gap-2 has-[:disabled]:opacity-50', className)}>
 	<slot />
-	<div style="position: absolute; inset: 0px; pointer-events: none;">
+	<div class="pointer-events-none absolute inset-0">
 		<input
-			on:click={() => select(0)}
-			on:keydown={handleKeydown}
+			on:focusin={() => select(get(activeIndex))}
+			on:focusout={() => select(-1)}
+			on:keydown={onKeydown}
 			autocomplete="one-time-code"
-			class="disabled:cursor-not-allowed"
+			class="pointer-events-auto absolute inset-0 flex h-full w-full border-0 bg-transparent text-left font-mono text-[40px] tabular-nums leading-none tracking-tighter text-transparent caret-transparent opacity-0 shadow-none outline-none disabled:cursor-not-allowed"
 			data-input-otp="true"
 			inputmode="numeric"
-			pattern="^\d+$"
+			pattern={pattern.source}
 			maxlength={maxLength}
-			value=""
-			style="position: absolute; inset: 0px; width: 100%; height: 100%; display: flex; text-align: left; opacity: 1; color: transparent; pointer-events: all; background: transparent; caret-color: transparent; border: 0px solid transparent; outline: transparent solid 0px; box-shadow: none; line-height: 1; letter-spacing: -0.5em; font-size: var(--root-height); font-family: monospace; font-variant-numeric: tabular-nums;"
-			data-input-otp-mss="0"
-			data-input-otp-mse="0"
+			{value}
+			{disabled}
 		/>
 	</div>
 </div>

@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator } from '$components/ui/input-otp';
 	import { Options } from '$components/custom/options';
+	import { Button } from '$components/ui/button';
+
+	const ONLY_LETTERS = /^[a-zA-Z0-9]+$/;
+	const ONLY_NUMBERS = /^\d+$/;
 
 	let value: undefined | string = '';
+	let pattern: RegExp = ONLY_NUMBERS;
+	let disabled: boolean = false;
 </script>
 
 <Options>
@@ -13,18 +19,22 @@
 			You entered: {value}
 		{/if}
 	</p>
+	<Button on:click={() => (pattern = pattern === ONLY_NUMBERS ? ONLY_LETTERS : ONLY_NUMBERS)}>Pattern: {pattern === ONLY_NUMBERS ? 'Only Letters' : 'Only Numbers'}</Button>
+	<Button on:click={() => (disabled = !disabled)}>Disabled: {disabled}</Button>
 </Options>
 
-<InputOTP on:valueChange={({ detail: newValue }) => (value = newValue)}>
-	<InputOTPGroup>
-		<InputOTPSlot index={0} />
-		<InputOTPSlot index={1} />
-		<InputOTPSlot index={2} />
-	</InputOTPGroup>
-	<InputOTPSeparator />
-	<InputOTPGroup>
-		<InputOTPSlot index={3} />
-		<InputOTPSlot index={4} />
-		<InputOTPSlot index={5} />
-	</InputOTPGroup>
-</InputOTP>
+{#key pattern}
+	<InputOTP maxLength={6} {disabled} {pattern} on:valueChange={({ detail: newValue }) => (value = newValue)}>
+		<InputOTPGroup>
+			<InputOTPSlot />
+			<InputOTPSlot />
+			<InputOTPSlot />
+		</InputOTPGroup>
+		<InputOTPSeparator />
+		<InputOTPGroup>
+			<InputOTPSlot />
+			<InputOTPSlot />
+			<InputOTPSlot />
+		</InputOTPGroup>
+	</InputOTP>
+{/key}
