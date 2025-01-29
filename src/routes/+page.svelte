@@ -19,6 +19,7 @@
 		'Dialog',
 		'HoverCard',
 		'Input',
+		'InputOtp',
 		'Label',
 		'Link',
 		'Pagination',

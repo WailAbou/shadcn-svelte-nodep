@@ -37,13 +37,13 @@
 {#key uid}
 	<ToggleGroup on:valueChange={({ detail: newValue }) => (value = newValue)} {type} {disabled} {variant} {size} {orientation} {rovingFocus} {loop}>
 		<ToggleGroupItem value="bold" ariaLabel="Toggle bold">
-			<Bold className="h-4 w-4" />
+			<Bold class="h-4 w-4" />
 		</ToggleGroupItem>
 		<ToggleGroupItem value="italic" ariaLabel="Toggle italic">
-			<Italic className="h-4 w-4" />
+			<Italic class="h-4 w-4" />
 		</ToggleGroupItem>
 		<ToggleGroupItem value="underline" ariaLabel="Toggle underline">
-			<Underline className="h-4 w-4" />
+			<Underline class="h-4 w-4" />
 		</ToggleGroupItem>
 	</ToggleGroup>
 {/key}

@@ -4,7 +4,7 @@
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import type { VariantProps } from 'class-variance-authority';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
+	import { get, writable, type Writable } from 'svelte/store';
 	import { toggleVariants } from './toggleVariants';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
@@ -24,14 +24,14 @@
 	let value: Writable<undefined | string | string[]> = writable(defaultValue);
 	let {
 		methods: { init, focus },
-		values: { allValues, items, activeIndex }
+		variables: { values, items, activeIndex }
 	} = createInit(defaultValue, select);
 	const onKeyDown = (e: KeyboardEvent) => rovingFocus && createKeyboardNavigation(e, focus, activeIndex, items.length, orientation, true, false, loop);
 
 	setContext('toggle-group', { disabled, variant, size, init });
 
 	function select(index: number) {
-		const newValue = allValues[index];
+		const newValue = get(values[index]);
 
 		value.update((currentValue) => {
 			if (type === 'multiple') {
@@ -43,7 +43,7 @@
 		});
 
 		items.forEach((item, i) => {
-			item.set(type === 'multiple' ? hasValue($value, allValues[i]) : i === index && hasValue($value, newValue));
+			item.set(type === 'multiple' ? hasValue($value, get(values[i])) : i === index && hasValue($value, newValue));
 		});
 
 		dispatch('valueChange', $value || '');

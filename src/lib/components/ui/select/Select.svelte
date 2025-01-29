@@ -3,7 +3,7 @@
 	import { createInit } from '$lib/helpers/state';
 	import type { Direction } from '$lib/helpers/types';
 	import { createEventDispatcher, setContext } from 'svelte';
-	import { writable, type Writable } from 'svelte/store';
+	import { get, writable, type Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
 
@@ -18,7 +18,7 @@
 	let selectContentUuid: string = crypto.randomUUID();
 	let {
 		methods: { init },
-		values: { allValues, items }
+		variables: { values, items }
 	} = createInit(defaultValue, select, value);
 
 	setContext('select', { selectTrigger, isOpen, init, defaultOpen, disabled, selectContentUuid, dir });
@@ -27,7 +27,7 @@
 		items.forEach((item) => item.set(false));
 		items[index].set(true);
 
-		$value = allValues[index];
+		$value = get(values[index]);
 		dispatch('valueChange', $value);
 	}
 </script>

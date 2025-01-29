@@ -41,7 +41,7 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 | Form            |   ❌   |
 | Hover Card      |   ✅   |
 | Input           |   ✅   |
-| Input OTP       |   ❌   |
+| Input OTP       |   ✅   |
 | Label           |   ✅   |
 | Link            |   ✅   |
 | Menubar         |   ❌   |
