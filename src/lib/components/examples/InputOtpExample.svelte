@@ -3,7 +3,7 @@
 	import { Options } from '$components/custom/options';
 	import { Button } from '$components/ui/button';
 
-	const ONLY_LETTERS = /^[a-zA-Z0-9]+$/;
+	const ONLY_LETTERS = /^[a-zA-Z]+$/;
 	const ONLY_NUMBERS = /^\d+$/;
 
 	let value: undefined | string = '';
