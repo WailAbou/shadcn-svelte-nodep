@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
+	import { createState, createKeyboardNavigation } from '$lib/helpers/state';
 	import { getContext, setContext } from 'svelte';
 	import { get, type Writable } from 'svelte/store';
 	import type { TabsActivationMode } from '.';
@@ -13,7 +13,7 @@
 	let {
 		methods: { init, toggle, focus },
 		variables: { values, items, activeIndex }
-	} = createInit($selectedValue, select);
+	} = createState($selectedValue, select);
 	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, selectMethod, activeIndex, items.length, 'horizontal', false, false, loop);
 
 	setContext('tabs-list', init);

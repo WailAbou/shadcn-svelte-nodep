@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { ToastProvider } from '$lib/components/ui/toast';
 	import '../styles/globals.css';
 </script>
 
@@ -7,3 +8,5 @@
 		<slot />
 	</div>
 </div>
+
+<ToastProvider />

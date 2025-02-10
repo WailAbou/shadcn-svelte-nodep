@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
+	import { createState, createKeyboardNavigation } from '$lib/helpers/state';
 	import type { Direction, Orientation, SelectionMode } from '$lib/helpers/types';
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import type { VariantProps } from 'class-variance-authority';
@@ -25,7 +25,7 @@
 	let {
 		methods: { init, focus },
 		variables: { values, items, activeIndex }
-	} = createInit(defaultValue, select);
+	} = createState(defaultValue, select);
 	const onKeyDown = (e: KeyboardEvent) => rovingFocus && createKeyboardNavigation(e, focus, activeIndex, items.length, orientation, true, false, loop);
 
 	setContext('toggle-group', { disabled, variant, size, init });
