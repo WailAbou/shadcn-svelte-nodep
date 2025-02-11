@@ -1,9 +1,34 @@
 <script lang="ts">
+	import { cn } from '$lib/helpers/utils';
+	import { onMount } from 'svelte';
 	import { ToastAction, ToastClose, ToastDescription, ToastTitle } from '.';
+	import { toastVariants } from './toastVariants';
+	import { toasts } from './useToast';
+	import type { Toast } from './useToast';
 
-	export let title: string | undefined = undefined;
-	export let description: string | undefined = undefined;
-	export let actionLabel: string | undefined = undefined;
+	let className: string | undefined | null = undefined;
+	export { className as class };
+	export let toast: Toast;
+
+	let timer: ReturnType<typeof setTimeout>;
+
+	function startTimer() {
+		timer = setTimeout(() => (toast.open = false), 5000);
+	}
+
+	function clearTimer() {
+		clearTimeout(timer);
+	}
+
+	function onAnimationEnd(event: AnimationEvent) {
+		if (event.animationName === 'exit') {
+			toasts.update((currentToasts) => currentToasts.filter((t) => t !== toast));
+		}
+	}
+
+	onMount(() => {
+		startTimer();
+	});
 </script>
 
 <li
@@ -11,21 +36,28 @@
 	aria-live="off"
 	aria-atomic="true"
 	tabindex="0"
-	data-state="open"
+	data-state={toast.open ? 'open' : 'closed'}
 	data-swipe-direction="right"
-	class="group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-md border bg-background p-6 pr-8 text-foreground shadow-lg transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full data-[state=open]:sm:slide-in-from-bottom-full"
-	style="user-select: none; touch-action: none;"
+	class={cn(toastVariants({ variant: toast.variant }), className)}
+	on:animationend={onAnimationEnd}
+	on:mouseenter={clearTimer}
+	on:mouseleave={startTimer}
 >
 	<div class="grid gap-1">
-		{#if title}
-			<ToastTitle>{title}</ToastTitle>
+		{#if toast.title}
+			<ToastTitle>{toast.title}</ToastTitle>
 		{/if}
-		{#if description}
-			<ToastDescription>{description}</ToastDescription>
+		{#if toast.description}
+			<ToastDescription>{toast.description}</ToastDescription>
 		{/if}
 	</div>
-	{#if actionLabel}
-		<ToastAction>{actionLabel}</ToastAction>
+	{#if toast.actionLabel}
+		<ToastAction>{toast.actionLabel}</ToastAction>
 	{/if}
-	<ToastClose />
+	<ToastClose
+		on:click={() => {
+			toast.open = false;
+			clearTimer();
+		}}
+	/>
 </li>
