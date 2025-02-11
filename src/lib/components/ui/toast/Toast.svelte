@@ -100,7 +100,14 @@
 		{/if}
 	</div>
 	{#if toast.actionLabel}
-		<ToastAction>{toast.actionLabel}</ToastAction>
+		<ToastAction
+			on:click={() => {
+				toast.open = false;
+				toast.actionEvent?.();
+			}}
+		>
+			{toast.actionLabel}
+		</ToastAction>
 	{/if}
 	<ToastClose on:click={() => (toast.open = false)} />
 </li>
