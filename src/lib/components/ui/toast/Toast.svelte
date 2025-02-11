@@ -3,8 +3,7 @@
 	import { onMount } from 'svelte';
 	import { ToastAction, ToastClose, ToastDescription, ToastTitle } from '.';
 	import { toastVariants } from './toastVariants';
-	import { toasts } from './useToast';
-	import type { Toast } from './useToast';
+	import { type Toast, toasts } from './toast';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -13,7 +12,10 @@
 	let timer: ReturnType<typeof setTimeout>;
 
 	function startTimer() {
-		timer = setTimeout(() => (toast.open = false), 5000);
+		timer = setTimeout(() => {
+			toast.open = false;
+			console.log('close');
+		}, 5000);
 	}
 
 	function clearTimer() {
@@ -22,11 +24,17 @@
 
 	function onAnimationEnd(event: AnimationEvent) {
 		if (event.animationName === 'exit') {
-			toasts.update((currentToasts) => currentToasts.filter((t) => t !== toast));
+			closeToast();
 		}
 	}
 
+	function closeToast() {
+		toasts.update((currentToasts) => currentToasts.filter((t) => t !== toast));
+		clearTimer();
+	}
+
 	onMount(() => {
+		console.log('mount');
 		startTimer();
 	});
 </script>
@@ -54,10 +62,5 @@
 	{#if toast.actionLabel}
 		<ToastAction>{toast.actionLabel}</ToastAction>
 	{/if}
-	<ToastClose
-		on:click={() => {
-			toast.open = false;
-			clearTimer();
-		}}
-	/>
+	<ToastClose on:click={closeToast} />
 </li>

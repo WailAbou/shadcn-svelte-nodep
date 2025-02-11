@@ -1,4 +1,4 @@
-export { useToast } from './useToast';
+export { toast } from './toast';
 export { default as Toast } from './Toast.svelte';
 export { default as ToastProvider } from './ToastProvider.svelte';
 export { default as ToastClose } from './ToastClose.svelte';

@@ -1,4 +1,4 @@
-import { writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 import type { toastVariants } from './toastVariants';
 import type { VariantProps } from 'class-variance-authority';
 
@@ -15,6 +15,12 @@ export interface Toast extends ToastSettings {
 
 export const toasts: Writable<Toast[]> = writable([]);
 
-export function useToast(settings: ToastSettings) {
-	toasts.set([{ ...settings, variant: settings?.variant ?? 'default', open: true }]);
+export function toast(settings: ToastSettings) {
+	const newToast: Toast = {
+		...settings,
+		variant: settings?.variant ?? 'default',
+		open: true
+	};
+
+	toasts.update((currentToasts) => [...currentToasts, newToast]);
 }

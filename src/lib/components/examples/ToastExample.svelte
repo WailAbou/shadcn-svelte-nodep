@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button } from '$components/ui/button';
-	import { useToast, toastVariants } from '$components/ui/toast';
+	import { toast, toastVariants } from '$components/ui/toast';
 	import { Options } from '$components/custom/options';
 	import type { VariantProps } from 'class-variance-authority';
 
@@ -15,7 +15,7 @@
 <Button
 	variant={variants[index]}
 	on:click={() =>
-		useToast({
+		toast({
 			variant: variants[index],
 			title: 'Scheduled: Catch up',
 			description: 'Friday, February 10, 2023 at 5:57 PM',
