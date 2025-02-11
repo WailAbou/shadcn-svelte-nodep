@@ -41,7 +41,7 @@ export function createKeyboardNavigation(
 	}
 }
 
-export function createInit(defaultValue: string | string[] | undefined, select: SimpleAction, currentValue?: Writable<string>): InitReturns {
+export function createState(defaultValue: string | string[] | undefined, select: SimpleAction, currentValue?: Writable<string>): InitReturns {
 	const values: Writable<string>[] = [];
 	const items: Writable<boolean>[] = [];
 	const triggers: HTMLElement[] = [];

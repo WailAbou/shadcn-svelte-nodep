@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { preventScroll } from '$lib/helpers/actions';
-	import { createInit } from '$lib/helpers/state';
+	import { createState } from '$lib/helpers/state';
 	import type { Direction } from '$lib/helpers/types';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import { get, writable, type Writable } from 'svelte/store';
@@ -19,7 +19,7 @@
 	let {
 		methods: { init },
 		variables: { values, items }
-	} = createInit(defaultValue, select, value);
+	} = createState(defaultValue, select, value);
 
 	setContext('select', { selectTrigger, isOpen, init, defaultOpen, disabled, selectContentUuid, dir });
 

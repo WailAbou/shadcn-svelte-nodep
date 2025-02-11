@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createInit } from '$lib/helpers/state';
+	import { createState } from '$lib/helpers/state';
 	import { cn } from '$lib/helpers/utils';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import { get } from 'svelte/store';
@@ -17,7 +17,7 @@
 	let {
 		methods: { init },
 		variables: { values, items, activeIndex }
-	} = createInit(undefined, select);
+	} = createState(undefined, select);
 	setContext('input-otp', { init });
 
 	function select(index: number) {

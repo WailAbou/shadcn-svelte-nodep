@@ -35,6 +35,7 @@
 		'Switch',
 		'Tabs',
 		'Textarea',
+		'Toast',
 		'Toggle',
 		'ToggleGroup',
 		'Tooltip'

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
+	import { createState, createKeyboardNavigation } from '$lib/helpers/state';
 	import type { SelectionMode } from '$lib/helpers/types';
 	import { cn, hasValue, removeValue } from '$lib/helpers/utils';
 	import { createEventDispatcher, setContext } from 'svelte';
@@ -18,7 +18,7 @@
 	let {
 		methods: { init, focus },
 		variables: { values, items, activeIndex }
-	} = createInit(defaultValue, select);
+	} = createState(defaultValue, select);
 	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical', true, true);
 
 	setContext('accordion', { init, disabled });

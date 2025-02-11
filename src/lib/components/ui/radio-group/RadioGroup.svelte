@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import { createInit, createKeyboardNavigation } from '$lib/helpers/state';
+	import { createState, createKeyboardNavigation } from '$lib/helpers/state';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import { get, writable, type Writable } from 'svelte/store';
 
@@ -16,7 +16,7 @@
 	let {
 		methods: { init, toggle },
 		variables: { values, items, activeIndex }
-	} = createInit(defaultValue, select);
+	} = createState(defaultValue, select);
 	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, toggle, activeIndex, items.length, 'both');
 
 	setContext('radio-group', { disabled, hasValue, init });
