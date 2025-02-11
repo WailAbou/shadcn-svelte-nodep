@@ -10,6 +10,7 @@ interface ToastSettings {
 }
 
 export interface Toast extends ToastSettings {
+	id: string;
 	open: boolean;
 }
 
@@ -19,6 +20,7 @@ export function toast(settings: ToastSettings) {
 	const newToast: Toast = {
 		...settings,
 		variant: settings?.variant ?? 'default',
+		id: Date.now().toString(),
 		open: true
 	};
 

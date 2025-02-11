@@ -12,10 +12,7 @@
 	let timer: ReturnType<typeof setTimeout>;
 
 	function startTimer() {
-		timer = setTimeout(() => {
-			toast.open = false;
-			console.log('close');
-		}, 5000);
+		timer = setTimeout(() => (toast.open = false), 5000);
 	}
 
 	function clearTimer() {
@@ -29,14 +26,11 @@
 	}
 
 	function closeToast() {
-		toasts.update((currentToasts) => currentToasts.filter((t) => t !== toast));
+		toasts.update((currentToasts) => currentToasts.filter((t) => t.id !== toast.id));
 		clearTimer();
 	}
 
-	onMount(() => {
-		console.log('mount');
-		startTimer();
-	});
+	onMount(startTimer);
 </script>
 
 <li
