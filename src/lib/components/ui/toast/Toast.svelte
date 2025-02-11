@@ -10,6 +10,10 @@
 	export let toast: Toast;
 
 	let timer: ReturnType<typeof setTimeout>;
+	let swipeState: string | null = null;
+	let startX: number | null = null;
+	let moveX: number = 0;
+	let endX: number = window.innerWidth;
 
 	function startTimer() {
 		timer = setTimeout(() => (toast.open = false), 5000);
@@ -19,8 +23,14 @@
 		clearTimeout(timer);
 	}
 
+	function onTransitionEnd(event: TransitionEvent) {
+		if (!toast.open && swipeState === 'end') {
+			closeToast();
+		}
+	}
+
 	function onAnimationEnd(event: AnimationEvent) {
-		if (event.animationName === 'exit') {
+		if (event.animationName === 'exit' && !toast.open && swipeState === null) {
 			closeToast();
 		}
 	}
@@ -28,6 +38,36 @@
 	function closeToast() {
 		toasts.update((currentToasts) => currentToasts.filter((t) => t.id !== toast.id));
 		clearTimer();
+	}
+
+	function onPointerdown(event: PointerEvent) {
+		startX = event.clientX;
+		swipeState = null;
+		moveX = 0;
+	}
+
+	function onPointerMove(event: PointerEvent) {
+		if (startX !== null) {
+			const dx = event.clientX - startX;
+			if (dx > 0) {
+				swipeState = 'move';
+				moveX = dx;
+			}
+		}
+	}
+
+	function onPointerUp() {
+		if (swipeState === 'move') {
+			const threshold = 100;
+			if (moveX > threshold) {
+				swipeState = 'end';
+				toast.open = false;
+			} else {
+				swipeState = 'cancel';
+				moveX = 0;
+			}
+		}
+		startX = null;
 	}
 
 	onMount(startTimer);
@@ -40,10 +80,16 @@
 	tabindex="0"
 	data-state={toast.open ? 'open' : 'closed'}
 	data-swipe-direction="right"
+	data-swipe={swipeState}
+	style="--toast-swipe-move-x: {moveX}px; --toast-swipe-end-x: {endX}px;"
 	class={cn(toastVariants({ variant: toast.variant }), className)}
+	on:transitionend={onTransitionEnd}
 	on:animationend={onAnimationEnd}
 	on:mouseenter={clearTimer}
 	on:mouseleave={startTimer}
+	on:pointerdown={onPointerdown}
+	on:pointermove={onPointerMove}
+	on:pointerup={onPointerUp}
 >
 	<div class="grid gap-1">
 		{#if toast.title}
@@ -56,5 +102,5 @@
 	{#if toast.actionLabel}
 		<ToastAction>{toast.actionLabel}</ToastAction>
 	{/if}
-	<ToastClose on:click={closeToast} />
+	<ToastClose on:click={() => (toast.open = false)} />
 </li>
