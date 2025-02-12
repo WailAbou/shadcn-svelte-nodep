@@ -35,7 +35,6 @@ export function getPosition(centerElement: HTMLElement, targetElement: HTMLEleme
 
 	if (!center || !target) return { x: 0, y: 0 };
 
-	console.log(center, target);
 	switch (side) {
 		case 'top':
 			x = getAlign(center.x, center.width, target.width, align);

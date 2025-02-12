@@ -29,6 +29,7 @@
 		$tooltipState = 'closed';
 		skipDelay = true;
 
+		clearTimeout(openTimer);
 		clearTimeout(closeTimer);
 		closeTimer = setTimeout(() => (skipDelay = false), skipDelayDuration);
 	}
