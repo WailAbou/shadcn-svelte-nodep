@@ -11,17 +11,19 @@ interface ToastSettings {
 }
 
 export interface Toast extends ToastSettings {
-	id: string;
+	id: number;
 	open: boolean;
 }
 
 export const toasts: Writable<Toast[]> = writable([]);
 
+export const maxToasts: Writable<number> = writable(1);
+
 export function toast(settings: ToastSettings) {
 	const newToast: Toast = {
 		...settings,
 		variant: settings?.variant ?? 'default',
-		id: Date.now().toString(),
+		id: Date.now(),
 		open: true
 	};
 

@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { ToastAction, ToastClose, ToastDescription, ToastTitle } from '.';
 	import { toastVariants } from './toastVariants';
-	import { type Toast, toasts } from './toast';
+	import { type Toast, toasts, maxToasts } from './toast';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -71,6 +71,11 @@
 	}
 
 	onMount(startTimer);
+
+	$: if ($toasts.length > $maxToasts) {
+		const oldestToast = $toasts.sort((t1, t2) => t1.id - t2.id)?.at(0);
+		if (oldestToast?.id === toast?.id) toast.open = false;
+	}
 </script>
 
 <li
