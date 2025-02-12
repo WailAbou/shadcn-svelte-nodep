@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { cn } from '$lib/helpers/utils';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import { ToastAction, ToastClose, ToastDescription, ToastTitle } from '.';
 	import { toastVariants } from './toastVariants';
-	import { type Toast, toasts, maxToasts } from './toast';
+	import { type Toast, toasts } from './toast';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -15,8 +15,10 @@
 	let moveX: number = 0;
 	let endX: number = window.innerWidth;
 
+	let { limit, duration, swipeThreshold }: { limit: number; duration: number; swipeThreshold: number } = getContext('toast-provider');
+
 	function startTimer() {
-		timer = setTimeout(() => (toast.open = false), 5000);
+		timer = setTimeout(() => (toast.open = false), duration);
 	}
 
 	function clearTimer() {
@@ -58,8 +60,7 @@
 
 	function onPointerUp() {
 		if (swipeState === 'move') {
-			const threshold = 100;
-			if (moveX > threshold) {
+			if (moveX > swipeThreshold) {
 				swipeState = 'end';
 				toast.open = false;
 			} else {
@@ -72,11 +73,13 @@
 
 	onMount(startTimer);
 
-	$: if ($toasts.length > $maxToasts) {
+	$: if ($toasts.length > limit) {
 		const oldestToast = $toasts.sort((t1, t2) => t1.id - t2.id)?.at(0);
 		if (oldestToast?.id === toast?.id) toast.open = false;
 	}
 </script>
+
+<svelte:window on:blur={clearTimer} on:focus={startTimer} />
 
 <li
 	role="status"
@@ -90,6 +93,8 @@
 	class={cn(toastVariants({ variant: toast.variant }), className)}
 	on:transitionend={onTransitionEnd}
 	on:animationend={onAnimationEnd}
+	on:focusin={clearTimer}
+	on:focusout={startTimer}
 	on:mouseenter={clearTimer}
 	on:mouseleave={startTimer}
 	on:pointerdown={onPointerdown}

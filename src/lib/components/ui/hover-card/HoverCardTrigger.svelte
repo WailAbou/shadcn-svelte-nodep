@@ -12,7 +12,7 @@
 		hoverCardTrigger,
 		hoverCount,
 		isOpen
-	}: { openDelay: number; closeDelay: number; hoverCardTrigger: Writable<HTMLElement>; hoverCount: Writable<number>; isOpen: Writable<boolean> } = getContext('hovercard');
+	}: { openDelay: number; closeDelay: number; hoverCardTrigger: Writable<HTMLElement>; hoverCount: Writable<number>; isOpen: Writable<boolean> } = getContext('hover-card');
 
 	$: $hoverCount > 0 && !$isOpen ? open() : close();
 
