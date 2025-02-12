@@ -6,7 +6,7 @@
 	let sides: Side[] = ['bottom', 'top', 'left', 'right'];
 </script>
 
-<div class="grid grid-cols-1 gap-4 lg:grid-cols-4">
+<div class="grid grid-cols-2 gap-4 lg:grid-cols-4">
 	{#each sides as side}
 		<TooltipProvider>
 			<Tooltip>
