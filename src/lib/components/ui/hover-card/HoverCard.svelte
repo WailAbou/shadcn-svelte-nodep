@@ -9,7 +9,7 @@
 	let hoverCount: Writable<number> = writable(0);
 	let isOpen: Writable<boolean> = writable(false);
 
-	setContext('hovercard', { openDelay, closeDelay, hoverCardTrigger, hoverCount, isOpen });
+	setContext('hover-card', { openDelay, closeDelay, hoverCardTrigger, hoverCount, isOpen });
 </script>
 
 <slot />

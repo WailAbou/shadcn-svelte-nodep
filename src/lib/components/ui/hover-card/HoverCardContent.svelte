@@ -12,7 +12,7 @@
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { hoverCardTrigger, hoverCount, isOpen }: { hoverCardTrigger: Writable<HTMLElement>; hoverCount: Writable<number>; isOpen: Writable<boolean> } = getContext('hovercard');
+	let { hoverCardTrigger, hoverCount, isOpen }: { hoverCardTrigger: Writable<HTMLElement>; hoverCount: Writable<number>; isOpen: Writable<boolean> } = getContext('hover-card');
 
 	let hoverCardContent: HTMLDivElement;
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);

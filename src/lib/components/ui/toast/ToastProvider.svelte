@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { setContext } from 'svelte';
 	import { Toast } from '.';
-	import { toasts, maxToasts } from './toast';
+	import { toasts } from './toast';
 
-	export let toastLimit: number = 1;
-	$: maxToasts.set(toastLimit);
+	export let limit: number = 1;
+	export let duration: number = 5000;
+	export let swipeThreshold: number = 50;
+
+	setContext('toast-provider', { limit, duration, swipeThreshold });
 </script>
 
 <div role="region" aria-label="Notifications (F8)" tabindex="-1" style="">

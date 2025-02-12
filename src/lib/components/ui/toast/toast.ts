@@ -17,8 +17,6 @@ export interface Toast extends ToastSettings {
 
 export const toasts: Writable<Toast[]> = writable([]);
 
-export const maxToasts: Writable<number> = writable(1);
-
 export function toast(settings: ToastSettings) {
 	const newToast: Toast = {
 		...settings,

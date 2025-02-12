@@ -35,6 +35,7 @@ export function getPosition(centerElement: HTMLElement, targetElement: HTMLEleme
 
 	if (!center || !target) return { x: 0, y: 0 };
 
+	console.log(center, target);
 	switch (side) {
 		case 'top':
 			x = getAlign(center.x, center.width, target.width, align);
@@ -43,6 +44,7 @@ export function getPosition(centerElement: HTMLElement, targetElement: HTMLEleme
 		case 'right':
 			x = center.x + center.width + 5;
 			y = getAlign(center.y, center.height, target.height, align);
+			console.log(x, window.innerWidth);
 			break;
 		case 'bottom':
 			x = getAlign(center.x, center.width, target.width, align);
@@ -53,6 +55,9 @@ export function getPosition(centerElement: HTMLElement, targetElement: HTMLEleme
 			y = getAlign(center.y, center.height, target.height, align);
 			break;
 	}
+
+	x = clamp(x, 0, window.innerWidth);
+	y = clamp(y, 0, window.innerHeight);
 
 	return { x: x + alignOffest, y: y + sideOffset };
 }
@@ -68,4 +73,8 @@ function getAlign(centerStart: number, centerLength: number, targetLength: numbe
 		default:
 			return 0;
 	}
+}
+
+function clamp(value: number, min: number, max: number) {
+	return Math.min(Math.max(value, min), max);
 }
