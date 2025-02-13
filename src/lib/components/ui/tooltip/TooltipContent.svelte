@@ -41,7 +41,7 @@
 			)}
 		>
 			<slot />
-			<span role="tooltip" class="absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap p-0" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); overflow-wrap: normal;">
+			<span role="tooltip" class="clip-[rect(0px,0px,0px,0px)] overflow-wrap-[normal] absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap border-0 p-0">
 				<slot />
 			</span>
 		</div>
