@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { createAnimationEnd } from '$lib/helpers/state';
 	import type { Align, Side } from '$lib/helpers/types';
-	import { cn, delayValue, getPosition } from '$lib/helpers/utils';
+	import { cn, isInsideElement, isNearElement, getPosition } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { TooltipState } from '.';
+	import { createAnimationEnd } from '$lib/helpers/state';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
@@ -13,20 +13,28 @@
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { tooltipTrigger, isOpen, tooltipState }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
+	let tooltipContent: HTMLElement;
 
-	let tooltipContent: HTMLDivElement;
+	let { tooltipTrigger, isOpen, tooltipState }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
+	let { mouseEvent }: { mouseEvent: Writable<MouseEvent> } = getContext('tooltip-provider');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
-	let delayedIsOpen = delayValue(isOpen, false);
+
+	function close(mouseEvent: MouseEvent) {
+		if (isInsideElement(mouseEvent, $tooltipTrigger) || isInsideElement(mouseEvent, tooltipContent) || isNearElement(mouseEvent, tooltipContent, side, sideOffset, alignOffset)) {
+			return;
+		}
+
+		isOpen.set(false);
+	}
 
 	$: position = getPosition($tooltipTrigger, tooltipContent, side, align, sideOffset, alignOffset);
+	$: $isOpen && close($mouseEvent);
 </script>
 
-{#if $delayedIsOpen || !$finishedAnimation}
+{#if $isOpen || !$finishedAnimation}
 	<div
 		bind:this={tooltipContent}
 		on:mouseenter={() => isOpen.set(true)}
-		on:mouseleave={() => isOpen.set(false)}
 		style="transform: translate({position?.x}px, {position?.y}px);"
 		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
 	>

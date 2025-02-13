@@ -7,8 +7,12 @@
 	let openTimer: number = 0;
 	let lastCloseTime = 0;
 
-	let { delayDuration, tooltipTrigger, isOpen, tooltipState }: { delayDuration: number; tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } =
-		getContext('tooltip');
+	let {
+		delayDuration,
+		tooltipTrigger,
+		isOpen,
+		tooltipState
+	}: { delayDuration: number; tooltipTrigger: Writable<HTMLElement>; tooltipContent: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
 	let { skipDelayDuration }: { skipDelayDuration: number } = getContext('tooltip-provider');
 
 	function delayedOpen() {
@@ -38,7 +42,6 @@
 	bind:this={$tooltipTrigger}
 	use:keyDown={[isOpen, close, ['Space', 'Enter', 'Escape']]}
 	on:mouseenter={() => (Date.now() - lastCloseTime <= skipDelayDuration ? open() : delayedOpen())}
-	on:mouseleave={close}
 	on:focusin={open}
 	on:focusout={close}
 	data-state={$tooltipState}

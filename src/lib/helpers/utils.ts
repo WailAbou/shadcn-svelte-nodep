@@ -20,6 +20,37 @@ export function hasValue<T>(source: undefined | T | T[], target: T): boolean {
 	return (!Array.isArray(source) && source === target) || (Array.isArray(source) && source?.includes(target));
 }
 
+export function isInsideElement(mouseEvent: MouseEvent | null, element: HTMLElement): boolean {
+	if (!mouseEvent || !element) return false;
+
+	const rect = element.getBoundingClientRect();
+	return mouseEvent.clientX >= rect.left && mouseEvent.clientX <= rect.right && mouseEvent.clientY >= rect.top && mouseEvent.clientY <= rect.bottom;
+}
+
+export function isNearElement(mouseEvent: MouseEvent | null, element: HTMLElement, side?: Side, sideoffset: number = 0, alignoffset: number = 0): boolean {
+	if (!mouseEvent || !element) return false;
+
+	const rect = element.getBoundingClientRect();
+	const { clientX: mouseX, clientY: mouseY } = mouseEvent;
+	const threshold = 5;
+
+	if (side === 'top') {
+		const distance = Math.abs(mouseY - rect.bottom);
+		return distance <= alignoffset + threshold && mouseX >= rect.left && mouseX <= rect.right;
+	} else if (side === 'bottom') {
+		const distance = Math.abs(mouseY - rect.top);
+		return distance <= alignoffset + threshold && mouseX >= rect.left && mouseX <= rect.right;
+	} else if (side === 'left') {
+		const distance = Math.abs(mouseX - rect.right);
+		return distance <= sideoffset + threshold && mouseY >= rect.top && mouseY <= rect.bottom;
+	} else if (side === 'right') {
+		const distance = Math.abs(mouseX - rect.left);
+		return distance <= sideoffset + threshold && mouseY >= rect.top && mouseY <= rect.bottom;
+	}
+
+	return false;
+}
+
 export function delayValue<T>(target: Writable<T>, valueToDelay: T, delay: number = 100): Readable<T> {
 	const delayedTarget: Writable<T> = writable(get(target));
 	target.subscribe((value) => {
@@ -43,7 +74,6 @@ export function getPosition(centerElement: HTMLElement, targetElement: HTMLEleme
 		case 'right':
 			x = center.x + center.width + 5;
 			y = getAlign(center.y, center.height, target.height, align);
-			console.log(x, window.innerWidth);
 			break;
 		case 'bottom':
 			x = getAlign(center.x, center.width, target.width, align);
@@ -58,7 +88,7 @@ export function getPosition(centerElement: HTMLElement, targetElement: HTMLEleme
 	x = clamp(x, 0, window.innerWidth);
 	y = clamp(y, 0, window.innerHeight);
 
-	return { x: x + alignOffest, y: y + sideOffset };
+	return { x: x + sideOffset, y: y + alignOffest };
 }
 
 function getAlign(centerStart: number, centerLength: number, targetLength: number, align: Align): number {
