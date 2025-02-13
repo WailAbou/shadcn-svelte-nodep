@@ -33,6 +33,7 @@
 		'Skeleton',
 		'Slider',
 		'Switch',
+		'Table',
 		'Tabs',
 		'Textarea',
 		'Toast',
