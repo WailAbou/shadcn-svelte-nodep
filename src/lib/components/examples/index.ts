@@ -82,6 +82,9 @@ export { default as SliderExampleCode } from './SliderExample.svelte?raw';
 export { default as SwitchExample } from './SwitchExample.svelte';
 export { default as SwitchExampleCode } from './SwitchExample.svelte?raw';
 
+export { default as TableExample } from './TableExample.svelte';
+export { default as TableExampleCode } from './TableExample.svelte?raw';
+
 export { default as TabsExample } from './TabsExample.svelte';
 export { default as TabsExampleCode } from './TabsExample.svelte?raw';
 
