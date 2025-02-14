@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn, delayValue, getPosition } from '$lib/helpers/utils';
+	import { cn, getPosition } from '$lib/helpers/utils';
 	import { createAnimationEnd } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -13,20 +13,19 @@
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { popoverTrigger, isOpen }: { popoverTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('popover');
+	let popoverContent: HTMLDivElement;
 
-	let hoverCardContent: HTMLDivElement;
+	let { isOpen, popoverTrigger }: { isOpen: Writable<boolean>; popoverTrigger: Writable<HTMLElement> } = getContext('popover');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
-	let delayedIsOpen = delayValue(isOpen, false);
 
-	$: position = getPosition($popoverTrigger, hoverCardContent, side, align, sideOffset, alignOffset);
+	$: position = getPosition($popoverTrigger, popoverContent, side, align, sideOffset, alignOffset);
 </script>
 
-<svelte:window on:scroll={() => (position = getPosition($popoverTrigger, hoverCardContent, side, align, sideOffset, alignOffset))} />
+<svelte:window on:scroll={() => (position = getPosition($popoverTrigger, popoverContent, side, align, sideOffset, alignOffset))} />
 
-{#if $delayedIsOpen || !$finishedAnimation}
+{#if $isOpen || !$finishedAnimation}
 	<div
-		bind:this={hoverCardContent}
+		bind:this={popoverContent}
 		use:clickOutside={[() => isOpen.set(false), $popoverTrigger]}
 		style="transform: translate({position?.x}px, {position?.y}px);"
 		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
@@ -36,7 +35,7 @@
 			on:animationend={onAnimationEnd}
 			data-side={side}
 			data-align={align}
-			data-state={$delayedIsOpen ? 'open' : 'closed'}
+			data-state={$isOpen ? 'open' : 'closed'}
 			role="dialog"
 			tabindex="-1"
 			class={cn(

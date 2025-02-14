@@ -16,11 +16,13 @@
 	let tooltipContent: HTMLElement;
 
 	let { tooltipTrigger, isOpen, tooltipState }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
-	let { mouseEvent }: { mouseEvent: Writable<MouseEvent> } = getContext('tooltip-provider');
+	let { disableHoverableContent, mouseEvent }: { disableHoverableContent: boolean; mouseEvent: Writable<MouseEvent> } = getContext('tooltip-provider');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
 
 	function close(mouseEvent: MouseEvent) {
-		if (isInsideElement(mouseEvent, $tooltipTrigger) || isInsideElement(mouseEvent, tooltipContent) || isNearElement(mouseEvent, tooltipContent, side, sideOffset, alignOffset)) {
+		const isHoveringTrigger = isInsideElement(mouseEvent, $tooltipTrigger);
+		const isHoveringContent = isInsideElement(mouseEvent, tooltipContent) || isNearElement(mouseEvent, tooltipContent, side, sideOffset);
+		if (isHoveringTrigger || (isHoveringContent && !disableHoverableContent)) {
 			return;
 		}
 
@@ -32,12 +34,7 @@
 </script>
 
 {#if $isOpen || !$finishedAnimation}
-	<div
-		bind:this={tooltipContent}
-		on:mouseenter={() => isOpen.set(true)}
-		style="transform: translate({position?.x}px, {position?.y}px);"
-		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
-	>
+	<div bind:this={tooltipContent} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
 		<div
 			on:animationend={onAnimationEnd}
 			data-side={side}

@@ -2,42 +2,30 @@
 	import { keyDown } from '$lib/helpers/actions';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
+	import type { HoverCardState } from '.';
 
 	let openTimer: number = 0;
-	let closeTimer: number = 0;
 
 	let {
-		openDelay,
-		closeDelay,
+		isOpen,
 		hoverCardTrigger,
-		hoverCount,
-		isOpen
-	}: { openDelay: number; closeDelay: number; hoverCardTrigger: Writable<HTMLElement>; hoverCount: Writable<number>; isOpen: Writable<boolean> } = getContext('hover-card');
-
-	$: $hoverCount > 0 && !$isOpen ? open() : close();
+		hoverCardState
+	}: { openDelay: number; closeDelay: number; isOpen: Writable<boolean>; hoverCardTrigger: Writable<HTMLElement>; hoverCardState: Writable<HoverCardState> } = getContext('hover-card');
 
 	function open() {
-		clearTimeout(openTimer);
-		openTimer = setTimeout(() => {
-			if ($hoverCount > 0) isOpen.set(true);
-		}, openDelay);
+		$isOpen = true;
+		$hoverCardState = 'open';
 	}
 
 	function close() {
-		clearTimeout(closeTimer);
-		closeTimer = setTimeout(() => {
-			if ($hoverCount == 0) isOpen.set(false);
-		}, closeDelay);
+		$isOpen = false;
+		$hoverCardState = 'closed';
+		clearTimeout(openTimer);
 	}
+
+	$: !$isOpen && close();
 </script>
 
-<button
-	bind:this={$hoverCardTrigger}
-	use:keyDown={[isOpen, close, ['Escape']]}
-	on:mouseenter={() => hoverCount.update((hc) => hc + 1)}
-	on:mouseleave={() => hoverCount.update((hc) => hc - 1)}
-	on:focusin={() => hoverCount.update((hc) => hc + 1)}
-	on:focusout={() => hoverCount.update((hc) => hc - 1)}
->
+<button bind:this={$hoverCardTrigger} on:mouseenter={open} use:keyDown={[isOpen, close, ['Escape']]} on:focusin={open} on:focusout={close} data-state={$hoverCardState}>
 	<slot />
 </button>
