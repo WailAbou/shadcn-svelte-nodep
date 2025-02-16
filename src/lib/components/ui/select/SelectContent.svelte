@@ -38,11 +38,11 @@
 				className
 			)}
 		>
-			<SelectScrollUpButton />
+			<!-- <SelectScrollUpButton /> -->
 			<div data-select-viewport role="presentation" class="relative w-full flex-1 overflow-auto p-1" style="min-width: {bounds?.width}px; height: {bounds?.height}px;">
 				<slot />
 			</div>
-			<SelectScrollDownButton />
+			<!-- <SelectScrollDownButton /> -->
 		</div>
 	</div>
 {/if}

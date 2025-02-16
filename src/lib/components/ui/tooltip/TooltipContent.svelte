@@ -2,18 +2,21 @@
 	import type { Align, Side } from '$lib/helpers/types';
 	import { cn, isHoveredOrFocused, isNearElementSide, getPosition } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { writable, type Writable } from 'svelte/store';
 	import type { TooltipState } from '.';
 	import { createAnimationEnd } from '$lib/helpers/state';
+	import { dynamicSide } from '$lib/helpers/actions';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
-	export let side: Side = 'top';
+	export let sideStatic: Side = 'top';
+	export { sideStatic as side };
 	export let align: Align = 'center';
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
 	let tooltipContent: HTMLElement;
+	let side: Writable<Side> = writable(sideStatic);
 
 	let { tooltipTrigger, isOpen, tooltipState, close }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState>; close: Writable<VoidFunction> } =
 		getContext('tooltip');
@@ -22,18 +25,18 @@
 
 	function closeOnIdle(mouseEvent: MouseEvent) {
 		const isTriggerActive = isHoveredOrFocused(mouseEvent, $tooltipTrigger);
-		const isContentActive = isHoveredOrFocused(mouseEvent, tooltipContent) || isNearElementSide(mouseEvent, tooltipContent, side, sideOffset);
+		const isContentActive = isHoveredOrFocused(mouseEvent, tooltipContent) || isNearElementSide(mouseEvent, tooltipContent, $side, sideOffset);
 		if (!isTriggerActive && (!isContentActive || disableHoverableContent)) {
 			$close?.();
 		}
 	}
 
-	$: position = getPosition($tooltipTrigger, tooltipContent, side, align, sideOffset, alignOffset);
+	$: position = getPosition($tooltipTrigger, tooltipContent, $side, align, sideOffset, alignOffset);
 	$: $isOpen && closeOnIdle($mouseEvent);
 </script>
 
 {#if $isOpen || !$finishedAnimation}
-	<div bind:this={tooltipContent} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
+	<div bind:this={tooltipContent} use:dynamicSide={side} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
 		<div
 			on:animationend={onAnimationEnd}
 			data-side={side}

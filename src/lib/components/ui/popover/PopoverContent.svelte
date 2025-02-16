@@ -2,30 +2,33 @@
 	import { cn, getPosition } from '$lib/helpers/utils';
 	import { createAnimationEnd } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { writable, type Writable } from 'svelte/store';
 	import type { Align, Side } from '$lib/helpers/types';
-	import { clickOutside, focusTrap } from '$lib/helpers/actions';
+	import { clickOutside, dynamicSide, focusTrap } from '$lib/helpers/actions';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
-	export let side: Side = 'bottom';
+	export let sideStatic: Side = 'bottom';
+	export { sideStatic as side };
 	export let align: Align = 'center';
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
 	let popoverContent: HTMLDivElement;
+	let side: Writable<Side> = writable(sideStatic);
 
 	let { isOpen, popoverTrigger }: { isOpen: Writable<boolean>; popoverTrigger: Writable<HTMLElement> } = getContext('popover');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
 
-	$: position = getPosition($popoverTrigger, popoverContent, side, align, sideOffset, alignOffset);
+	$: position = getPosition($popoverTrigger, popoverContent, $side, align, sideOffset, alignOffset);
 </script>
 
-<svelte:window on:scroll={() => (position = getPosition($popoverTrigger, popoverContent, side, align, sideOffset, alignOffset))} />
+<svelte:window on:scroll={() => (position = getPosition($popoverTrigger, popoverContent, $side, align, sideOffset, alignOffset))} />
 
 {#if $isOpen || !$finishedAnimation}
 	<div
 		bind:this={popoverContent}
+		use:dynamicSide={side}
 		use:clickOutside={[() => isOpen.set(false), $popoverTrigger]}
 		style="transform: translate({position?.x}px, {position?.y}px);"
 		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"

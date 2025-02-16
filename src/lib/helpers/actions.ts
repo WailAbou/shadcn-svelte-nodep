@@ -1,6 +1,6 @@
 import type { ActionReturn } from 'svelte/action';
 import { get, type Writable } from 'svelte/store';
-import type { KeyCombination } from './types';
+import type { KeyCombination, Side } from './types';
 
 export function clickOutside(node: Node, [callback, except]: [VoidFunction, HTMLElement?]): ActionReturn<[VoidFunction, HTMLElement?]> {
 	const onClick = (event: MouseEvent) => {
@@ -23,7 +23,7 @@ export function clickOutside(node: Node, [callback, except]: [VoidFunction, HTML
 	};
 }
 
-export function keyDown(node: Node, [condition, callback, codes, shiftKey = 'ignore']: [Writable<boolean>, VoidFunction, string[], KeyCombination?]): ActionReturn {
+export function keyDown(_node: Node, [condition, callback, codes, shiftKey = 'ignore']: [Writable<boolean>, VoidFunction, string[], KeyCombination?]): ActionReturn {
 	const onKeyDown = (e: KeyboardEvent) => {
 		const shiftCondtion = shiftKey === 'ignore' || (shiftKey === 'never' && !e.shiftKey) || (shiftKey === 'always' && e.shiftKey);
 		if (get(condition) && codes.includes(e.code) && shiftCondtion) {
@@ -145,6 +145,55 @@ export function focusTrap(node: HTMLElement, enabled: boolean = true) {
 		destroy() {
 			onCleanUp();
 			observer.disconnect();
+		}
+	};
+}
+
+export function dynamicSide(node: HTMLElement, side: Writable<Side>) {
+	const originalSide = get(side);
+
+	const observer = new IntersectionObserver(
+		(entries: IntersectionObserverEntry[]) => {
+			entries.forEach((entry) => {
+				if (entry.intersectionRatio < 1) {
+					const currentSide = get(side);
+					const { boundingClientRect, rootBounds } = entry;
+
+					if (!rootBounds) return;
+
+					const isClipped = {
+						top: boundingClientRect.top < rootBounds.top,
+						right: boundingClientRect.right > rootBounds.right,
+						bottom: boundingClientRect.bottom > rootBounds.bottom,
+						left: boundingClientRect.left < rootBounds.left
+					};
+
+					if (!isClipped[currentSide]) return;
+
+					const alternativeSide = {
+						top: 'bottom',
+						right: 'left',
+						bottom: 'top',
+						left: 'right'
+					}[currentSide] as Side;
+
+					if (isClipped[alternativeSide]) return;
+
+					side.set(alternativeSide);
+				}
+			});
+		},
+		{
+			threshold: [0, 0.25, 0.5, 0.75, 1]
+		}
+	);
+
+	observer?.observe(node);
+
+	return {
+		destroy() {
+			observer?.disconnect();
+			side.set(originalSide);
 		}
 	};
 }
