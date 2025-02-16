@@ -19,14 +19,18 @@ export function hasValue<T>(source: undefined | T | T[], target: T): boolean {
 	return (!Array.isArray(source) && source === target) || (Array.isArray(source) && source?.includes(target));
 }
 
-export function isInsideElement(mouseEvent: MouseEvent | null, element: HTMLElement): boolean {
+export function isHoveredOrFocused(mouseEvent: MouseEvent, element: HTMLElement): boolean {
 	if (!mouseEvent || !element) return false;
+
+	if (document?.activeElement === element || element?.contains(document?.activeElement)) {
+		return true;
+	}
 
 	const rect = element.getBoundingClientRect();
 	return mouseEvent.clientX >= rect.left && mouseEvent.clientX <= rect.right && mouseEvent.clientY >= rect.top && mouseEvent.clientY <= rect.bottom;
 }
 
-export function isNearElement(mouseEvent: MouseEvent | null, element: HTMLElement, side?: Side, sideoffset: number = 0): boolean {
+export function isNearElementSide(mouseEvent: MouseEvent | null, element: HTMLElement, side?: Side, sideoffset: number = 0): boolean {
 	if (!mouseEvent || !element) return false;
 
 	const rect = element.getBoundingClientRect();

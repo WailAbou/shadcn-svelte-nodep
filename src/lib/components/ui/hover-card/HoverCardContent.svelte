@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn, getPosition } from '$lib/helpers/utils';
+	import { cn, getPosition, isHoveredOrFocused, isNearElementSide } from '$lib/helpers/utils';
 	import { createAnimationEnd } from '$lib/helpers/state';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -15,14 +15,34 @@
 
 	let hoverCardContent: HTMLDivElement;
 
-	let { isOpen, hoverCardTrigger, hoverCardState }: { isOpen: Writable<boolean>; hoverCardTrigger: Writable<HTMLElement>; hoverCardState: Writable<HoverCardState> } = getContext('hover-card');
-	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
+	const {
+		isOpen,
+		hoverCardTrigger,
+		hoverCardState,
+		mouseEvent,
+		close
+	}: {
+		isOpen: Writable<boolean>;
+		hoverCardTrigger: Writable<HTMLElement>;
+		hoverCardState: Writable<HoverCardState>;
+		mouseEvent: Writable<MouseEvent>;
+		close: Writable<VoidFunction>;
+	} = getContext('hover-card');
+	const [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
+
+	function closeOnIdle(mouseEvent: MouseEvent) {
+		const isTriggerActive = isHoveredOrFocused(mouseEvent, $hoverCardTrigger);
+		const isContentActive = isHoveredOrFocused(mouseEvent, hoverCardContent) || isNearElementSide(mouseEvent, hoverCardContent, side, sideOffset);
+		if (!isTriggerActive && !isContentActive) {
+			$close?.();
+		}
+	}
 
 	$: position = getPosition($hoverCardTrigger, hoverCardContent, side, align, sideOffset, alignOffset);
-	// $: $isOpen && close($mouseEvent);
+	$: $isOpen && closeOnIdle($mouseEvent);
 </script>
 
-<svelte:window on:scroll={() => (position = getPosition($hoverCardTrigger, hoverCardContent, side, align, sideOffset, alignOffset))} />
+<svelte:window on:scroll={() => (position = getPosition($hoverCardTrigger, hoverCardContent, side, align, sideOffset, alignOffset))} on:scrollend={() => closeOnIdle($mouseEvent)} />
 
 {#if $isOpen || !$finishedAnimation}
 	<div bind:this={hoverCardContent} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">

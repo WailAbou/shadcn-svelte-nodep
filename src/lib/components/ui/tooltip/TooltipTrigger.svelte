@@ -5,45 +5,55 @@
 	import { keyDown } from '$lib/helpers/actions';
 
 	let openTimer: number = 0;
-	let lastCloseTime = 0;
+	let lastCloseTime: number = 0;
+	let lastOpenTime: number = 0;
 
 	let {
 		delayDuration,
 		tooltipTrigger,
 		isOpen,
-		tooltipState
-	}: { delayDuration: number; tooltipTrigger: Writable<HTMLElement>; tooltipContent: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
+		tooltipState,
+		close
+	}: { delayDuration: number; tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState>; close: Writable<VoidFunction> } = getContext('tooltip');
 	let { skipDelayDuration }: { skipDelayDuration: number } = getContext('tooltip-provider');
 
 	function delayedOpen() {
 		clearTimeout(openTimer);
+		lastOpenTime = Date.now();
 		openTimer = setTimeout(() => {
 			$isOpen = true;
 			$tooltipState = 'delayed-open';
 		}, delayDuration);
 	}
 
-	function open() {
-		$isOpen = true;
-		$tooltipState = 'instant-open';
+	function delayedClose() {
+		if (Date.now() - lastOpenTime < delayDuration) {
+			clearTimeout(openTimer);
+		}
 	}
 
-	function close() {
+	function open() {
+		setTimeout(() => {
+			$isOpen = true;
+			$tooltipState = 'instant-open';
+		}, 1);
+	}
+
+	$close = () => {
 		$isOpen = false;
 		$tooltipState = 'closed';
 		lastCloseTime = Date.now();
 		clearTimeout(openTimer);
-	}
-
-	$: !$isOpen && close();
+	};
 </script>
 
 <button
 	bind:this={$tooltipTrigger}
-	use:keyDown={[isOpen, close, ['Space', 'Enter', 'Escape']]}
+	use:keyDown={[isOpen, $close, ['Space', 'Enter', 'Escape']]}
 	on:mouseenter={() => (Date.now() - lastCloseTime <= skipDelayDuration ? open() : delayedOpen())}
+	on:mouseleave={delayedClose}
 	on:focusin={open}
-	on:focusout={close}
+	on:focusout={$close}
 	data-state={$tooltipState}
 >
 	<slot />

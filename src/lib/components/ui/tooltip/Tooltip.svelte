@@ -9,10 +9,11 @@
 	let isOpen: Writable<boolean> = writable(false);
 	let tooltipTrigger: Writable<HTMLElement> = writable();
 	let tooltipState: Writable<TooltipState> = writable('closed');
+	let close: Writable<VoidFunction> = writable();
 
-	setContext('tooltip', { delayDuration, isOpen, tooltipTrigger, tooltipState });
+	setContext('tooltip', { delayDuration, isOpen, tooltipTrigger, tooltipState, close });
 </script>
 
-<svelte:window on:scroll={() => isOpen.set(false)} />
+<svelte:window on:scroll={() => $isOpen && $close?.()} />
 
 <slot />

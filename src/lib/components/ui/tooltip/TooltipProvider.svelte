@@ -6,7 +6,7 @@
 	export let skipDelayDuration: number = 300;
 	export let disableHoverableContent: boolean = false;
 
-	let mouseEvent: Writable<MouseEvent | null> = writable(null);
+	let mouseEvent: Writable<MouseEvent> = writable();
 
 	setContext('tooltip-provider', { delayDuration, skipDelayDuration, disableHoverableContent, mouseEvent });
 </script>

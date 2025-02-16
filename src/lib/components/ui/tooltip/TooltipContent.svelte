@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Align, Side } from '$lib/helpers/types';
-	import { cn, isInsideElement, isNearElement, getPosition } from '$lib/helpers/utils';
+	import { cn, isHoveredOrFocused, isNearElementSide, getPosition } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 	import type { TooltipState } from '.';
@@ -15,22 +15,21 @@
 
 	let tooltipContent: HTMLElement;
 
-	let { tooltipTrigger, isOpen, tooltipState }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
+	let { tooltipTrigger, isOpen, tooltipState, close }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState>; close: Writable<VoidFunction> } =
+		getContext('tooltip');
 	let { disableHoverableContent, mouseEvent }: { disableHoverableContent: boolean; mouseEvent: Writable<MouseEvent> } = getContext('tooltip-provider');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
 
-	function close(mouseEvent: MouseEvent) {
-		const isHoveringTrigger = isInsideElement(mouseEvent, $tooltipTrigger);
-		const isHoveringContent = isInsideElement(mouseEvent, tooltipContent) || isNearElement(mouseEvent, tooltipContent, side, sideOffset);
-		if (isHoveringTrigger || (isHoveringContent && !disableHoverableContent)) {
-			return;
+	function closeOnIdle(mouseEvent: MouseEvent) {
+		const isTriggerActive = isHoveredOrFocused(mouseEvent, $tooltipTrigger);
+		const isContentActive = isHoveredOrFocused(mouseEvent, tooltipContent) || isNearElementSide(mouseEvent, tooltipContent, side, sideOffset);
+		if (!isTriggerActive && (!isContentActive || disableHoverableContent)) {
+			$close?.();
 		}
-
-		isOpen.set(false);
 	}
 
 	$: position = getPosition($tooltipTrigger, tooltipContent, side, align, sideOffset, alignOffset);
-	$: $isOpen && close($mouseEvent);
+	$: $isOpen && closeOnIdle($mouseEvent);
 </script>
 
 {#if $isOpen || !$finishedAnimation}
