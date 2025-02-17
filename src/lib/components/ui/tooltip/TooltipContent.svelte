@@ -1,35 +1,42 @@
 <script lang="ts">
-	import { createAnimationEnd } from '$lib/helpers/state';
 	import type { Align, Side } from '$lib/helpers/types';
-	import { cn, delayValue, getPosition } from '$lib/helpers/utils';
+	import { cn, isHoveredOrFocused, isNearElementSide, getPosition } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { writable, type Writable } from 'svelte/store';
 	import type { TooltipState } from '.';
+	import { createAnimationEnd } from '$lib/helpers/state';
+	import { dynamicSide } from '$lib/helpers/actions';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
-	export let side: Side = 'top';
+	export let sideStatic: Side = 'top';
+	export { sideStatic as side };
 	export let align: Align = 'center';
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
-	let { tooltipTrigger, isOpen, tooltipState }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState> } = getContext('tooltip');
+	let tooltipContent: HTMLElement;
+	let side: Writable<Side> = writable(sideStatic);
 
-	let tooltipContent: HTMLDivElement;
+	let { tooltipTrigger, isOpen, tooltipState, close }: { tooltipTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; tooltipState: Writable<TooltipState>; close: Writable<VoidFunction> } =
+		getContext('tooltip');
+	let { disableHoverableContent, mouseEvent }: { disableHoverableContent: boolean; mouseEvent: Writable<MouseEvent> } = getContext('tooltip-provider');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
-	let delayedIsOpen = delayValue(isOpen, false);
 
-	$: position = getPosition($tooltipTrigger, tooltipContent, side, align, sideOffset, alignOffset);
+	function closeOnIdle(mouseEvent: MouseEvent) {
+		const isTriggerActive = isHoveredOrFocused(mouseEvent, $tooltipTrigger);
+		const isContentActive = isHoveredOrFocused(mouseEvent, tooltipContent) || isNearElementSide(mouseEvent, tooltipContent, $side, sideOffset);
+		if (!isTriggerActive && (!isContentActive || disableHoverableContent)) {
+			$close?.();
+		}
+	}
+
+	$: position = getPosition($tooltipTrigger, tooltipContent, $side, align, sideOffset, alignOffset);
+	$: $isOpen && closeOnIdle($mouseEvent);
 </script>
 
-{#if $delayedIsOpen || !$finishedAnimation}
-	<div
-		bind:this={tooltipContent}
-		on:mouseenter={() => isOpen.set(true)}
-		on:mouseleave={() => isOpen.set(false)}
-		style="transform: translate({position?.x}px, {position?.y}px);"
-		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
-	>
+{#if $isOpen || !$finishedAnimation}
+	<div bind:this={tooltipContent} use:dynamicSide={side} style="transform: translate({position?.x}px, {position?.y}px);" class="fixed left-0 top-0 z-50 min-w-max will-change-transform">
 		<div
 			on:animationend={onAnimationEnd}
 			data-side={side}
@@ -41,7 +48,7 @@
 			)}
 		>
 			<slot />
-			<span role="tooltip" class="absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap p-0" style="border: 0px; clip: rect(0px, 0px, 0px, 0px); overflow-wrap: normal;">
+			<span role="tooltip" class="clip-[rect(0px,0px,0px,0px)] overflow-wrap-[normal] absolute -m-[1px] h-[1px] w-[1px] overflow-hidden whitespace-nowrap border-0 p-0">
 				<slot />
 			</span>
 		</div>

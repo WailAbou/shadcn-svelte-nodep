@@ -8,6 +8,6 @@
 	let uuid: string = getContext('select-group');
 </script>
 
-<div id={uuid} class="py-1.5 pl-8 pr-2 text-sm font-semibold">
+<div id={uuid} class={cn('py-1.5 pl-8 pr-2 text-sm font-semibold', className)}>
 	<slot />
 </div>

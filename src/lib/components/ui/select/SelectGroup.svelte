@@ -10,6 +10,6 @@
 	setContext(uuid, 'select-group');
 </script>
 
-<div aria-labelledby={uuid} role="group">
+<div aria-labelledby={uuid} role="group" class={cn(className)}>
 	<slot />
 </div>

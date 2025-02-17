@@ -3,7 +3,7 @@
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
 
-	let { popoverTrigger, isOpen }: { popoverTrigger: Writable<HTMLElement>; isOpen: Writable<boolean> } = getContext('popover');
+	let { isOpen, popoverTrigger }: { isOpen: Writable<boolean>; popoverTrigger: Writable<HTMLElement> } = getContext('popover');
 </script>
 
 <button bind:this={$popoverTrigger} use:keyDown={[isOpen, () => isOpen.set(false), ['Escape']]} on:click={() => ($isOpen = !$isOpen)}>

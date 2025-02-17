@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { preventScroll } from '$lib/helpers/actions';
-	import { createState } from '$lib/helpers/state';
+	import { preventDefault, preventScroll } from '$lib/helpers/actions';
+	import { createKeyboardNavigation, createState } from '$lib/helpers/state';
 	import type { Direction } from '$lib/helpers/types';
-	import { createEventDispatcher, setContext } from 'svelte';
+	import { createEventDispatcher, setContext, tick } from 'svelte';
 	import { get, writable, type Writable } from 'svelte/store';
 
 	const dispatch = createEventDispatcher<{ valueChange: string | string[] }>();
@@ -13,24 +13,37 @@
 	export let dir: Direction = 'ltr';
 
 	let value: Writable<string> = writable(defaultValue);
+	let valuePlaceholder: Writable<string> = writable();
 	let selectTrigger: Writable<HTMLElement> = writable();
 	let isOpen: Writable<boolean> = writable(defaultOpen);
 	let selectContentUuid: string = crypto.randomUUID();
 	let {
-		methods: { init },
-		variables: { values, items }
+		methods: { init, focus, reset },
+		variables: { values, items, activeIndex, triggers }
 	} = createState(defaultValue, select, value);
 
-	setContext('select', { selectTrigger, isOpen, init, defaultOpen, disabled, selectContentUuid, dir });
+	const onKeyDown = (e: KeyboardEvent) => $isOpen && createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical', false, false, false);
+
+	setContext('select', { valuePlaceholder, selectTrigger, isOpen, init, defaultOpen, disabled, selectContentUuid, dir });
 
 	function select(index: number) {
 		items.forEach((item) => item.set(false));
 		items[index].set(true);
 
 		$value = get(values[index]);
+		$valuePlaceholder = triggers[index].innerText;
+		$isOpen = false;
+
 		dispatch('valueChange', $value);
+	}
+
+	$: if ($isOpen && triggers.length === 0) {
+		tick().then(() => focus($value ? $activeIndex : 0));
+	} else if (!$isOpen && triggers.length !== 0) {
+		reset();
 	}
 </script>
 
-<svelte:window use:preventScroll={$isOpen} />
+<svelte:window use:preventScroll={$isOpen} on:keydown={onKeyDown} use:preventDefault={[['Tab'], isOpen]} />
+
 <slot />

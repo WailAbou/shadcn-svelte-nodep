@@ -1,23 +1,31 @@
 <script lang="ts">
-	import { clickOutside } from '$lib/helpers/actions';
+	import { clickOutside, keyDown } from '$lib/helpers/actions';
+	import type { Direction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { writable, type Writable } from 'svelte/store';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { selectTrigger, isOpen, disabled, selectContentUuid, dir }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; disabled: boolean; selectContentUuid: string; dir: string } =
+	let focused: Writable<boolean> = writable(false);
+
+	let { selectTrigger, isOpen, disabled, selectContentUuid, dir }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; disabled: boolean; selectContentUuid: string; dir: Direction } =
 		getContext('select');
+
+	$: !$isOpen && $selectTrigger?.focus();
 </script>
 
 <button
-	{disabled}
-	use:clickOutside={[() => isOpen.set(false)]}
 	bind:this={$selectTrigger}
-	on:mousedown={() => ($isOpen = !$isOpen)}
-	aria-controls={selectContentUuid}
+	on:click={() => ($isOpen = !$isOpen)}
+	on:focusin={() => focused.set(true)}
+	on:focusout={() => focused.set(false)}
+	use:clickOutside={[() => isOpen.set(false)]}
+	use:keyDown={[focused, () => isOpen.set(true), ['ArrowUp', 'ArrowDown']]}
+	{disabled}
 	{dir}
+	aria-controls={selectContentUuid}
 	type="button"
 	role="combobox"
 	aria-expanded="false"
