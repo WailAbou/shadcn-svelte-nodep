@@ -13,7 +13,7 @@ export interface InitResult {
 }
 
 export interface InitReturns {
-	methods: { init: InitFunction; toggle: SimpleAction; focus: SimpleAction };
+	methods: { init: InitFunction; toggle: SimpleAction; focus: SimpleAction; reset: VoidFunction };
 	variables: { values: Writable<string>[]; items: Writable<boolean>[]; activeIndex: Writable<number> };
 }
 

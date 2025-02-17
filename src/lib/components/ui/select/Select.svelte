@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { preventScroll } from '$lib/helpers/actions';
-	import { createState } from '$lib/helpers/state';
+	import { createKeyboardNavigation, createState } from '$lib/helpers/state';
 	import type { Direction } from '$lib/helpers/types';
 	import { createEventDispatcher, setContext } from 'svelte';
 	import { get, writable, type Writable } from 'svelte/store';
@@ -17,9 +17,11 @@
 	let isOpen: Writable<boolean> = writable(defaultOpen);
 	let selectContentUuid: string = crypto.randomUUID();
 	let {
-		methods: { init },
-		variables: { values, items }
+		methods: { init, focus, reset },
+		variables: { values, items, activeIndex }
 	} = createState(defaultValue, select, value);
+
+	const onKeyDown = (e: KeyboardEvent) => createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical');
 
 	setContext('select', { selectTrigger, isOpen, init, defaultOpen, disabled, selectContentUuid, dir });
 
@@ -30,7 +32,10 @@
 		$value = get(values[index]);
 		dispatch('valueChange', $value);
 	}
+
+	$: !$isOpen && reset();
 </script>
 
-<svelte:window use:preventScroll={$isOpen} />
+<svelte:window use:preventScroll={$isOpen} on:keydown={onKeyDown} />
+
 <slot />

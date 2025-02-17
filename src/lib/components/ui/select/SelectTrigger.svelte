@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { clickOutside } from '$lib/helpers/actions';
+	import type { Direction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
 	import type { Writable } from 'svelte/store';
@@ -7,15 +8,15 @@
 	let className: string | undefined | null = undefined;
 	export { className as class };
 
-	let { selectTrigger, isOpen, disabled, selectContentUuid, dir }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; disabled: boolean; selectContentUuid: string; dir: string } =
+	let { selectTrigger, isOpen, disabled, selectContentUuid, dir }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; disabled: boolean; selectContentUuid: string; dir: Direction } =
 		getContext('select');
 </script>
 
 <button
 	{disabled}
-	use:clickOutside={[() => isOpen.set(false)]}
 	bind:this={$selectTrigger}
-	on:mousedown={() => ($isOpen = !$isOpen)}
+	on:click={() => ($isOpen = !$isOpen)}
+	use:clickOutside={[() => isOpen.set(false)]}
 	aria-controls={selectContentUuid}
 	{dir}
 	type="button"

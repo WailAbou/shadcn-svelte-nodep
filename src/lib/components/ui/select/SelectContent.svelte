@@ -3,27 +3,39 @@
 	import type { Align, Direction, Side } from '$lib/helpers/types';
 	import { cn, getPosition } from '$lib/helpers/utils';
 	import { getContext } from 'svelte';
-	import type { Writable } from 'svelte/store';
+	import { writable, type Writable } from 'svelte/store';
 	import SelectScrollDownButton from './SelectScrollDownButton.svelte';
 	import SelectScrollUpButton from './SelectScrollUpButton.svelte';
+	import { dynamicSide, keyDown } from '$lib/helpers/actions';
 
 	let className: string | undefined | null = undefined;
 	export { className as class };
-	export let side: Side = 'bottom';
+	export let sideStatic: Side = 'bottom';
+	export { sideStatic as side };
 	export let align: Align = 'start';
 	export let sideOffset: number = 0;
 	export let alignOffset: number = 0;
 
+	let selectContent: HTMLDivElement;
+	let side: Writable<Side> = writable(sideStatic);
+
 	let { selectTrigger, isOpen, selectContentUuid, dir }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; selectContentUuid: string; dir: Direction } = getContext('select');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
 
-	let selectContent: HTMLDivElement;
-	$: position = getPosition($selectTrigger, selectContent, side, align, sideOffset, alignOffset);
+	$: position = getPosition($selectTrigger, selectContent, $side, align, sideOffset, alignOffset);
 	$: bounds = $selectTrigger?.getBoundingClientRect();
+	$: enableBottomScroll = selectContent?.getBoundingClientRect()?.height >= 350;
 </script>
 
 {#if $isOpen || !$finishedAnimation}
-	<div bind:this={selectContent} {dir} class="fixed left-0 top-0 z-50 min-w-max will-change-transform" style="transform: translate({position?.x}px, {position?.y}px);">
+	<div
+		bind:this={selectContent}
+		use:dynamicSide={side}
+		use:keyDown={[isOpen, () => isOpen.set(false), ['Escape']]}
+		{dir}
+		class="fixed left-0 top-0 z-50 min-w-max will-change-transform"
+		style="transform: translate({position?.x}px, {position?.y}px);"
+	>
 		<div
 			on:animationend={onAnimationEnd}
 			id={selectContentUuid}
@@ -39,10 +51,12 @@
 			)}
 		>
 			<!-- <SelectScrollUpButton /> -->
-			<div data-select-viewport role="presentation" class="relative w-full flex-1 overflow-auto p-1" style="min-width: {bounds?.width}px; height: {bounds?.height}px;">
+			<div data-select-viewport role="presentation" class="relative max-h-[350px] w-full flex-1 overflow-auto p-1" style="min-width: {bounds?.width}px; height: {bounds?.height}px;">
 				<slot />
 			</div>
-			<!-- <SelectScrollDownButton /> -->
+			{#if enableBottomScroll}
+				<SelectScrollDownButton />
+			{/if}
 		</div>
 	</div>
 {/if}

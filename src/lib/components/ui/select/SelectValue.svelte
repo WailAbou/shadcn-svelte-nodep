@@ -7,5 +7,5 @@
 	export let placeholder: string;
 </script>
 
-<span class="pointer-events-none">{placeholder}</span>
+<span class={cn('pointer-events-none', className)}>{placeholder}</span>
 <ChevronDown class="h-4 w-4" />

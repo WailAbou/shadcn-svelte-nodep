@@ -71,7 +71,13 @@ export function createState(defaultValue: string | string[] | undefined, select:
 		activeIndex.set(index);
 	}
 
-	return { methods: { init, toggle, focus }, variables: { values, items, activeIndex } };
+	function reset() {
+		values.length = 0;
+		items.length = 0;
+		triggers.length = 0;
+	}
+
+	return { methods: { init, toggle, focus, reset }, variables: { values, items, activeIndex } };
 }
 
 export function createAnimationEnd(state: Writable<boolean>): [Writable<boolean>, (event: AnimationEvent) => void] {
