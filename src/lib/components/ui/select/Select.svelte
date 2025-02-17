@@ -37,9 +37,9 @@
 		dispatch('valueChange', $value);
 	}
 
-	$: if ($isOpen) {
-		tick().then(() => focus($activeIndex));
-	} else {
+	$: if ($isOpen && triggers.length === 0) {
+		tick().then(() => focus($value ? $activeIndex : 0));
+	} else if (!$isOpen && triggers.length !== 0) {
 		reset();
 	}
 </script>

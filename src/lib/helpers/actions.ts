@@ -108,7 +108,6 @@ export function focusTrap(node: HTMLElement, enabled: boolean = true) {
 		if (enabled === false) return;
 
 		const focusableElems: HTMLElement[] = Array.from(node.querySelectorAll(elemWhitelist.join(', ')));
-		console.log(focusableElems.length);
 		if (focusableElems.length) {
 			elemFirst = focusableElems[0];
 			elemLast = focusableElems[focusableElems.length - 1];
