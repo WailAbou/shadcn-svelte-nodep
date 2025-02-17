@@ -22,7 +22,7 @@
 		variables: { values, items, activeIndex, triggers }
 	} = createState(defaultValue, select, value);
 
-	const onKeyDown = (e: KeyboardEvent) => $isOpen && createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical');
+	const onKeyDown = (e: KeyboardEvent) => $isOpen && createKeyboardNavigation(e, focus, activeIndex, items.length, 'vertical', false, false, false);
 
 	setContext('select', { valuePlaceholder, selectTrigger, isOpen, init, defaultOpen, disabled, selectContentUuid, dir });
 

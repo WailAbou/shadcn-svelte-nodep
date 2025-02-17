@@ -17,14 +17,15 @@
 	export let alignOffset: number = 0;
 
 	let selectContent: HTMLDivElement;
+	let selectScrollView: HTMLDivElement;
 	let side: Writable<Side> = writable(sideStatic);
+	let scrollAmount: Writable<number> = writable(0);
 
 	let { selectTrigger, isOpen, selectContentUuid, dir }: { selectTrigger: Writable<HTMLElement>; isOpen: Writable<boolean>; selectContentUuid: string; dir: Direction } = getContext('select');
 	let [finishedAnimation, onAnimationEnd] = createAnimationEnd(isOpen);
 
 	$: position = getPosition($selectTrigger, selectContent, $side, align, sideOffset, alignOffset);
 	$: bounds = $selectTrigger?.getBoundingClientRect();
-	$: enableBottomScroll = selectContent?.getBoundingClientRect()?.height >= 350;
 </script>
 
 {#if $isOpen || !$finishedAnimation}
@@ -50,13 +51,20 @@
 				className
 			)}
 		>
-			<!-- <SelectScrollUpButton /> -->
-			<div data-select-viewport role="presentation" class="relative max-h-[350px] w-full flex-1 overflow-auto p-1" style="min-width: {bounds?.width}px; height: {bounds?.height}px;">
+			<SelectScrollUpButton {selectScrollView} {scrollAmount} />
+
+			<div
+				bind:this={selectScrollView}
+				on:scroll={() => scrollAmount.set(selectScrollView.scrollTop)}
+				data-select-viewport
+				role="presentation"
+				class="relative max-h-[350px] w-full flex-1 overflow-auto p-1"
+				style="min-width: {bounds?.width}px; height: {bounds?.height}px;"
+			>
 				<slot />
 			</div>
-			{#if enableBottomScroll}
-				<SelectScrollDownButton />
-			{/if}
+
+			<SelectScrollDownButton {selectScrollView} {scrollAmount} />
 		</div>
 	</div>
 {/if}
