@@ -24,7 +24,7 @@
 
 <button
 	on:click={toggle}
-	use:preventDefault={['Enter']}
+	use:preventDefault={[['Enter']]}
 	{id}
 	{disabled}
 	aria-checked={checked}

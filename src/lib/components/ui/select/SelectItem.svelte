@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { keyDown, hocus } from '$lib/helpers/actions';
 	import type { InitResult, InitFunction } from '$lib/helpers/types';
 	import { cn } from '$lib/helpers/utils';
 	import { Check } from 'lucide-svelte';
@@ -11,6 +12,7 @@
 
 	let initResult: Writable<InitResult> = writable();
 	let selected: Writable<boolean> = writable(false);
+	let hocusState: Writable<boolean> = writable(false);
 	let uuid = crypto.randomUUID();
 
 	let { disabled, init }: { disabled: boolean; init: InitFunction } = getContext('select');
@@ -20,6 +22,8 @@
 
 <div
 	use:init={[value, selected, initResult]}
+	use:hocus={hocusState}
+	use:keyDown={[hocusState, $initResult?.toggleItem, ['Space', 'Enter']]}
 	on:click={$initResult?.toggleItem}
 	data-disabled={disabled ? true : undefined}
 	aria-labelledby={uuid}

@@ -1,5 +1,5 @@
 import type { ActionReturn } from 'svelte/action';
-import { get, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 import type { KeyCombination, Side } from './types';
 
 export function clickOutside(node: Node, [callback, except]: [VoidFunction, HTMLElement?]): ActionReturn<[VoidFunction, HTMLElement?]> {
@@ -41,10 +41,10 @@ export function keyDown(_node: Node, [condition, callback, codes, shiftKey = 'ig
 	};
 }
 
-export function preventDefault(node: Node, codes: string[]): ActionReturn {
+export function preventDefault(node: Node, [codes, condition = writable(true)]: [string[], Writable<boolean>?]): ActionReturn {
 	const onKeyDown = (event: Event) => {
 		const e = event as KeyboardEvent;
-		if (codes.includes(e.code)) e.preventDefault();
+		if (codes.includes(e.code) && get(condition)) e.preventDefault();
 	};
 
 	node.addEventListener('keydown', onKeyDown);
@@ -108,6 +108,7 @@ export function focusTrap(node: HTMLElement, enabled: boolean = true) {
 		if (enabled === false) return;
 
 		const focusableElems: HTMLElement[] = Array.from(node.querySelectorAll(elemWhitelist.join(', ')));
+		console.log(focusableElems.length);
 		if (focusableElems.length) {
 			elemFirst = focusableElems[0];
 			elemLast = focusableElems[focusableElems.length - 1];
@@ -194,6 +195,25 @@ export function dynamicSide(node: HTMLElement, side: Writable<Side>) {
 		destroy() {
 			observer?.disconnect();
 			side.set(originalSide);
+		}
+	};
+}
+
+export function hocus(node: HTMLElement, store: Writable<boolean>) {
+	const setTrue = () => store.set(true);
+	const setFalse = () => store.set(false);
+
+	node.addEventListener('focusin', setTrue);
+	node.addEventListener('focusout', setFalse);
+	node.addEventListener('mouseover', setTrue);
+	node.addEventListener('mouseleave', setFalse);
+
+	return {
+		destroy() {
+			node.removeEventListener('focusin', setTrue);
+			node.removeEventListener('focusout', setFalse);
+			node.removeEventListener('mouseover', setTrue);
+			node.removeEventListener('mouseleave', setFalse);
 		}
 	};
 }
