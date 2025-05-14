@@ -72,6 +72,12 @@ Here is a list of components that have been ported from `shadcn/ui`. Each compon
 
 Make sure to refer to the original `shadcn/ui` documentation for detailed usage instructions.
 
+## Support My Work
+
+If you find this project useful and want to support continued development, consider [buying me a coffee](https://www.buymeacoffee.com/wailabou).
+
+☕ Programming is not just my profession — it's also my passion. I love learning, exploring new challenges, and sharing open source work with the community.
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
