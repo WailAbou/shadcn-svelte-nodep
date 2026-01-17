@@ -12,7 +12,7 @@
 		"format": "prettier --write \"**/*.{js,jsx,json,md,html,svelte}\""
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "2.20.7",
+		"@sveltejs/kit": "2.50.0",
 		"@typescript-eslint/eslint-plugin": "8.22.0",
 		"@typescript-eslint/parser": "8.22.0",
 		"autoprefixer": "10.4.20",
