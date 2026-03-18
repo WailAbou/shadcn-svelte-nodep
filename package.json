@@ -23,7 +23,7 @@
 		"prettier": "3.4.2",
 		"prettier-plugin-svelte": "3.3.3",
 		"prettier-plugin-tailwindcss": "0.6.11",
-		"svelte": "5.53.3",
+		"svelte": "5.54.0",
 		"svelte-adapter-azure-swa": "^0.20.1",
 		"svelte-check": "4.1.4",
 		"svelte-highlight": "7.8.2",
